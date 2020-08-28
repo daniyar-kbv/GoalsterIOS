@@ -1,0 +1,31 @@
+//
+//  BackButton.swift
+//  GOALSTER
+//
+//  Created by Daniyar on 8/12/20.
+//  Copyright © 2020 MTI. All rights reserved.
+//
+
+import Foundation
+import UIKit
+
+class BackButton: UIButton {
+    var onBack: (()->())?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setBackgroundImage(UIImage(named: "backButton"), for: .normal)
+        addTarget(self, action: #selector(tapped), for: .touchUpInside)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func tapped() {
+        if let onBack = onBack {
+            onBack()
+        }
+    }
+}
