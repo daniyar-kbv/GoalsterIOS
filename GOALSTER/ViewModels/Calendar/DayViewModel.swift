@@ -21,20 +21,24 @@ class DayViewModel {
         }
     }
     
-    func getGoals(date: Date) {
-        SpinnerView.showSpinnerView(view: view)
+    func getGoals(date: Date, withSpinner: Bool = true) {
+        if withSpinner {
+            SpinnerView.showSpinnerView(view: view)
+        }
         APIManager.shared.getGoals(date: date.format(), observation: nil) { error, response in
             guard let res = response else {
                 SpinnerView.removeSpinnerView()
                 return
             }
             APIManager.shared.getCalendar() {error, calendarRes in
-                SpinnerView.removeSpinnerView()
-                guard let calendarRes = calendarRes else {
-                    return
+                SpinnerView.completion = {
+                    guard let calendarRes = calendarRes else {
+                        return
+                    }
+                    self.response.onNext(res)
+                    self.calendarResponse = calendarRes
                 }
-                self.response.onNext(res)
-                self.calendarResponse = calendarRes
+                SpinnerView.removeSpinnerView()
             }
         }
     }

@@ -14,6 +14,36 @@ class PremiumView: UIView {
     var onSuccess: (()->())?
     var onBack: (()->())?
     
+    lazy var container: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    lazy var innerContainer: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    lazy var mainScrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentInsetAdjustmentBehavior = .never
+        view.bounces = false
+        view.showsVerticalScrollIndicator = false
+        view.delaysContentTouches = false
+        return view
+    }()
+    
+    lazy var mainStackView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [innerContainer])
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isLayoutMarginsRelativeArrangement = true
+        view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        view.axis = .vertical
+        view.alignment = .fill
+        return view
+    }()
+    
     lazy var backButton: BackButton = {
         let view = BackButton()
         view.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
@@ -46,29 +76,8 @@ class PremiumView: UIView {
         return view
     }()
     
-    lazy var firstButton: CustomButton = {
-        let view = CustomButton()
-        view.setTitle("1 month".localized, for: .normal)
-        view.titleLabel?.font = .gotham(ofSize: StaticSize.size(18), weight: .medium)
-        return view
-    }()
-    
-    lazy var secondButton: CustomButton = {
-        let view = CustomButton()
-        view.setTitle("3 month".localized, for: .normal)
-        view.titleLabel?.font = .gotham(ofSize: StaticSize.size(18), weight: .medium)
-        return view
-    }()
-    
-    lazy var thirdButton: CustomButton = {
-        let view = CustomButton()
-        view.setTitle("1 year".localized, for: .normal)
-        view.titleLabel?.font = .gotham(ofSize: StaticSize.size(18), weight: .medium)
-        return view
-    }()
-    
     lazy var buttonsStack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [firstButton, secondButton, thirdButton])
+        let view = UIStackView()
         view.axis = .vertical
         view.distribution = .equalSpacing
         view.alignment = .fill
@@ -92,6 +101,8 @@ class PremiumView: UIView {
         view.textColor = .customTextBlack
         view.text = "Premium bottom text".localized
         view.textAlignment = .center
+        view.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        view.adjustsFontForContentSizeCategory = true
         return view
     }()
     
@@ -106,13 +117,35 @@ class PremiumView: UIView {
     }
     
     func setUp() {
-        addSubViews([backButton, imageView, titleLabel, topText, buttonsStack, bottomFirstLabel, bottomSecondLabel])
+        addSubViews([container, backButton])
         
         backButton.snp.makeConstraints({
             $0.top.equalToSuperview().offset(StaticSize.size(25))
             $0.left.equalToSuperview().offset(StaticSize.size(10))
             $0.size.equalTo(StaticSize.size(30))
         })
+        
+        container.snp.makeConstraints({
+            $0.top.equalToSuperview()
+            $0.left.right.bottom.equalToSuperview()
+        })
+        
+        container.addSubViews([mainScrollView])
+        
+        mainScrollView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0).isActive = true;
+        mainScrollView.topAnchor.constraint(equalTo: container.topAnchor, constant: 0).isActive = true;
+        mainScrollView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0).isActive = true;
+        mainScrollView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: 0).isActive = true;
+
+        mainScrollView.addSubview(mainStackView)
+
+        mainStackView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true;
+        mainStackView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true;
+        mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor).isActive = true;
+        mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true;
+        mainStackView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true;
+        
+        innerContainer.addSubViews([imageView, titleLabel, topText, buttonsStack, bottomFirstLabel, bottomSecondLabel])
         
         imageView.snp.makeConstraints({
             $0.top.equalToSuperview().offset(StaticSize.size(34))
@@ -134,44 +167,18 @@ class PremiumView: UIView {
         buttonsStack.snp.makeConstraints({
             $0.top.equalTo(topText.snp.bottom).offset(StaticSize.size(15))
             $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-        })
-        
-        firstButton.snp.makeConstraints({
-            $0.height.equalTo(StaticSize.buttonHeight)
-        })
-        
-        secondButton.snp.makeConstraints({
-            $0.height.equalTo(StaticSize.buttonHeight)
-        })
-        
-        thirdButton.snp.makeConstraints({
-            $0.height.equalTo(StaticSize.buttonHeight)
+            $0.height.equalTo(StaticSize.size(159))
         })
         
         bottomFirstLabel.snp.makeConstraints({
-            $0.top.equalTo(buttonsStack.snp.bottom).offset(StaticSize.size(25))
+            $0.top.equalTo(buttonsStack.snp.bottom).offset(StaticSize.size(10))
             $0.left.right.equalToSuperview().inset(StaticSize.size(15))
         })
         
         bottomSecondLabel.snp.makeConstraints({
             $0.top.equalTo(bottomFirstLabel.snp.bottom).offset(StaticSize.size(4))
             $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-        })
-        
-        for button in buttonsStack.arrangedSubviews as! [CustomButton] {
-            button.addTarget(self, action: #selector(testPremium), for: .touchUpInside)
-        }
-    }
-    
-    @objc func testPremium() {
-        SpinnerView.showSpinnerView()
-        APIManager.shared.testPremium(completion: { error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else { return }
-            ModuleUserDefaults.setIsPremium(true)
-            if let onSuccess = self.onSuccess {
-                onSuccess()
-            }
+            $0.bottom.equalToSuperview()
         })
     }
     

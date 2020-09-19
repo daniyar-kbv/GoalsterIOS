@@ -60,7 +60,7 @@ class AddVisualizationViewController: UIViewController {
         addView.backButton.addTarget(self, action: #selector(dismissAnimated), for: .touchUpInside)
         addView.onFieldChange = check
         
-        hideKeyboardWhenTappedAround()
+        viewModel.errorView = addView
         
         bind()
     }
@@ -104,35 +104,11 @@ class AddVisualizationViewController: UIViewController {
     func check() {
         addView.addButton.isActive = selectedSphere != nil && selectedImage != nil
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        disableKeyboardDisplay()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        keyboardDisplay()
-    }
 }
 
 extension AddVisualizationViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         selectedImage = info
         dismiss(animated: true, completion: nil)
-    }
-}
-
-extension AddVisualizationViewController {
-    @objc override func keyboardWillShow(notification: NSNotification){
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            AppShared.sharedInstance.openedKeyboardSize = keyboardSize
-        }
-        
-    }
-    
-    @objc override func keyboardWillHide(notification: NSNotification){
     }
 }

@@ -16,6 +16,11 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     lazy var disposeBag = DisposeBag()
     var onReload: (()->())?
     var isObserved = false
+    var isMain = true {
+        didSet {
+            viewModel.isMain = isMain
+        }
+    }
     
     var date: Date? {
         didSet {
@@ -39,9 +44,15 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var response: GoalsResponse? {
         didSet {
-            dayView.tableView.reloadData()
+            UIView.animate(withDuration: 0, animations: {
+                self.dayView.tableView.reloadData()
+            }, completion: {_ in
+                self.viewDidLayoutSubviews()
+            })
         }
     }
+    
+    var line: CAShapeLayer?
     
     override func loadView() {
         super.loadView()
@@ -68,10 +79,12 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        line?.removeFromSuperlayer()
+        
         let dayView = view as! GoalsTableView
         if response?.goals ?? false{
             var totalHeight = dayView.tableView.frame.origin.y
-            for i in 0..<3{
+            for i in 0..<dayView.tableView.numberOfSections{
                 for j in 0..<dayView.tableView.numberOfRows(inSection: i){
                     let cell = dayView.tableView.cellForRow(at: IndexPath(row: j, section: i))
                     totalHeight += cell?.frame.height ?? 0
@@ -95,6 +108,7 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             shapeLayer.path = path
             shapeLayer.zPosition = -1
             view.layer.addSublayer(shapeLayer)
+            line = shapeLayer
         }
     }
     
@@ -130,7 +144,7 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             }
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: GoalsCell.reuseIdentifier, for: indexPath) as! GoalsCell
+            let cell = GoalsCell()
             switch indexPath.section {
             case 0:
                 cell.goal = response?.morning?[indexPath.row - 1]

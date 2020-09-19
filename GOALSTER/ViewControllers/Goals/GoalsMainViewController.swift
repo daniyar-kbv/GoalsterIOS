@@ -44,7 +44,7 @@ class GoalsMainViewController: BaseViewController {
         goalsView.button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(onWillEnterForegroundNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
         
-        viewModel.view = goalsView
+        viewModel.view = view
         
         bind()
     }
@@ -90,9 +90,9 @@ class GoalsMainViewController: BaseViewController {
         }).disposed(by: disposeBag)
         AppShared.sharedInstance.selectedSpheresSubject.subscribe(onNext: { spheres in
             DispatchQueue.main.async {
-                self.goalsView.firstGoalView.name = spheres?[0].sphere ?? ""
-                self.goalsView.secondGoalView.name = spheres?[1].sphere ?? ""
-                self.goalsView.thirdGoalView.name = spheres?[2].sphere ?? ""
+                self.goalsView.firstGoalView.name = spheres?[0].sphere?.localized ?? ""
+                self.goalsView.secondGoalView.name = spheres?[1].sphere?.localized ?? ""
+                self.goalsView.thirdGoalView.name = spheres?[2].sphere?.localized ?? ""
             }
         }).disposed(by: disposeBag)
         viewModel.response.subscribe(onNext: { response in

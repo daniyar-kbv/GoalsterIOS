@@ -29,43 +29,16 @@ class SpheresListViewController: UIViewController {
         spheresView.tableView.delegate = self
         spheresView.tableView.dataSource = self
         
-        hideKeyboardWhenTappedAround()
-        
         spheresView.nextButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
         
         if fromProfile {
             for sphere in ModuleUserDefaults.getSpheres() ?? [] {
-                selected.append((key: Sphere.findByName(name: sphere.sphere ?? ""), value: sphere.sphere ?? ""))
+                selected.append((key: Sphere.findByName(name: sphere.sphere ?? ""), value: sphere.sphere?.localized ?? ""))
             }
             spheresView.tableView.reloadData()
             spheresView.nextButton.isActive = selected.count == 3
-            spheresView.nextButton.setTitle("Save changes".localized, for: .normal)
         }
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        disableKeyboardDisplay()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        keyboardDisplay()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if fromProfile && alertsCount == 0 {
-            showAlert(title: "Shere changes alert text".localized,
-                      yesCompletion: { _ in
-            }, noCompletion: { _ in
-                self.dismiss(animated: true, completion: nil)
-            })
-            alertsCount += 1
-        }
-    }
-    
     
     @objc func nextTapped() {
         if fromProfile {
@@ -75,16 +48,6 @@ class SpheresListViewController: UIViewController {
         vc.spheres = selected
         vc.fromProfile = fromProfile
         openTop(vc: vc)
-    }
-    
-    @objc override func keyboardWillShow(notification: NSNotification){
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            AppShared.sharedInstance.openedKeyboardSize = keyboardSize
-            AppShared.sharedInstance.openedKeyboardSizeSubject.onNext(keyboardSize)
-        }
-    }
-    
-    @objc override func keyboardWillHide(notification: NSNotification){
     }
 }
 
@@ -96,10 +59,13 @@ extension SpheresListViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SpheresListCell.reuseIdentifier, for: indexPath) as! SpheresListCell
         cell.sphere = spheres[indexPath.row]
-        cell.isActive = selected.contains(where: { $0.value == cell.sphere?.rawValue || $0.value == cell.sphere?.rawValue.localized }) || (cell.sphere == .addOwnOption && selected.contains(where: { $0.value == ownOption }) && !ownOption.isEmpty)
+        cell.isActive = selected.contains(where: { $0.value == cell.sphere?.rawValue.en || $0.value == cell.sphere?.rawValue.ru }) || (cell.sphere == .addOwnOption && selected.contains(where: { $0.value == ownOption }) && !ownOption.isEmpty)
         if spheres[indexPath.row] == .addOwnOption {
             if !ownOption.isEmpty {
                 cell.nameField.text = ownOption
+                cell.nameField.textColor = .customTextBlack
+            } else {
+                cell.nameField.textColor = .lightGray
             }
             cell.onChange = { text in
                 self.ownOption = text ?? ""
@@ -109,6 +75,25 @@ extension SpheresListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !fromProfile {
+            onSelect(tableView, didSelectRowAt: indexPath)
+        } else if alertsCount == 0 {
+            showAlert(title: "Shere changes alert text".localized,
+                      yesCompletion: { _ in
+                        self.onSelect(tableView, didSelectRowAt: indexPath)
+                        self.fromProfile = false
+                      },
+                      noCompletion: { _ in
+                      })
+            alertsCount += 1
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        (cell as! SpheresListCell).isActive = (cell as! SpheresListCell).isActive ? true : false
+    }
+    
+    func onSelect(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! SpheresListCell
         if cell.isActive{
             cell.isActive = false
@@ -126,9 +111,5 @@ extension SpheresListViewController: UITableViewDelegate, UITableViewDataSource 
             }
         }
         spheresView.nextButton.isActive = selected.count == 3
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as! SpheresListCell).isActive = (cell as! SpheresListCell).isActive ? true : false
     }
 }

@@ -13,6 +13,7 @@ enum APIPoint {
     case connect
     case auth(email: String)
     case chooseSpheres(spheres: [String: Any])
+    case updateSpheres(descriptions: [String])
     case goals(date: String?, observation: Int?)
     case calendar(observation: Int?)
     case searchObserver(q: String)
@@ -23,6 +24,7 @@ enum APIPoint {
     case addEmtions(answers: [[String: Any]])
     case getVisualizations
     case addVisualization(parameters: [String: Any])
+    case deleteVisualization(id: Int)
     case getObserved
     case getObservers
     case acceptObservation(id: Int, isConfirmed: Bool)
@@ -31,7 +33,8 @@ enum APIPoint {
     case changeNotifications(isOn: Bool)
     case getNotifications
     case help(text: String)
-    case testPremium
+    case premium(identifier: String, date: String, productType: ProductType)
+    case results
 }
 
 extension APIPoint: EndPointType {
@@ -43,6 +46,8 @@ extension APIPoint: EndPointType {
             return "/users/users/temp_auth/"
         case .chooseSpheres:
             return "/main/spheres/choose_spheres/"
+        case .updateSpheres:
+            return "/main/spheres/my_spheres/"
         case .goals:
             return "/main/goals/"
         case .calendar:
@@ -61,6 +66,8 @@ extension APIPoint: EndPointType {
             return "/main/emotions/add/"
         case .getVisualizations, .addVisualization:
             return "/main/visualizations/"
+        case .deleteVisualization(let id):
+            return "/main/visualizations/\(id)/"
         case .getObserved:
             return "/main/observations/observed/"
         case .getObservers:
@@ -75,15 +82,21 @@ extension APIPoint: EndPointType {
             return "/users/users/notifications/"
         case .help:
             return "/main/help/"
-        case .testPremium:
-            return "/users/users/test_premium/"
+        case .premium:
+            return "/users/users/premium/"
+        case .results:
+            return "/users/users/results/"
         }
     }
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .auth, .chooseSpheres, .addGoal, .doneGoal, .addEmtions, .addVisualization, .acceptObservation, .deleteObservation, .changeNotifications, .changeLanguage, .help, .testPremium:
+        case .connect, .auth, .chooseSpheres, .addGoal, .doneGoal, .addEmtions, .addVisualization, .acceptObservation, .deleteObservation, .changeNotifications, .changeLanguage, .help, .premium:
             return .post
+        case .updateSpheres:
+            return .put
+        case .deleteVisualization:
+            return .delete
         default:
             return .get
         }
@@ -91,12 +104,20 @@ extension APIPoint: EndPointType {
     
     var parameters: Parameters? {
         switch self {
+        case .connect:
+            return [
+                "fcm_token": ModuleUserDefaults.getFCMToken() ?? ""
+            ]
         case .auth(let email):
             return [
                 "email": email
             ]
         case .chooseSpheres(let spheres):
             return spheres
+        case .updateSpheres(let descriptions):
+            return [
+                "descriptions": descriptions
+            ]
         case .goals(let date, let observation):
             var parameters = Parameters()
             if let date = date {
@@ -147,6 +168,14 @@ extension APIPoint: EndPointType {
             return [
                 "text": text
             ]
+        case .premium(let identifier, let date, let productType):
+            return [
+                "identifier": identifier,
+                "date": date,
+                "product_id": productType.rawValue,
+                "time_amount": productType.timeAmount,
+                "time_unit": productType.timeUnit
+            ]
         default:
             return nil
         }
@@ -169,7 +198,8 @@ extension APIPoint: EndPointType {
     }
     
     var baseURL: URL {
-        return URL(string: "http://161.35.198.233/api")!
+        return URL(string: "https://api.goalsterapp.com/api")!
+//        return URL(string: "http://192.168.1.19:8990/api")!
     }
     
     var header: HTTPHeaders? {

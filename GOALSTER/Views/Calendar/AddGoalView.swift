@@ -118,8 +118,8 @@ class AddGoalView: UIView, UITextViewDelegate {
         return label
     }()
     
-    lazy var thirdBottom: CustomTextView = {
-        let view = CustomTextView()
+    lazy var thirdBottom: TextViewWithInput = {
+        let view = TextViewWithInput()
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.borderWidth = 0.5
         view.layer.cornerRadius = StaticSize.size(5)
@@ -128,9 +128,6 @@ class AddGoalView: UIView, UITextViewDelegate {
         view.textColor = .lightGray
         view.isScrollEnabled = false
         view.delegate_ = self
-        view.constraints_ = {
-            $0.height.equalTo(StaticSize.size(36)).priority(.low)
-        }
         view.textContainerInset = UIEdgeInsets(top: StaticSize.size(11), left: StaticSize.size(StaticSize.size(5)), bottom: StaticSize.size(9), right: StaticSize.size(11))
         return view
     }()
@@ -401,6 +398,9 @@ class AddGoalView: UIView, UITextViewDelegate {
         if textView.text.isEmpty {
             textView.text = "Enter goal".localized
             textView.textColor = .lightGray
+        }
+        if let onFieldChange = onFieldChange {
+            onFieldChange()
         }
     }
     

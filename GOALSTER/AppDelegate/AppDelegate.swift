@@ -62,12 +62,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func configData() {
         AppShared.sharedInstance.selectedSpheres = ModuleUserDefaults.getSpheres()
+        UIApplication.setNotificationBadge(count: 0)
     }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("Firebase registration token: \(fcmToken)")
+        ModuleUserDefaults.setFCMToken(fcmToken)
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
     }
@@ -75,15 +77,20 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     //Present in app
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
-//        willPresent(userInfo: userInfo){ action in
-//            completionHandler(action)
-//        }
+        if let typeStr = userInfo["type"] as? String, let typeInt = Int(typeStr), let type = NotificationType(rawValue: typeInt) {
+            let vc = UIApplication.topViewController()
+            vc?.showAlertOk(title: type.title, messsage: type.message, okCompletion: { _ in
+                AppShared.sharedInstance.notificationType = type
+            })
+        }
     }
 
     //On tap
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
-//        didRecieve(userInfo: userInfo)
+        if let typeStr = userInfo["type"] as? String, let typeInt = Int(typeStr), let type = NotificationType(rawValue: typeInt) {
+            AppShared.sharedInstance.notificationType = type
+        }
         completionHandler()
     }
 }

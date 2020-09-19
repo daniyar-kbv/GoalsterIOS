@@ -43,21 +43,17 @@ class SpheresDescriptionViewController: UIViewController {
         
         spheresView.nextButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
         
+        if fromProfile {
+            spheresView.firstView.textView.text = ModuleUserDefaults.getSpheres()?[0].description_
+            spheresView.firstView.textView.textColor = .customTextBlack
+            spheresView.secondView.textView.text = ModuleUserDefaults.getSpheres()?[1].description_
+            spheresView.secondView.textView.textColor = .customTextBlack
+            spheresView.thirdView.textView.text = ModuleUserDefaults.getSpheres()?[2].description_
+            spheresView.thirdView.textView.textColor = .customTextBlack
+            spheresView.nextButton.isActive = false
+        }
+        
         bind()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        disableKeyboardDisplay()
-        parent?.keyboardDisplay()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        parent?.disableKeyboardDisplay()
-        keyboardDisplay()
     }
     
     func bind() {
@@ -81,26 +77,18 @@ class SpheresDescriptionViewController: UIViewController {
     }
     
     @objc func nextTapped() {
-        var spheres_: [(key: String, value: String)] = []
-        for view in spheresView.mainStackView.arrangedSubviews as! [SpheresDescriptionSmallView] {
-            if let sphereName = spheres?[view.index ?? 0].value{
-                spheres_.append((key: sphereName, value: view.textView.text))
+        if fromProfile {
+            viewModel.updateSpheres(firstDescription: spheresView.firstView.textView.text, secondDescription: spheresView.secondView.textView.text, thirdDescription: spheresView.thirdView.textView.text)
+        } else {
+            var spheres_: [(key: String, value: String)] = []
+            for view in spheresView.mainStackView.arrangedSubviews as! [SpheresDescriptionSmallView] {
+                if let sphereName = spheres?[view.index ?? 0].value{
+                    spheres_.append((key: sphereName, value: view.textView.text))
+                }
+            }
+            if spheres_.count == 3 {
+                viewModel.chooseSpheres(spheres: spheres_)
             }
         }
-        if spheres_.count == 3 {
-            viewModel.chooseSpheres(spheres: spheres_)
-        }
-    }
-}
-
-extension SpheresDescriptionViewController {
-    @objc override func keyboardWillShow(notification: NSNotification){
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            AppShared.sharedInstance.openedKeyboardSize = keyboardSize
-        }
-        
-    }
-    
-    @objc override func keyboardWillHide(notification: NSNotification){
     }
 }

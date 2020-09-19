@@ -35,28 +35,11 @@ class AddEmotionsViewController: UIViewController {
         emotionsView.addButton.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         emotionsView.backButton.addTarget(self, action: #selector(dismissAnimated), for: .touchUpInside)
         
-        hideKeyboardWhenTappedAround()
-        
         bind()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        disableKeyboardDisplay()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        keyboardDisplay()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        for view in emotionsView.mainStackView.arrangedSubviews as! [CustomFieldWithLabel] {
-            view.textView.lastHeight = view.frame.height
-        }
     }
     
     func bind() {
@@ -78,17 +61,5 @@ class AddEmotionsViewController: UIViewController {
             }
         }
         emotionsView.addButton.isActive = count == emotionsView.mainStackView.arrangedSubviews.count
-    }
-}
-
-extension AddEmotionsViewController {
-    @objc override func keyboardWillShow(notification: NSNotification){
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            AppShared.sharedInstance.openedKeyboardSize = keyboardSize
-        }
-        
-    }
-    
-    @objc override func keyboardWillHide(notification: NSNotification){
     }
 }

@@ -105,12 +105,12 @@ class EmotionsMainView: UIView {
             animationView.snp.makeConstraints({
                 $0.centerX.equalToSuperview()
                 $0.top.equalToSuperview().offset(StaticSize.size(150))
-                $0.width.equalTo(StaticSize.size(250))
-                $0.height.equalTo(StaticSize.size(250))
+                $0.width.equalTo(StaticSize.size(350))
+                $0.height.equalTo(StaticSize.size(350))
             })
             
             bottomTextView.snp.makeConstraints({
-                $0.top.equalTo(animationView.snp.bottom).offset(StaticSize.size(23))
+                $0.top.equalTo(animationView.snp.bottom).offset(-StaticSize.size(77))
                 $0.centerX.equalToSuperview()
             })
             

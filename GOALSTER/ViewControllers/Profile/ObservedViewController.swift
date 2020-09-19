@@ -43,6 +43,10 @@ class ObservedViewController: ProfileBaseViewController {
         
         bind()
         reload()
+        
+        AppShared.sharedInstance.navigationController.delegate = self
+        AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.delegate = self
+        AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     func bind() {
@@ -86,6 +90,15 @@ extension ObservedViewController: UITableViewDelegate, UITableViewDataSource {
         if let id = observed?[indexPath.row].id {
             let vc = ObservedCalendarViewController(observation: id)
             navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+extension ObservedViewController: UIGestureRecognizerDelegate, UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        if viewController is NavigationMenuBaseController {
+            AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = false
+            AppShared.sharedInstance.navigationController.delegate = nil
         }
     }
 }

@@ -8,20 +8,35 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 class NavigationMenuBaseController: UITabBarController {
+    lazy var disposeBag = DisposeBag()
+    lazy var tabItems: [TabItem] = [.goals, .emotions, .calendar, .visualizations, .profile]
     
     var customTabBar: TabNavigationMenu!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        delegate = self
         loadTabBar()
+        bind()
+        
+        if let type = AppShared.sharedInstance.notificationType {
+            openNotification(type: type)
+        }
+    }
+    
+    func bind() {
+        AppShared.sharedInstance.notificationTypeSubject.subscribe(onNext: { type in
+            DispatchQueue.main.async {
+                self.openNotification(type: type)
+            }
+        }).disposed(by: disposeBag)
     }
     
     private func loadTabBar() {
-        let tabItems: [TabItem] = [.goals, .emotions, .calendar, .visualizations, .profile]
-        
         self.setupCustomTabBar(tabItems) { (controllers) in
             self.viewControllers = controllers
         }
@@ -61,7 +76,65 @@ class NavigationMenuBaseController: UITabBarController {
         self.selectedIndex = tab
     }
     
-    func toTab(tab: Int) {
-        customTabBar.switchTab(from: customTabBar.activeItem, to: tab)
+    func toTab(tab: Int, completion: ((Bool) -> Void)? = nil) {
+        customTabBar.switchTab(from: customTabBar.activeItem, to: tab, completion: completion)
     }
+    
+    func openNotification(type: NotificationType) {
+        switch type {
+        case .threeDays:
+            toTab(tab: 3)
+        case .beforeEnd:
+            toTab(tab: 2, completion: { _ in
+                if let vc = UIApplication.topViewController() as? DayViewController {
+                    vc.openCalendar()
+                }
+            })
+        case .end:
+            toTab(tab: 0, completion: { _ in
+                UIApplication.topViewController()?.present(ResultsViewController(), animated: true, completion: nil)
+            })
+        }
+        UIApplication.setNotificationBadge(count: 0)
+    }
+    
+    func reloadOnLanguageChange() {
+        var vcs: [UIViewController] = []
+        for (index, item) in tabItems.enumerated() {
+            if index < tabItems.count - 1 {
+                vcs.append(item.viewController)
+            } else {
+                if let vc = viewControllers?[index]{
+                    vcs.append(vc)
+                }
+            }
+        }
+        viewControllers = vcs
+    }
+}
+
+extension NavigationMenuBaseController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return TabBarAnimatedTransitioning()
+    }
+}
+
+final class TabBarAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioning {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard let destination = transitionContext.view(forKey: UITransitionContextViewKey.to) else { return }
+
+        destination.alpha = 0.0
+        destination.transform = .init(scaleX: 1.5, y: 1.5)
+        transitionContext.containerView.addSubview(destination)
+
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
+            destination.alpha = 1.0
+            destination.transform = .identity
+        }, completion: { transitionContext.completeTransition($0) })
+    }
+
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 0.25
+    }
+
 }

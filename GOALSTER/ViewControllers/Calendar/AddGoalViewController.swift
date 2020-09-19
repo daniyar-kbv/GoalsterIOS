@@ -34,6 +34,7 @@ class AddGoalViewController: UIViewController {
             check()
         }
     }
+    
     var selectedObserver: User? {
         didSet {
             if let user = selectedObserver {
@@ -63,10 +64,8 @@ class AddGoalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        hideKeyboardWhenTappedAround()
-        
-        addView.firstBottom.addTarget(self, action: #selector(openTimeModal), for: .touchUpInside)
-        addView.secondBottom.addTarget(self, action: #selector(openSphereModal), for: .touchUpInside)
+        addView.firstBottom.addTarget(self, action: #selector(openTime), for: .touchUpInside)
+        addView.secondBottom.addTarget(self, action: #selector(openSpheres), for: .touchUpInside)
         addView.fourthBottom.addTarget(self, action: #selector(openSearch), for: .touchUpInside)
         addView.switchButton.addTarget(self, action: #selector(switchTapped(_:)), for: .touchUpInside)
         addView.addButton.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
@@ -76,14 +75,14 @@ class AddGoalViewController: UIViewController {
         bind()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        disableKeyboardDisplay()
+    @objc func openTime() {
+        AppShared.sharedInstance.modalSelectedTime = selectedTime
+        openTimeModal()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        keyboardDisplay()
+    @objc func openSpheres() {
+        AppShared.sharedInstance.modalSelectedSphere = selectedSphere
+        openSphereModal()
     }
     
     func bind(){
@@ -114,7 +113,7 @@ class AddGoalViewController: UIViewController {
                 vc.removeTop()
                 self.configureObservers(isOn: sender.isOn)
             })
-            vc.premiumView.premiumVIew.backButton.isHidden = false
+            vc.premiumVc.premiumView.backButton.isHidden = false
             openTop(vc: vc)
         } else {
             configureObservers(isOn: sender.isOn)
@@ -132,14 +131,5 @@ class AddGoalViewController: UIViewController {
     
     func check() {
         addView.addButton.isActive = selectedTime != nil && selectedSphere != nil && addView.thirdBottom.textColor != .lightGray && !(addView.switchButton.isOn && selectedObserver == nil)
-    }
-    
-    @objc override func keyboardWillShow(notification: NSNotification){
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            AppShared.sharedInstance.openedKeyboardSize = keyboardSize
-        }
-    }
-    
-    @objc override func keyboardWillHide(notification: NSNotification){
     }
 }

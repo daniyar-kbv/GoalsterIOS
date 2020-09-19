@@ -20,8 +20,8 @@ class OnBoardingPremiumCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var premiumView: PremiumView = {
-        let view = PremiumView()
+    lazy var premiumView: UIView = {
+        let view = UIView()
         return view
     }()
     

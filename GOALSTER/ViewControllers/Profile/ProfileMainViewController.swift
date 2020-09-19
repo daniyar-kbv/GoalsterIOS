@@ -34,7 +34,7 @@ class ProfileMainViewController: BaseViewController {
         profileView.tableView.delegate = self
         profileView.tableView.dataSource = self
         
-        viewModel.view = profileView
+        viewModel.view = view
         
         bind()
     }
@@ -125,9 +125,13 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
         case .language:
             AppShared.sharedInstance.tabBarController.openLanguagesModal()
         case .spheres:
-            let vc = SpheresListViewController()
-            vc.fromProfile = true
-            present(vc, animated: true, completion: nil)
+            if ModuleUserDefaults.getHasSpheres() {
+                let vc = SpheresListViewController()
+                vc.fromProfile = true
+                present(vc, animated: true, completion: nil)
+            } else {
+                AppShared.sharedInstance.tabBarController.toTab(tab: 0)
+            }
         case .premium:
             DispatchQueue.main.async {
                 self.present(ProfilePremiumViewController(), animated: true, completion: nil)

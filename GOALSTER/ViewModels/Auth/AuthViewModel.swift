@@ -27,16 +27,18 @@ class AuthViewModel {
     func auth(email: String){
         SpinnerView.showSpinnerView()
         APIManager.shared.auth(email: email){ error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else {
-                if let error = error{
-                    ErrorView.addToView(text: error)
-                } else {
-                    ErrorView.addToView()
+            SpinnerView.completion = {
+                guard let response = response else {
+                    if let error = error{
+                        ErrorView.addToView(text: error)
+                    } else {
+                        ErrorView.addToView()
+                    }
+                    return
                 }
-                return
+                self.response = response
             }
-            self.response = response
+            SpinnerView.removeSpinnerView()
         }
     }
 }

@@ -12,6 +12,7 @@ import RxSwift
 class VisulizationsMainViewModel {
     var view: UIView?
     lazy var spheres = PublishSubject<[SphereVisualization]>()
+    lazy var success = PublishSubject<Bool>()
     
     var response: VisualizationsResponse? {
         didSet {
@@ -23,11 +24,34 @@ class VisulizationsMainViewModel {
     func getVisualizations() {
         SpinnerView.showSpinnerView(view: view)
         APIManager.shared.getVisualizations() { error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else {
-                return
+            SpinnerView.completion = {
+                guard let response = response else {
+                    return
+                }
+                self.response = response
             }
-            self.response = response
+            SpinnerView.removeSpinnerView()
+        }
+    }
+    
+    func deleteVisualization(id: Int?) {
+        if let id = id {
+            SpinnerView.showSpinnerView(view: view)
+            APIManager.shared.deleteVisualization(id: id) { error, response in
+                guard response != nil else {
+                    SpinnerView.removeSpinnerView()
+                    return
+                }
+                APIManager.shared.getVisualizations() { error, response in
+                    SpinnerView.completion = {
+                        guard let response = response else {
+                            return
+                        }
+                        self.response = response
+                    }
+                    SpinnerView.removeSpinnerView()
+                }
+            }
         }
     }
 }

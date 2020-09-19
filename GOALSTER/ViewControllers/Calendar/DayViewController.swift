@@ -23,8 +23,9 @@ class DayViewController: BaseViewController {
                 tableVc.dayView = dayView.tableView
                 tableVc.response = response
                 tableVc.onReload = reload
-                tableVc.viewModel.view = dayView
+                tableVc.viewModel.view = view
                 tableVc.date = selectedDate
+                tableVc.isMain = false
                 add(tableVc)
                 state = .goals
             } else {
@@ -36,8 +37,11 @@ class DayViewController: BaseViewController {
     }
     var calendarItems: [CaledarItem]? {
         didSet {
-            dayView.calendarCollection.reloadData()
-            dayView.calendarCollection.scrollToItem(at: IndexPath(item: calendarItems?.firstIndex(where: { $0.date == selectedDate.format() }) ?? 0, section: 0), at: .centeredHorizontally, animated: true)
+            UIView.animate(withDuration: 0, animations: {
+                self.dayView.calendarCollection.reloadData()
+            }, completion: { _ in
+                self.dayView.calendarCollection.scrollToItem(at: IndexPath(item: self.calendarItems?.firstIndex(where: { $0.date == self.selectedDate.format() }) ?? 0, section: 0), at: .centeredHorizontally, animated: false)
+            })
         }
     }
     
@@ -51,7 +55,9 @@ class DayViewController: BaseViewController {
         super.viewDidLoad()
         
         bind()
+        
         viewModel.view = view
+        tableVc.viewModel.view = view
         
         setTitle("Calendar".localized)
         addAddButton(action: #selector(addTapped))
@@ -93,6 +99,11 @@ class DayViewController: BaseViewController {
         viewModel.calendarItems.subscribe(onNext: { items in
             DispatchQueue.main.async {
                 self.calendarItems = items
+            }
+        }).disposed(by: disposeBag)
+        AppShared.sharedInstance.doneGoalResponse.subscribe(onNext: { response in
+            DispatchQueue.main.async {
+                self.viewModel.getGoals(date: self.selectedDate, withSpinner: false)
             }
         }).disposed(by: disposeBag)
     }

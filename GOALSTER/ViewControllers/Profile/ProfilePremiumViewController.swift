@@ -11,19 +11,27 @@ import UIKit
 
 class ProfilePremiumViewController: UIViewController {
     lazy var premiumView = ProfilePremiumView()
+    lazy var premiumVc = PremiumViewController()
     
     override func loadView() {
         super.loadView()
         
         view = premiumView
+        
+        addChild(premiumVc)
+        premiumVc.didMove(toParent: self)
+        premiumView.premiumVIew.addSubview(premiumVc.view)
+        premiumVc.view.snp.makeConstraints({
+            $0.edges.equalToSuperview()
+        })
     }
     
     func setOnSuccess(onSuccess: (()->())?) {
-        premiumView.premiumVIew.onSuccess = onSuccess
+        premiumVc.premiumView.onSuccess = onSuccess
     }
     
     func showBackButton(onBack: (()->())?) {
-        premiumView.premiumVIew.backButton.isHidden = false
-        premiumView.premiumVIew.onBack = onBack
+        premiumVc.premiumView.backButton.isHidden = false
+        premiumVc.premiumView.onBack = onBack
     }
 }

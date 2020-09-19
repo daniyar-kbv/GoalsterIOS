@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 import RxSwift
 
-class SpheresListCell: UITableViewCell, UITextFieldDelegate {
+class SpheresListCell: UITableViewCell, UITextViewDelegate {
     lazy var disposeBag = DisposeBag()
+    lazy var placeholder = ""
     
     static let reuseIdentifier = "SpheresListCell"
     var isActive: Bool = false {
@@ -29,7 +30,8 @@ class SpheresListCell: UITableViewCell, UITextFieldDelegate {
         didSet {
             icon.image = sphere?.icon_inactive.image
             if sphere == .addOwnOption{
-                nameField.placeholder = sphere?.name
+                nameField.text = sphere?.name
+                placeholder = sphere?.name ?? ""
                 nameField.isUserInteractionEnabled = true
             } else {
                 nameField.text = sphere?.name
@@ -44,12 +46,12 @@ class SpheresListCell: UITableViewCell, UITextFieldDelegate {
         return view
     }()
     
-    lazy var nameField: UITextField = {
-        let label = UITextField()
+    lazy var nameField: TextViewWithInput = {
+        let label = TextViewWithInput()
         label.font = .gotham(ofSize: StaticSize.size(18), weight: .light)
         label.textColor = .customTextDarkPurple
-        label.addTarget(self, action: #selector(changed(_:)), for: .editingChanged)
-        label.delegate = self
+        label.isScrollEnabled = false
+        label.delegate_ = self
         return label
     }()
     
@@ -71,22 +73,10 @@ class SpheresListCell: UITableViewCell, UITextFieldDelegate {
         selectionStyle = .none
         
         setUp()
-        bind()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func bind() {
-        AppShared.sharedInstance.openedKeyboardSizeSubject.subscribe(onNext: { openedKeyboardSize in
-            let keyboardSize = openedKeyboardSize
-            let window = Global.keyWindow!
-            if window.frame.origin.y == 0 && keyboardSize.height > 100{
-                AppShared.sharedInstance.keyboardInitialSize = keyboardSize
-                window.frame.origin.y -= AppShared.sharedInstance.keyboardInitialSize?.height ?? 0
-            }
-        }).disposed(by: disposeBag)
     }
     
     func setUp() {
@@ -122,19 +112,27 @@ class SpheresListCell: UITableViewCell, UITextFieldDelegate {
         super.prepareForReuse()
         
         nameField.text = ""
+        nameField.textColor = .customTextBlack
         isActive = false
     }
     
-    @objc func changed(_ textField: UITextField) {
-        if let onChange = onChange {
-            onChange(textField.text)
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .lightGray {
+            textView.text = nil
+            textView.textColor = .customTextBlack
         }
     }
 
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let window = Global.keyWindow!
-        if window.frame.origin.y != 0{
-            window.frame.origin.y += AppShared.sharedInstance.keyboardInitialSize?.height ?? 0
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = placeholder
+            textView.textColor = .lightGray
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if let onChange = onChange {
+            onChange(textView.text)
         }
     }
 }

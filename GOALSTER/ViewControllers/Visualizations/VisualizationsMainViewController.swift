@@ -60,7 +60,7 @@ class VisualizationsMainViewcontroller: BaseViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(onWillEnterForegroundNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
         
-        viewModel.view = mainView
+        viewModel.view = view
         bind()
     }
     
@@ -127,13 +127,17 @@ class VisualizationsMainViewcontroller: BaseViewController {
                     mainView.collection.addSubview(view)
                     view.snp.makeConstraints({
                         $0.top.bottom.equalTo(cell)
-                        $0.left.equalTo(firstCell).offset(-StaticSize.size(11))
-                        $0.width.equalTo(StaticSize.size(494))
+                        $0.left.equalTo(firstCell).offset(-StaticSize.size(6))
+                        $0.width.equalTo(StaticSize.size(497))
                     })
                     mainView.collection.sendSubviewToBack(view)
                 }
             }
         }
+    }
+    
+    func onDelete(_ id: Int?) {
+        viewModel.deleteVisualization(id: id)
     }
     
     func reload() {
@@ -158,7 +162,7 @@ class VisualizationsMainViewcontroller: BaseViewController {
         if !ModuleUserDefaults.getIsLoggedIn() {
             present(AuthViewController(), animated: true, completion: nil)
         } else if !ModuleUserDefaults.getHasSpheres() {
-            AppShared.sharedInstance.tabBarController.toTab(tab: 1)
+            AppShared.sharedInstance.tabBarController.toTab(tab: 0)
         } else {
             let vc = AddVisualizationViewController()
             vc.spheres = spheres
@@ -185,6 +189,7 @@ extension VisualizationsMainViewcontroller: UICollectionViewDelegate, UICollecti
         cell.index = spheresToDisplay?[indexPath.row].0
         cell.sphere = spheresToDisplay?[indexPath.row].1
         cell.onTap = smallCellTapped(_:_:)
+        cell.onDelete = onDelete(_:)
         return cell
     }
 }

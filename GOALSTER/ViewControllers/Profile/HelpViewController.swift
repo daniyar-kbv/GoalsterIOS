@@ -37,24 +37,17 @@ class HelpViewController: UIViewController {
         helpView.onFieldChange = onChange
         
         helpView.addButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        helpView.backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
         
         hideKeyboardWhenTappedAround(textView: helpView.textView)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        disableKeyboardDisplay()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        keyboardDisplay()
-    }
-    
     func onChange() {
         helpView.addButton.isActive = helpView.textView.textColor != .lightGray
+    }
+    
+    @objc func backTapped() {
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func buttonTapped() {
@@ -67,17 +60,5 @@ class HelpViewController: UIViewController {
                 self.success = success
             }
         }).disposed(by: disposeBag)
-    }
-}
-
-extension HelpViewController {
-    @objc override func keyboardWillShow(notification: NSNotification){
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            AppShared.sharedInstance.openedKeyboardSize = keyboardSize
-        }
-        
-    }
-    
-    @objc override func keyboardWillHide(notification: NSNotification){
     }
 }

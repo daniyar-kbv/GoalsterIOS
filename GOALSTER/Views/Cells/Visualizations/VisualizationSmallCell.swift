@@ -11,6 +11,8 @@ import UIKit
 
 class VisualizationSmallCell: UICollectionViewCell {
     static let reuseIdentifier = "VisualizationSmallCell"
+    var visualizationId: Int?
+    var onDelete: ((_ id: Int?)->())?
     
     lazy var image: UIImageView = {
         let view = UIImageView()
@@ -29,6 +31,17 @@ class VisualizationSmallCell: UICollectionViewCell {
         return view
     }()
     
+    lazy var deleteButton: UIButton = {
+        let view = UIButton()
+        view.setBackgroundImage(UIImage(named: "delete"), for: .normal)
+        view.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
+        return view
+    }()
+    
+    @objc func deleteTapped() {
+        onDelete?(visualizationId)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -40,16 +53,23 @@ class VisualizationSmallCell: UICollectionViewCell {
     }
     
     func setUp() {
-        addSubViews([image, text])
+        addSubViews([image, text, deleteButton])
         
         image.snp.makeConstraints({
-            $0.top.left.right.equalToSuperview()
+            $0.top.equalToSuperview().offset(StaticSize.size(6))
+            $0.left.right.equalToSuperview().inset(StaticSize.size(6))
             $0.size.equalTo(StaticSize.size(150))
         })
         
         text.snp.makeConstraints({
             $0.top.equalTo(image.snp.bottom).offset(StaticSize.size(4))
-            $0.left.right.bottom.equalToSuperview()
+            $0.left.right.bottom.equalToSuperview().inset(StaticSize.size(6))
+        })
+        
+        deleteButton.snp.makeConstraints({
+            $0.top.equalToSuperview()
+            $0.right.equalToSuperview()
+            $0.size.equalTo(StaticSize.size(20))
         })
     }
 }

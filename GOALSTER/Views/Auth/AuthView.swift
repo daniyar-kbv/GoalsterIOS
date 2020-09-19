@@ -31,6 +31,7 @@ class AuthView: UIView {
         view.textColor = .customTextBlack
         view.keyboardType = .emailAddress
         view.textContentType = .emailAddress
+        view.autocapitalizationType = .none
         return view
     }()
     
@@ -52,8 +53,8 @@ class AuthView: UIView {
         return view
     }()
     
-    lazy var successLabel: UILabel = {
-        let view = UILabel()
+    lazy var successLabel: CustomLabelWithoutPadding = {
+        let view = CustomLabelWithoutPadding()
         view.font = .gotham(ofSize: StaticSize.size(16), weight: .book)
         view.textColor = .customTextDarkPurple
         view.text = "Check Your Email".localized
@@ -102,7 +103,7 @@ class AuthView: UIView {
         
         successLabel.snp.makeConstraints({
             $0.top.equalTo(image.snp.bottom).offset(StaticSize.size(37))
-            $0.centerX.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
         })
     }
 }

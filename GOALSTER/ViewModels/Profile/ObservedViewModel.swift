@@ -24,22 +24,26 @@ class ObservedViewModel {
     func getObserved() {
         SpinnerView.showSpinnerView()
         APIManager.shared.getObserved() { error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else {
-                return
+            SpinnerView.completion = {
+                guard let response = response else {
+                    return
+                }
+                self.observedResponse = response
             }
-            self.observedResponse = response
+            SpinnerView.removeSpinnerView()
         }
     }
     
     func acceptObservation(id: Int, isConfirmed: Bool) {
         SpinnerView.showSpinnerView()
         APIManager.shared.acceptObservation(id: id, isConfirmed: isConfirmed) { error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else {
-                return
+            SpinnerView.completion = {
+                guard let response = response else {
+                    return
+                }
+                self.success.onNext(response)
             }
-            self.success.onNext(response)
+            SpinnerView.removeSpinnerView()
         }
     }
 }

@@ -15,12 +15,20 @@ extension UIView {
         SpinnerView.view.snp.makeConstraints({
             $0.edges.equalToSuperview()
         })
+        
+//        UIView.animate(withDuration: 0.1, animations: {
+//            self.layoutIfNeeded()
+//        })
     }
     
     func showSpinnerViewCenter(){
         addSubview(SpinnerView.circleView)
         SpinnerView.circleView.snp.makeConstraints({
             $0.center.equalToSuperview()
+        })
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.layoutIfNeeded()
         })
     }
     

@@ -24,4 +24,10 @@ extension UIApplication {
         }
         return controller
     }
+    
+    static func setNotificationBadge(count: Int) {
+        DispatchQueue.main.async {
+            UIApplication.shared.applicationIconBadgeNumber = count
+        }
+    }
 }

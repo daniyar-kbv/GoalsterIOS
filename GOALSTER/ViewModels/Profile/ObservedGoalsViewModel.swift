@@ -29,12 +29,14 @@ class ObservedGoalsViewModel {
                 return
             }
             APIManager.shared.getCalendar(observation: observation) {error, calendarRes in
-                SpinnerView.removeSpinnerView()
-                guard let calendarRes = calendarRes else {
-                    return
+                SpinnerView.completion = {
+                    guard let calendarRes = calendarRes else {
+                        return
+                    }
+                    self.response.onNext(res)
+                    self.calendarResponse = calendarRes
                 }
-                self.response.onNext(res)
-                self.calendarResponse = calendarRes
+                SpinnerView.removeSpinnerView()
             }
         }
     }

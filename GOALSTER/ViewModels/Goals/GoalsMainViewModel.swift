@@ -18,11 +18,13 @@ class GoalsMainViewModel {
     func todayGoals() {
         SpinnerView.showSpinnerView(view: view)
         APIManager.shared.todayGoals() { error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else {
-                return
+            SpinnerView.completion = {
+                guard let response = response else {
+                    return
+                }
+                self.response.onNext(response)
             }
-            self.response.onNext(response)
+            SpinnerView.removeSpinnerView()
         }
     }
     
@@ -30,11 +32,13 @@ class GoalsMainViewModel {
         if let id = id{
             SpinnerView.showSpinnerView(view: view)
             APIManager.shared.doneGoal(id: id) { error, response in
-                SpinnerView.removeSpinnerView()
-                guard let response = response else {
-                    return
+                SpinnerView.completion = {
+                    guard let response = response else {
+                        return
+                    }
+                    self.done.onNext(response)
                 }
-                self.done.onNext(response)
+                SpinnerView.removeSpinnerView()
             }
         }
     }

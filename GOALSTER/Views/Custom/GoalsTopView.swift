@@ -49,7 +49,7 @@ class GoalView: UIView {
         label.textColor = .customTextDarkPurple
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
-        label.text = AppShared.sharedInstance.selectedSpheres?[index].sphere ?? ""
+        label.text = AppShared.sharedInstance.selectedSpheres?[index].sphere?.localized ?? ""
         return label
     }()
     
@@ -79,7 +79,7 @@ class GoalView: UIView {
         })
         
         nameLabel.snp.makeConstraints({
-            $0.left.right.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(StaticSize.size(5))
             $0.bottom.equalToSuperview().offset(-StaticSize.size(11))
         })
     }

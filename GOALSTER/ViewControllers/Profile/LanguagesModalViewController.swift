@@ -19,10 +19,11 @@ class LanguagesModalViewController: CustomModalViewController, UITableViewDelega
     var success: Bool? {
         didSet {
             ModuleUserDefaults.setLanguage(selectedLanguage)
-            let vc = NavigationMenuBaseController()
-            AppShared.sharedInstance.tabBarController = vc
-            self.navigationController?.pushViewController(vc, animated: false)
-            vc.toTab(tab: 4)
+            if let vc = UIApplication.topViewController() as? ProfileMainViewController {
+                vc.viewDidLoad()
+                vc.profileView.tableView.reloadData()
+                AppShared.sharedInstance.tabBarController.reloadOnLanguageChange()
+            }
         }
     }
     

@@ -21,8 +21,8 @@ class CustomFieldWithLabel: UIView, UITextViewDelegate {
         return view
     }()
     
-    lazy var textView: CustomTextView = {
-        let view = CustomTextView()
+    lazy var textView: TextViewWithInput = {
+        let view = TextViewWithInput()
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.borderWidth = 0.5
         view.layer.cornerRadius = StaticSize.size(5)
@@ -31,10 +31,6 @@ class CustomFieldWithLabel: UIView, UITextViewDelegate {
         view.textColor = .lightGray
         view.isScrollEnabled = false
         view.delegate_ = self
-        view.constraints_ = {
-            $0.top.equalTo(self.label.snp.bottom).offset(StaticSize.size(6))
-            $0.left.right.bottom.equalToSuperview()
-        }
         view.textContainerInset = UIEdgeInsets(top: StaticSize.size(11), left: StaticSize.size(StaticSize.size(5)), bottom: StaticSize.size(9), right: StaticSize.size(11))
         return view
     }()
@@ -66,15 +62,6 @@ class CustomFieldWithLabel: UIView, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        let keyboardSize = AppShared.sharedInstance.openedKeyboardSize!
-        let window = Global.keyWindow!
-        let globalPoint = textView.superview?.convert(textView.frame, to: nil)
-        initialHeight = globalPoint?.maxY ?? 0
-        if window.frame.origin.y == 0{
-            if (ScreenSize.SCREEN_HEIGHT - ((globalPoint?.maxY ?? 0) + StaticSize.size(50))) < keyboardSize.height {
-                window.frame.origin.y -= (keyboardSize.height - (ScreenSize.SCREEN_HEIGHT - initialHeight)) + StaticSize.size(100)
-            }
-        }
         if textView.textColor == .lightGray {
             textView.text = nil
             textView.textColor = .customTextBlack
@@ -82,18 +69,12 @@ class CustomFieldWithLabel: UIView, UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        let keyboardSize = AppShared.sharedInstance.openedKeyboardSize!
-        let window = Global.keyWindow!
-        let globalPoint = textView.superview?.convert(textView.frame, to: nil)
-        if window.frame.origin.y != 0{
-            window.frame.origin.y += (keyboardSize.height - (ScreenSize.SCREEN_HEIGHT - initialHeight)) + StaticSize.size(100)
-        }
-        if textView.text.isEmpty {
-            textView.text = placeholder
-            textView.textColor = .lightGray
-        }
         if let onChange = onChange {
             onChange()
+        }
+        if textView.text == "" {
+            textView.text = placeholder
+            textView.textColor = .lightGray
         }
     }
     

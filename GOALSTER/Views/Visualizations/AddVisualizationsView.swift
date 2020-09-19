@@ -132,8 +132,8 @@ class AddVisualizationsView: UIView, UITextViewDelegate {
         return label
     }()
     
-    lazy var thirdBottom: CustomTextView = {
-        let view = CustomTextView()
+    lazy var thirdBottom: TextViewWithInput = {
+        let view = TextViewWithInput()
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.borderWidth = 0.5
         view.layer.cornerRadius = StaticSize.size(5)
@@ -142,9 +142,6 @@ class AddVisualizationsView: UIView, UITextViewDelegate {
         view.textColor = .lightGray
         view.isScrollEnabled = false
         view.delegate_ = self
-        view.constraints_ = {
-            $0.height.equalTo(StaticSize.size(36)).priority(.low)
-        }
         view.textContainerInset = UIEdgeInsets(top: StaticSize.size(11), left: StaticSize.size(StaticSize.size(5)), bottom: StaticSize.size(9), right: StaticSize.size(11))
         return view
     }()
@@ -385,6 +382,6 @@ class AddVisualizationsView: UIView, UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
-        return numberOfChars < 10
+        return numberOfChars < 32
     }
 }

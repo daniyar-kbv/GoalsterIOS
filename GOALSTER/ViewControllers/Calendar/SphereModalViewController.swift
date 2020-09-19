@@ -36,6 +36,7 @@ class SphereModalViewController: CustomModalViewController, UITableViewDelegate,
         let cell = tableView.dequeueReusableCell(withIdentifier: SphereCell.reuseIdentifier, for: indexPath) as! SphereCell
         cell.index = spheresToShow[indexPath.row]
         cell.sphere = ModuleUserDefaults.getSpheres()?[spheresToShow[indexPath.row]]
+        cell.isActive = cell.sphere?.sphere == AppShared.sharedInstance.modalSelectedSphere?.0.sphere
         return cell
     }
     
@@ -49,6 +50,8 @@ class SphereModalViewController: CustomModalViewController, UITableViewDelegate,
                 } else if let parentVc = parent as? AddVisualizationViewController {
                     parentVc.selectedSphere = (cell.sphere!, cell.index!)
                 }
+                animateDown()
+                AppShared.sharedInstance.modalSelectedSphere = nil
             }
         }
     }

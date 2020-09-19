@@ -30,6 +30,12 @@ struct APIManager {
         }
     }
     
+    func updateSpheres(descriptions: [String], completion:@escaping(_ error:String?,_ module: ChooseSpheresResponse?)->()) {
+        router.request(.updateSpheres(descriptions: descriptions), returning: ChooseSpheresResponse?.self) { error, response in
+            completion(error, response as? ChooseSpheresResponse)
+        }
+    }
+    
     func getGoals(date: String?, observation: Int?, completion:@escaping(_ error:String?,_ module: GoalsResponse?)->()) {
         router.request(.goals(date: date, observation: observation), returning: GoalsResponse?.self) { error, response in
             completion(error, response as? GoalsResponse)
@@ -90,6 +96,12 @@ struct APIManager {
         }
     }
     
+    func deleteVisualization(id: Int, completion: @escaping(_ error:String?,_ module: Bool?)->()) {
+        router.request(.deleteVisualization(id: id), returning: Bool?.self, boolResult: true) { error, response in
+            completion(error, response as? Bool)
+        }
+    }
+    
     func getObserved(completion:@escaping(_ error:String?,_ module: ObservedResponse?)->()) {
         router.request(.getObserved, returning: ObservedResponse?.self) { error, response in
             completion(error, response as? ObservedResponse)
@@ -138,9 +150,15 @@ struct APIManager {
         }
     }
     
-    func testPremium(completion:@escaping(_ error:String?,_ module: Bool?)->()) {
-        router.request(.testPremium, returning: Bool?.self, boolResult: true) { error, response in
+    func premium(identifier: String, date: String, productType: ProductType, completion:@escaping(_ error:String?,_ module: Bool?)->()) {
+        router.request(.premium(identifier: identifier, date: date, productType: productType), returning: Bool?.self, boolResult: true) { error, response in
             completion(error, response as? Bool)
+        }
+    }
+    
+    func results(completion:@escaping(_ error:String?,_ module: ResultsResponse?)->()) {
+        router.request(.results, returning: ResultsResponse?.self) { error, response in
+            completion(error, response as? ResultsResponse)
         }
     }
 }

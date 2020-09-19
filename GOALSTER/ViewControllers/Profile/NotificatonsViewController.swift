@@ -10,10 +10,11 @@ import Foundation
 import UIKit
 import RxSwift
 
-class NotificatonsViewController: ProfileBaseViewController {
+class NotificatonsViewController: ProfileBaseViewController, UIGestureRecognizerDelegate {
     lazy var notificationsView = NotificationsView()
     lazy var viewModel = NotificationsViewModel()
     lazy var disposeBag = DisposeBag()
+    var notificationsStatus: UNAuthorizationStatus = .notDetermined
     
     var success: Bool? {
         didSet {
@@ -36,6 +37,9 @@ class NotificatonsViewController: ProfileBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.delegate = self
+        AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = true
+        
         setTitle("Notifications".localized)
         
         notificationsView.tableView.delegate = self
@@ -43,7 +47,37 @@ class NotificatonsViewController: ProfileBaseViewController {
         
         bind()
         
-        viewModel.getNotifications()
+        check()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onWillEnterForegroundNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = false
+    }
+    
+    @objc func onWillEnterForegroundNotification(){
+        check()
+    }
+    
+    func check() {
+        UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { settings in
+            self.notificationsStatus = settings.authorizationStatus
+            DispatchQueue.main.async {
+                switch settings.authorizationStatus {
+                case .authorized, .provisional:
+                    self.viewModel.getNotifications()
+                case .denied:
+                    self.isOn = false
+                case .notDetermined:
+                    print("not determined, ask user for permission now")
+                @unknown default:
+                    break
+                }
+            }
+        })
     }
     
     func bind() {
@@ -59,9 +93,14 @@ class NotificatonsViewController: ProfileBaseViewController {
         }).disposed(by: disposeBag)
     }
     
-    func changeNotifications(_ isOn: Bool) {
-        self.isOn = isOn
-        viewModel.changeNotifications(isOn: isOn)
+    func changeNotifications(_ sender: UISwitch) {
+        if [UNAuthorizationStatus.authorized, UNAuthorizationStatus.provisional].contains(notificationsStatus) {
+            self.isOn = sender.isOn
+            viewModel.changeNotifications(isOn: sender.isOn)
+        } else {
+            sender.isOn.toggle()
+            showAlertOk(title: "Allow push-notifications in settings".localized)
+        }
     }
 }
 

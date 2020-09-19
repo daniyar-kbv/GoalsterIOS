@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SnapKit
+import StoreKit
 
 class CustomButton: UIButton {
     var backgroundImage: UIImage = UIImage(named: "buttonBack")!
@@ -76,5 +77,19 @@ class CustomButtonTwoText: CustomButton {
     
     func setRightTitle(text: String) {
         rightTitle.text = text
+    }
+}
+
+class ProductButton: CustomButton {
+    var product: SKProduct
+    
+    required init(product: SKProduct) {
+        self.product = product
+        
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

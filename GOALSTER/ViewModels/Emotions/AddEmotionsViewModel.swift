@@ -22,11 +22,13 @@ class AddEmotionsViewModel {
         }
         SpinnerView.showSpinnerView()
         APIManager.shared.addEmotions(answers: answers) { error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else {
-                return
+            SpinnerView.completion = {
+                guard let response = response else {
+                    return
+                }
+                self.success.onNext(response)
             }
-            self.success.onNext(response)
+            SpinnerView.removeSpinnerView()
         }
     }
 }

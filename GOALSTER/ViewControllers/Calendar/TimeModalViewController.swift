@@ -43,6 +43,7 @@ class TimeModalViewController: CustomModalViewController, UITableViewDelegate, U
         default:
             break
         }
+        cell.isActive = cell.time == AppShared.sharedInstance.modalSelectedTime
         return cell
     }
     
@@ -53,6 +54,8 @@ class TimeModalViewController: CustomModalViewController, UITableViewDelegate, U
             if i == indexPath.row{
                 let parentVc = parent as! AddGoalViewController
                 parentVc.selectedTime = cell.time
+                animateDown()
+                AppShared.sharedInstance.modalSelectedTime = nil
             }
         }
     }

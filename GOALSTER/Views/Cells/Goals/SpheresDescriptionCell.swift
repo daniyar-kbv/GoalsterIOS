@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 class SpheresDescriptionSmallView: UIView, UITextViewDelegate {
+    var initialHeight: CGFloat = 0
+    
     var sphere: (key: Sphere, value: String)? {
         didSet {
             icon.image = sphere?.key.icon_active.image
@@ -68,21 +70,13 @@ class SpheresDescriptionSmallView: UIView, UITextViewDelegate {
         return view
     }()
     
-    lazy var textView: CustomTextView = {
-        let view = CustomTextView()
+    lazy var textView: TextViewWithInput = {
+        let view = TextViewWithInput()
         view.font = .gotham(ofSize: StaticSize.size(15), weight: .book)
         view.textColor = .lightGray
         view.text = "Enter description here".localized
         view.isScrollEnabled = false
         view.delegate_ = self
-        view.constraints_ = {
-//            let newSize = self.sizeThatFits(CGSize(width: ScreenSize.SCREEN_WIDTH - StaticSize.size(94), height: CGFloat.greatestFiniteMagnitude))
-            $0.top.equalToSuperview().offset(StaticSize.size(5))
-            $0.left.equalTo(self.leftView.snp.right)
-            $0.right.equalToSuperview().offset(-StaticSize.size(15))
-            $0.bottom.equalToSuperview().offset(-StaticSize.size(5))
-//            $0.height.equalTo(newSize.height)
-        }
         return view
     }()
     
@@ -132,12 +126,10 @@ class SpheresDescriptionSmallView: UIView, UITextViewDelegate {
         })
         
         textView.snp.makeConstraints({
-//            let newSize = textView.sizeThatFits(CGSize(width: ScreenSize.SCREEN_WIDTH - StaticSize.size(94), height: CGFloat.greatestFiniteMagnitude))
             $0.top.equalToSuperview().offset(StaticSize.size(5))
             $0.left.equalTo(leftView.snp.right)
             $0.right.equalToSuperview().offset(-StaticSize.size(15))
             $0.bottom.equalToSuperview().offset(-StaticSize.size(5))
-//            $0.height.equalTo(newSize.height)
         })
     }
     
@@ -152,17 +144,15 @@ class SpheresDescriptionSmallView: UIView, UITextViewDelegate {
         if let onChange = onChange {
             onChange(textView)
         }
+        if textView.text.isEmpty {
+            textView.text = "Enter description here".localized
+            textView.textColor = .lightGray
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {
         if let onChange = onChange {
             onChange(textView)
         }
-//        let fixedWidth = textView.frame.size.width
-//        textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-//        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-//        textView.snp.updateConstraints({
-//            $0.height.equalTo(newSize.height)
-//        })
     }
 }

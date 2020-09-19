@@ -64,8 +64,8 @@ class HelpView: UIView, UITextViewDelegate {
         return label
     }()
     
-    lazy var textView: CustomTextView = {
-        let view = CustomTextView()
+    lazy var textView: TextViewWithInput = {
+        let view = TextViewWithInput()
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.borderWidth = 0.5
         view.layer.cornerRadius = StaticSize.size(5)
@@ -74,10 +74,6 @@ class HelpView: UIView, UITextViewDelegate {
         view.textColor = .lightGray
         view.isScrollEnabled = false
         view.delegate_ = self
-        view.constraints_ = {
-            $0.top.equalTo(self.topLabel.snp.bottom).offset(-StaticSize.size(10))
-            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-        }
         view.textContainerInset = UIEdgeInsets(top: StaticSize.size(11), left: StaticSize.size(StaticSize.size(5)), bottom: StaticSize.size(9), right: StaticSize.size(11))
         return view
     }()

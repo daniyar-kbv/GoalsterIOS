@@ -15,15 +15,20 @@ class EmotionsMainViewController: BaseViewController {
     lazy var state: EmotionsState = .notAdded
     lazy var viewModel = EmotionsMainViewModel()
     lazy var disposeBag = DisposeBag()
+    lazy var initial = true
     var currentPage: Int?
+    
     var emotions: [EmotionAnswer]? {
         didSet {
             state = emotions?.count ?? 0 > 0 ? .added : .notAdded
             emotionsView.progress.number = emotions?.count ?? 0
             emotionsView.finishSetUp(state: state)
             emotionsView.collection.reloadData()
-            currentPage = 1
-            emotionsView.progress.setProgress(number: currentPage ?? 1)
+            if initial {
+                currentPage = 1
+            }
+            emotionsView.progress.setProgress(number: currentPage, animated: false)
+            initial = false
         }
     }
     
@@ -38,7 +43,7 @@ class EmotionsMainViewController: BaseViewController {
         
         setTitle("Emotions of the day".localized)
         
-        viewModel.view = emotionsView
+        viewModel.view = view
         
         emotionsView.collection.dataSource = self
         emotionsView.collection.delegate = self
@@ -58,7 +63,7 @@ class EmotionsMainViewController: BaseViewController {
         default:
             break
         }
-        
+//        
         onAppear()
     }
     
@@ -107,8 +112,8 @@ extension EmotionsMainViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmotionCell.reuseIdentifier, for: indexPath) as! EmotionCell
-        cell.text.text = emotions?[indexPath.row].answer
-        cell.question.text = emotions?[indexPath.row].question
+        cell.text.text = emotions?[indexPath.row].answer?.localized
+        cell.question.text = emotions?[indexPath.row].question?.localized
         return cell
     }
     

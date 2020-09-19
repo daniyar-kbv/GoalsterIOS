@@ -36,6 +36,7 @@ class ObserverSuccessView: UIView {
         view.font = .gotham(ofSize: StaticSize.size(15), weight: .book)
         view.textColor = .customTextDarkPurple
         view.text = "You have made right descision".localized
+        view.textAlignment = .center
         return view
     }()
     

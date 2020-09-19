@@ -17,8 +17,8 @@ class ProfilePremiumView: UIView {
         return view
     }()
     
-    lazy var premiumVIew: PremiumView = {
-        let view = PremiumView()
+    lazy var premiumVIew: UIView = {
+        let view = UIView()
         return view
     }()
     

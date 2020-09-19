@@ -42,7 +42,7 @@ class SphereModalView: UIView{
         
         topTitle.snp.makeConstraints({
             $0.top.equalToSuperview()
-            $0.left.equalToSuperview().offset(StaticSize.size(15))
+            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
         })
         
         tableView.snp.makeConstraints({

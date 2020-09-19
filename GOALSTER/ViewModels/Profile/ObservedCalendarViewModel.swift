@@ -23,11 +23,13 @@ class ObservedCalendarViewModel {
     func getCelendar(observation: Int) {
         SpinnerView.showSpinnerView()
         APIManager.shared.getCalendar(observation: observation) {error, calendarRes in
-            SpinnerView.removeSpinnerView()
-            guard let calendarRes = calendarRes else {
-                return
+            SpinnerView.completion = {
+                guard let calendarRes = calendarRes else {
+                    return
+                }
+                self.calendarResponse = calendarRes
             }
-            self.calendarResponse = calendarRes
+            SpinnerView.removeSpinnerView()
         }
     }
 }

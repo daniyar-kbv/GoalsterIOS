@@ -23,11 +23,13 @@ class EmotionsMainViewModel {
     func getEmotions() {
         SpinnerView.showSpinnerView(view: view)
         APIManager.shared.getEmotions() { error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else {
-                return
+            SpinnerView.completion = {
+                guard let response = response else {
+                    return
+                }
+                self.response = response
             }
-            self.response = response
+            SpinnerView.removeSpinnerView()
         }
     }
 }

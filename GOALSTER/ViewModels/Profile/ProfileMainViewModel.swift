@@ -24,14 +24,16 @@ class ProfileMainViewModel {
     func connect() {
         SpinnerView.showSpinnerView(view: view)
         APIManager.shared.connect(){ error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else {
-                return
+            SpinnerView.completion = {
+                guard let response = response else {
+                    return
+                }
+                ModuleUserDefaults.setHasSpheres(response.hasSpheres ?? false)
+                ModuleUserDefaults.setEmail(response.email ?? "")
+                ModuleUserDefaults.setIsPremium(response.isPremium ?? false)
+                self.response = response
             }
-            ModuleUserDefaults.setHasSpheres(response.hasSpheres ?? false)
-            ModuleUserDefaults.setEmail(response.email ?? "")
-            ModuleUserDefaults.setIsPremium(response.isPremium ?? false)
-            self.response = response
+            SpinnerView.removeSpinnerView()
         }
     }
 }

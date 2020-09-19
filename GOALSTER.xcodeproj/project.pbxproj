@@ -20,6 +20,8 @@
 		1538D87824ED216B00DB873E /* Visualizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538D87724ED216B00DB873E /* Visualizations.swift */; };
 		1538D87A24ED260C00DB873E /* AddVisualizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538D87924ED260C00DB873E /* AddVisualizationsView.swift */; };
 		1538D87C24ED27A300DB873E /* AddVisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538D87B24ED27A300DB873E /* AddVisualizationViewController.swift */; };
+		15398F3625062E0E00E481AD /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15398F3525062E0E00E481AD /* SKProduct.swift */; };
+		15398F3825064EAB00E481AD /* PremiumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15398F3725064EAB00E481AD /* PremiumViewModel.swift */; };
 		153BAA3224E29602007A92BB /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BAA3124E29602007A92BB /* TabItem.swift */; };
 		153BAA3424E29698007A92BB /* NavigationBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BAA3324E29698007A92BB /* NavigationBaseController.swift */; };
 		153BAA3624E296D1007A92BB /* TabNavigationMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BAA3524E296D1007A92BB /* TabNavigationMenu.swift */; };
@@ -51,6 +53,7 @@
 		153BAA7424E5773B007A92BB /* ChooseSpheresViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BAA7324E5773B007A92BB /* ChooseSpheresViewModel.swift */; };
 		153BAA7624E58D3B007A92BB /* Connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BAA7524E58D3B007A92BB /* Connect.swift */; };
 		1548C7FA24F7E1C000CFA319 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1548C7F924F7E1C000CFA319 /* CustomTextView.swift */; };
+		1561533724FD1E5D00A30D3C /* TextViewWithInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1561533624FD1E5D00A30D3C /* TextViewWithInput.swift */; };
 		1564D4E924EAA0D100885E9A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564D4E824EAA0D100885E9A /* CalendarViewController.swift */; };
 		1564D4EB24EAAEE000885E9A /* CalendarHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564D4EA24EAAEE000885E9A /* CalendarHeaderCell.swift */; };
 		1564D4EE24EBE5CE00885E9A /* EmotionsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564D4ED24EBE5CE00885E9A /* EmotionsMainView.swift */; };
@@ -63,6 +66,12 @@
 		1564D4FF24EC333A00885E9A /* AddEmotionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564D4FE24EC333A00885E9A /* AddEmotionsView.swift */; };
 		1564D50124EC353200885E9A /* AddEmotionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564D50024EC353200885E9A /* AddEmotionsViewModel.swift */; };
 		1564D50324EC369600885E9A /* AddEmotionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564D50224EC369600885E9A /* AddEmotionsViewController.swift */; };
+		1565E34A24FFA079000BDC0D /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1565E34924FFA079000BDC0D /* ResultsView.swift */; };
+		1565E34C24FFA27A000BDC0D /* ResultSmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1565E34B24FFA27A000BDC0D /* ResultSmallView.swift */; };
+		1565E34E24FFA2D8000BDC0D /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1565E34D24FFA2D8000BDC0D /* Results.swift */; };
+		1565E35024FFA68C000BDC0D /* ResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1565E34F24FFA68C000BDC0D /* ResultsViewModel.swift */; };
+		1565E35224FFA72B000BDC0D /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1565E35124FFA72B000BDC0D /* ResultsViewController.swift */; };
+		1565E35424FFAF93000BDC0D /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1565E35324FFAF93000BDC0D /* NSObject.swift */; };
 		157552AF24ED31770092111C /* AddVisualizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157552AE24ED31770092111C /* AddVisualizationViewModel.swift */; };
 		157552B224ED40190092111C /* VisualizationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157552B124ED40190092111C /* VisualizationCell.swift */; };
 		157552B624ED40F70092111C /* VisualizationSmallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157552B524ED40F70092111C /* VisualizationSmallCell.swift */; };
@@ -78,6 +87,8 @@
 		15B4755224EE844F0025EC31 /* ImageSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B4755124EE844F0025EC31 /* ImageSliderViewController.swift */; };
 		15B4755424EE8C2C0025EC31 /* ObservedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B4755324EE8C2C0025EC31 /* ObservedCell.swift */; };
 		15B4755624EE8DCA0025EC31 /* Observations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B4755524EE8DCA0025EC31 /* Observations.swift */; };
+		15D4D177250115CE00CE824F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15D4D176250115CE00CE824F /* StoreKit.framework */; };
+		15D4D17925011AF900CE824F /* PremiumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D4D17825011AF900CE824F /* PremiumViewController.swift */; };
 		15DD1D3424F2DBCE005A547B /* LanguagesModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD1D3324F2DBCE005A547B /* LanguagesModalView.swift */; };
 		15DD1D3624F2DC08005A547B /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD1D3524F2DC08005A547B /* LanguageCell.swift */; };
 		15EB1A1E24E1352D00202917 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB1A1D24E1352D00202917 /* AppDelegate.swift */; };
@@ -236,6 +247,8 @@
 		1538D87724ED216B00DB873E /* Visualizations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visualizations.swift; sourceTree = "<group>"; };
 		1538D87924ED260C00DB873E /* AddVisualizationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVisualizationsView.swift; sourceTree = "<group>"; };
 		1538D87B24ED27A300DB873E /* AddVisualizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVisualizationViewController.swift; sourceTree = "<group>"; };
+		15398F3525062E0E00E481AD /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
+		15398F3725064EAB00E481AD /* PremiumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewModel.swift; sourceTree = "<group>"; };
 		153BAA3124E29602007A92BB /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
 		153BAA3324E29698007A92BB /* NavigationBaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBaseController.swift; sourceTree = "<group>"; };
 		153BAA3524E296D1007A92BB /* TabNavigationMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabNavigationMenu.swift; sourceTree = "<group>"; };
@@ -267,6 +280,7 @@
 		153BAA7324E5773B007A92BB /* ChooseSpheresViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseSpheresViewModel.swift; sourceTree = "<group>"; };
 		153BAA7524E58D3B007A92BB /* Connect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connect.swift; sourceTree = "<group>"; };
 		1548C7F924F7E1C000CFA319 /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
+		1561533624FD1E5D00A30D3C /* TextViewWithInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewWithInput.swift; sourceTree = "<group>"; };
 		1564D4E824EAA0D100885E9A /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		1564D4EA24EAAEE000885E9A /* CalendarHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderCell.swift; sourceTree = "<group>"; };
 		1564D4ED24EBE5CE00885E9A /* EmotionsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionsMainView.swift; sourceTree = "<group>"; };
@@ -279,6 +293,12 @@
 		1564D4FE24EC333A00885E9A /* AddEmotionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmotionsView.swift; sourceTree = "<group>"; };
 		1564D50024EC353200885E9A /* AddEmotionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmotionsViewModel.swift; sourceTree = "<group>"; };
 		1564D50224EC369600885E9A /* AddEmotionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmotionsViewController.swift; sourceTree = "<group>"; };
+		1565E34924FFA079000BDC0D /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		1565E34B24FFA27A000BDC0D /* ResultSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSmallView.swift; sourceTree = "<group>"; };
+		1565E34D24FFA2D8000BDC0D /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
+		1565E34F24FFA68C000BDC0D /* ResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewModel.swift; sourceTree = "<group>"; };
+		1565E35124FFA72B000BDC0D /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		1565E35324FFAF93000BDC0D /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
 		157552AE24ED31770092111C /* AddVisualizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVisualizationViewModel.swift; sourceTree = "<group>"; };
 		157552B124ED40190092111C /* VisualizationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizationCell.swift; sourceTree = "<group>"; };
 		157552B524ED40F70092111C /* VisualizationSmallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizationSmallCell.swift; sourceTree = "<group>"; };
@@ -294,6 +314,8 @@
 		15B4755124EE844F0025EC31 /* ImageSliderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderViewController.swift; sourceTree = "<group>"; };
 		15B4755324EE8C2C0025EC31 /* ObservedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedCell.swift; sourceTree = "<group>"; };
 		15B4755524EE8DCA0025EC31 /* Observations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observations.swift; sourceTree = "<group>"; };
+		15D4D176250115CE00CE824F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		15D4D17825011AF900CE824F /* PremiumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewController.swift; sourceTree = "<group>"; };
 		15DD1D3324F2DBCE005A547B /* LanguagesModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesModalView.swift; sourceTree = "<group>"; };
 		15DD1D3524F2DC08005A547B /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
 		15EB1A1A24E1352D00202917 /* Goalster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Goalster.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -440,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA5C5CF746308646776E7D9B /* Pods_GOALSTER.framework in Frameworks */,
+				15D4D177250115CE00CE824F /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +488,7 @@
 		112757F8C3ACF93C1F38B07C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15D4D176250115CE00CE824F /* StoreKit.framework */,
 				4A979039146EB838C63E9A04 /* Pods_GOALSTER.framework */,
 				79A95F548C32248EAD38C71A /* Pods_GOALSTER_GOALSTERUITests.framework */,
 				A3D313CB5A42D96F6CB33227 /* Pods_GOALSTERTests.framework */,
@@ -519,6 +543,7 @@
 				153BAA3C24E2AA9A007A92BB /* GoalsMainView.swift */,
 				153BAA6424E42A11007A92BB /* SpheresListView.swift */,
 				153BAA6A24E44585007A92BB /* SpheresDescriptionView.swift */,
+				1565E34924FFA079000BDC0D /* ResultsView.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -541,6 +566,7 @@
 				153BAA5024E2F5FD007A92BB /* GoalsMainViewController.swift */,
 				153BAA6624E42C27007A92BB /* SpheresListViewController.swift */,
 				153BAA6C24E448C2007A92BB /* SpheresDescriptionViewController.swift */,
+				1565E35124FFA72B000BDC0D /* ResultsViewController.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -565,6 +591,7 @@
 			isa = PBXGroup;
 			children = (
 				153BAA5D24E3E787007A92BB /* AuthViewModel.swift */,
+				15398F3725064EAB00E481AD /* PremiumViewModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -585,6 +612,7 @@
 			children = (
 				15F5787724EA8A38005447F4 /* GoalsMainViewModel.swift */,
 				153BAA7324E5773B007A92BB /* ChooseSpheresViewModel.swift */,
+				1565E34F24FFA68C000BDC0D /* ResultsViewModel.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -784,6 +812,8 @@
 				15EB1A6324E1374400202917 /* Bundle.swift */,
 				153BAA5F24E3F696007A92BB /* UIImage.swift */,
 				15F5784F24E9441D005447F4 /* Date.swift */,
+				1565E35324FFAF93000BDC0D /* NSObject.swift */,
+				15398F3525062E0E00E481AD /* SKProduct.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -892,6 +922,7 @@
 				1538D87724ED216B00DB873E /* Visualizations.swift */,
 				15B4755524EE8DCA0025EC31 /* Observations.swift */,
 				1515DA1624F3BB4F00E98C28 /* Notifications.swift */,
+				1565E34D24FFA2D8000BDC0D /* Results.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -915,6 +946,8 @@
 				15B4754924EE7FAB0025EC31 /* ProfileBaseView.swift */,
 				15F98E3824EECE3B005EA63A /* ObservationSmallView.swift */,
 				1548C7F924F7E1C000CFA319 /* CustomTextView.swift */,
+				1561533624FD1E5D00A30D3C /* TextViewWithInput.swift */,
+				1565E34B24FFA27A000BDC0D /* ResultSmallView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -927,6 +960,7 @@
 				153BAA4024E2E97F007A92BB /* BaseViewController.swift */,
 				15B4754B24EE80400025EC31 /* ProfileBaseViewController.swift */,
 				15F98E2E24EEC3C3005EA63A /* CalendarBaseViewController.swift */,
+				15D4D17825011AF900CE824F /* PremiumViewController.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1326,6 +1360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15F98E3324EEC764005EA63A /* ObservedCalendarViewModel.swift in Sources */,
+				1565E35424FFAF93000BDC0D /* NSObject.swift in Sources */,
 				15F5786C24E9BC42005447F4 /* SearchObserverViewController.swift in Sources */,
 				15EB1A9D24E1394000202917 /* CustomLabel.swift in Sources */,
 				1538D87624ED1D3000DB873E /* VisulizationsMainViewModel.swift in Sources */,
@@ -1335,9 +1370,11 @@
 				15B4754824EE7F630025EC31 /* ObservedView.swift in Sources */,
 				15F5785C24E9961A005447F4 /* AddGoalView.swift in Sources */,
 				153BAA6524E42A11007A92BB /* SpheresListView.swift in Sources */,
+				15398F3625062E0E00E481AD /* SKProduct.swift in Sources */,
 				15EB1A8224E1374500202917 /* UIApplication.swift in Sources */,
 				1564D4F324EBF50200885E9A /* Emotions.swift in Sources */,
 				153BAA3624E296D1007A92BB /* TabNavigationMenu.swift in Sources */,
+				15398F3825064EAB00E481AD /* PremiumViewModel.swift in Sources */,
 				157552AF24ED31770092111C /* AddVisualizationViewModel.swift in Sources */,
 				15EB1A8324E1374500202917 /* Bundle.swift in Sources */,
 				15EB1AA824E1396D00202917 /* CustomModalViewController.swift in Sources */,
@@ -1351,6 +1388,7 @@
 				15F743C624F3A5FC006A304C /* LanguagesModalViewController.swift in Sources */,
 				15F5787824EA8A38005447F4 /* GoalsMainViewModel.swift in Sources */,
 				15F5784324E833E3005447F4 /* DayView.swift in Sources */,
+				1565E34E24FFA2D8000BDC0D /* Results.swift in Sources */,
 				15B4754A24EE7FAB0025EC31 /* ProfileBaseView.swift in Sources */,
 				15EB1A7824E1374400202917 /* Int.swift in Sources */,
 				15EB1A9424E137E800202917 /* NavigationController.swift in Sources */,
@@ -1371,6 +1409,7 @@
 				15EB1A6F24E1374400202917 /* Global.swift in Sources */,
 				157552B624ED40F70092111C /* VisualizationSmallCell.swift in Sources */,
 				152C2B2B24E18A1600C83ECD /* OnBoardingPremiumCell.swift in Sources */,
+				1565E34A24FFA079000BDC0D /* ResultsView.swift in Sources */,
 				1538D87824ED216B00DB873E /* Visualizations.swift in Sources */,
 				157552B224ED40190092111C /* VisualizationCell.swift in Sources */,
 				15B4755224EE844F0025EC31 /* ImageSliderViewController.swift in Sources */,
@@ -1382,6 +1421,7 @@
 				15F5784624E83642005447F4 /* CalendarSmallCell.swift in Sources */,
 				1538D87324ED1CB500DB873E /* VisualizationsMainViewController.swift in Sources */,
 				15F98E3D24EED8CB005EA63A /* ObserversView.swift in Sources */,
+				15D4D17925011AF900CE824F /* PremiumViewController.swift in Sources */,
 				15F5787A24EA949C005447F4 /* CalendarView.swift in Sources */,
 				15F5785824E9856F005447F4 /* TimeCell.swift in Sources */,
 				15EB1A7324E1374400202917 /* UIStackView.swift in Sources */,
@@ -1421,12 +1461,14 @@
 				1515DA1724F3BB4F00E98C28 /* Notifications.swift in Sources */,
 				15EB1A8B24E1374500202917 /* EndPointType.swift in Sources */,
 				15EB1A7924E1374400202917 /* UITextField.swift in Sources */,
+				1561533724FD1E5D00A30D3C /* TextViewWithInput.swift in Sources */,
 				15EB1A8524E1374500202917 /* AppShared.swift in Sources */,
 				15EB1AEB24E1675600202917 /* OnBoardingTextCell.swift in Sources */,
 				15F98E3524EECAD9005EA63A /* ObservedGoalsViewController.swift in Sources */,
 				1564D4EE24EBE5CE00885E9A /* EmotionsMainView.swift in Sources */,
 				15F5785224E95A91005447F4 /* GoalsHeaderCell.swift in Sources */,
 				15EB1A8424E1374500202917 /* MockData.swift in Sources */,
+				1565E35024FFA68C000BDC0D /* ResultsViewModel.swift in Sources */,
 				15F98E2B24EEAD4C005EA63A /* ObservedViewModel.swift in Sources */,
 				15F98E3724EECB05005EA63A /* ObservedGoalsViewModel.swift in Sources */,
 				15EB1AE824E15E3F00202917 /* IndicatorView.swift in Sources */,
@@ -1462,7 +1504,9 @@
 				1564D4F624EBF6BB00885E9A /* EmotionsMainViewModel.swift in Sources */,
 				15F5786424E9AE86005447F4 /* SphereModalViewController.swift in Sources */,
 				15F5786E24E9BCAC005447F4 /* SearchObserverViewModel.swift in Sources */,
+				1565E34C24FFA27A000BDC0D /* ResultSmallView.swift in Sources */,
 				15EB1AA124E1394900202917 /* Category.swift in Sources */,
+				1565E35224FFA72B000BDC0D /* ResultsViewController.swift in Sources */,
 				15F743D824F3B69F006A304C /* LanguagesViewModel.swift in Sources */,
 				1564D4FF24EC333A00885E9A /* AddEmotionsView.swift in Sources */,
 				153BAA6024E3F696007A92BB /* UIImage.swift in Sources */,
@@ -1680,7 +1724,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = mti.kz.Goalster;
+				PRODUCT_BUNDLE_IDENTIFIER = kz.mti.goalstertestapp;
 				PRODUCT_NAME = Goalster;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1701,7 +1745,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = mti.kz.Goalster;
+				PRODUCT_BUNDLE_IDENTIFIER = kz.mti.goalstertestapp;
 				PRODUCT_NAME = Goalster;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

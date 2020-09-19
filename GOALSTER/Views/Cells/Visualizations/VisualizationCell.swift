@@ -13,7 +13,7 @@ import Kingfisher
 class VisualizationCell: UICollectionViewCell {
     static let reuseIdentifier = "VisualizationCell"
     var onTap: ((_ visualizations: [Visualization]?, _ index: Int)->())?
-    
+    var onDelete: ((_ id: Int?)->())?
     var index: Int?
     var sphere: SphereVisualization? {
         didSet {
@@ -102,6 +102,8 @@ extension VisualizationCell: UICollectionViewDelegate, UICollectionViewDataSourc
             cell.image.kf.setImage(with: imageUrl)
         }
         cell.text.text = sphere?.visualizations?[indexPath.row].annotation ?? ""
+        cell.visualizationId = sphere?.visualizations?[indexPath.row].id
+        cell.onDelete = onDelete
         return cell
     }
     
@@ -114,18 +116,18 @@ extension VisualizationCell: UICollectionViewDelegate, UICollectionViewDataSourc
 
 extension VisualizationCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: StaticSize.size(150), height: StaticSize.size(189))
+        return CGSize(width: StaticSize.size(162), height: StaticSize.size(195))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: StaticSize.size(41), left: StaticSize.size(26), bottom: 0, right: StaticSize.size(26))
+        return UIEdgeInsets(top: StaticSize.size(41), left: StaticSize.size(20), bottom: 0, right: StaticSize.size(20))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return StaticSize.size(11)
+        return StaticSize.size(0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return StaticSize.size(11)
+        return StaticSize.size(0)
     }
 }

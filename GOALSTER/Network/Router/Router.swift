@@ -76,11 +76,12 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
                         let boolData = try JSONEncoder().encode(mBoolValue)
                         let apiResponse = try JSONDecoder().decode(T.self, from: boolData)
                         completion(nil, apiResponse)
+                        return
                     } catch {
                         
                     }
                 }
-                completion(NetworkResponse.noData.rawValue, nil)
+                completion(NetworkResponse.failed.localized, nil)
                 return
             }
             do {
@@ -92,7 +93,7 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
                         completion(apiResponse.getFirst(), nil)
                         return
                     } catch {
-                        completion(NetworkResponse.unableToDecode.rawValue, nil)
+                        completion(NetworkResponse.failed.localized, nil)
                         return
                     }
                 } else if statusCode == 200 && boolResult{
@@ -103,7 +104,7 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
                         completion(nil, apiResponse)
                         return
                     } catch {
-                        completion(NetworkResponse.unableToDecode.rawValue, nil)
+                        completion(NetworkResponse.failed.localized, nil)
                         return
                     }
                 }
@@ -111,7 +112,7 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
                 completion(nil, apiResponse)
             }
             catch {
-                completion(NetworkResponse.unableToDecode.rawValue,nil)
+                completion(NetworkResponse.failed.localized,nil)
             }
         case .failure(let error):
             completion(error, nil)
@@ -128,10 +129,14 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
         case authenticationError = "Вы не авторизованы"
         case badRequest = "Bad request"
         case outdated = "The url you requested is outdated."
-        case failed = "Произошла ошибка"
+        case failed = "Error uccured, please try egain"
         case noData = "Пустой ответ"
         case unableToDecode = "Мы не смогли лбр"
         case unauthorized
+        
+        var localized: String {
+            return self.rawValue.localized
+        }
     }
     
     fileprivate func handleNetworkResponse(_ response: HTTPURLResponse) -> Result<String>{

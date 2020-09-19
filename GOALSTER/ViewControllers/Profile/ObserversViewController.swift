@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import UIKit
 
-class ObserversViewController: ProfileBaseViewController {
+class ObserversViewController: ProfileBaseViewController, UIGestureRecognizerDelegate {
     lazy var profileView = ObserversView()
     lazy var viewModel = ObserversViewModel()
     lazy var disposeBag = DisposeBag()
@@ -43,6 +43,15 @@ class ObserversViewController: ProfileBaseViewController {
         
         bind()
         reload()
+        
+        AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.delegate = self
+        AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     func bind() {

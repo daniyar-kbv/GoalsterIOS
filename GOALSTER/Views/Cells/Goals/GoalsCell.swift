@@ -56,6 +56,7 @@ class GoalsCell: UITableViewCell {
     
     lazy var radio: UIButton = {
         let view = UIButton()
+        view.isUserInteractionEnabled = false
         return view
     }()
     

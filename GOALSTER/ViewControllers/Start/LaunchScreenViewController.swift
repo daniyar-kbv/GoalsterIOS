@@ -72,5 +72,6 @@ class LaunchScreenViewController: UIViewController {
         self.navigationController?.view.layer.add(transition, forKey: nil)
         let vc = ModuleUserDefaults.getIsInitial() ? AppShared.sharedInstance.tabBarController : StartViewController()
         self.navigationController?.pushViewController(vc, animated: false)
+        AppShared.sharedInstance.appLoaded = true
     }
 }

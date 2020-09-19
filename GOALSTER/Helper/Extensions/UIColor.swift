@@ -26,7 +26,8 @@ extension UIColor {
     static let customActivePurple = UIColor(hex: "#710FF4")
     static let customCalendarPurple = UIColor(hex: "#D0D0E8")
     static let customLightRed = UIColor(hex: "#FF6464")
-    
+    static let iOSBlue = UIColor(hex: "#147EFB")
+    static let iOSLightGray = UIColor(hex: "#ecf0f3")
     
 //  MARK: Methods
     

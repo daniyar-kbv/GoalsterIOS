@@ -12,7 +12,7 @@ import UIKit
 class NotificationCell: UITableViewCell {
     static let reuseIdentifier = "NotificationCell"
     
-    var onChange: ((_ isOn: Bool)->())?
+    var onChange: ((_ sender: UISwitch)->())?
     
     lazy var title: UILabel = {
         let label = UILabel()
@@ -56,7 +56,7 @@ class NotificationCell: UITableViewCell {
     
     @objc func onSwitch(_ sender: UISwitch) {
         if let onChange = onChange {
-            onChange(sender.isOn)
+            onChange(sender)
         }
     }
     

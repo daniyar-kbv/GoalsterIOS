@@ -37,16 +37,40 @@ class ChooseSpheresViewModel {
         ]
         SpinnerView.showSpinnerView()
         APIManager.shared.chooseSpheres(spheres: parameters){ error, response in
-            SpinnerView.removeSpinnerView()
-            guard let response = response else {
-                if let error = error{
-                    ErrorView.addToView(text: error)
-                } else {
-                    ErrorView.addToView()
+            SpinnerView.completion = {
+                guard let response = response else {
+                    if let error = error{
+                        ErrorView.addToView(text: error)
+                    } else {
+                        ErrorView.addToView()
+                    }
+                    return
                 }
-                return
+                self.response = response
             }
-            self.response = response
+            SpinnerView.removeSpinnerView()
+        }
+    }
+    
+    func updateSpheres(firstDescription: String, secondDescription: String, thirdDescription: String) {
+        var descriptions: [String] = []
+        descriptions.append(firstDescription)
+        descriptions.append(secondDescription)
+        descriptions.append(thirdDescription)
+        SpinnerView.showSpinnerView()
+        APIManager.shared.updateSpheres(descriptions: descriptions){ error, response in
+            SpinnerView.completion = {
+                guard let response = response else {
+                    if let error = error{
+                        ErrorView.addToView(text: error)
+                    } else {
+                        ErrorView.addToView()
+                    }
+                    return
+                }
+                self.response = response
+            }
+            SpinnerView.removeSpinnerView()
         }
     }
 }

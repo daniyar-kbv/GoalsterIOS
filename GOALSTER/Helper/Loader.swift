@@ -24,7 +24,6 @@ class SpinnerView: UIView {
         })
         return view
     }()
-    
     static var view: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -47,17 +46,54 @@ class SpinnerView: UIView {
         return view
     }()
     
-    static func showSpinnerView(view: UIView? = nil){
-        if let view = view{
-            view.showSpinnerViewCenter()
-        } else if let vc = UIApplication.topViewController() {
-            vc.view.showSpinnerViewFull()
+    private static var timer: Timer?
+    private static var dataGot: Bool?
+    static var completion: (()->())?
+    private static var secondPassed: Bool? {
+        didSet {
+            guard let secondPassed = secondPassed else { return }
+            remove()
         }
     }
     
+    static func showSpinnerView(view: UIView? = nil) {
+        print("asd")
+        print(view)
+        if let view = view{
+            view.showSpinnerViewFull()
+        } else if let vc = UIApplication.topViewController() {
+            vc.view.showSpinnerViewFull()
+        }
+        isLoading = true
+        runTimer()
+    }
+    
     static func removeSpinnerView(){
-        SpinnerView.view.removeFromSuperview()
-        SpinnerView.circleView.removeFromSuperview()
+        dataGot = true
+        remove()
+    }
+    
+    private static func remove() {
+        if secondPassed ?? false && dataGot ?? false {
+            UIView.animate(withDuration: 0.1, animations: {
+                SpinnerView.view.removeFromSuperview()
+                SpinnerView.circleView.removeFromSuperview()
+            }, completion: { _ in
+                if let completion = completion {
+                    completion()
+                    SpinnerView.completion = nil
+                }
+            })
+        }
+    }
+    
+    static func runTimer(){
+        secondPassed = false
+        dataGot = false
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            secondPassed = true
+            timer.invalidate()
+        }
     }
     
     override var layer: CAShapeLayer {

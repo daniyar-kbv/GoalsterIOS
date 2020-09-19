@@ -138,16 +138,13 @@ struct ModuleUserDefaults {
         return true
     }
     
-//    static func setDistrctId(id: Int) {
-//        let defaults = UserDefaults.standard
-//        defaults.setValue(id, forKey: "districtId")
-//    }
-//    
-//    static func getDistrctId() -> Int? {
-//        let defaults = UserDefaults.standard
-//        let id = defaults.value(forKey: "districtId") as? Int
-//        return id
-//    }
+    static func setFCMToken(_ value: String) {
+        defaults.setValue(value, forKey: "FCMToken")
+    }
+    
+    static func getFCMToken() -> String? {
+        return defaults.value(forKey: "FCMToken") as? String
+    }
     
     static func clear(){
         let domain = Bundle.main.bundleIdentifier!

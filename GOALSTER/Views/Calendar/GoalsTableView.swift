@@ -26,6 +26,7 @@ class GoalsTableView: UIView {
         view.register(GoalsHeaderCell.self, forCellReuseIdentifier: GoalsHeaderCell.reuseIdentifier)
         view.register(GoalsCell.self, forCellReuseIdentifier: GoalsCell.reuseIdentifier)
         view.backgroundColor = .clear
+        view.estimatedRowHeight = StaticSize.size(70)
         return view
     }()
     

@@ -85,14 +85,14 @@ extension UIViewController {
         
         vc.view.snp.makeConstraints({
             $0.top.bottom.equalToSuperview()
-            $0.left.equalTo(view.snp.right).priority(.low)
+            $0.left.equalToSuperview().offset(ScreenSize.SCREEN_WIDTH)
             $0.width.equalToSuperview()
         })
         
         view.layoutIfNeeded()
         
-        vc.view.snp.makeConstraints({
-            $0.left.equalToSuperview().priority(.medium)
+        vc.view.snp.updateConstraints({
+            $0.left.equalToSuperview()
         })
         
         UIView.animate(withDuration: 0.2, animations: {
@@ -101,19 +101,17 @@ extension UIViewController {
     }
     
     func removeTop(){
-        if let superview = view.superview{
-            view.snp.makeConstraints({
-                $0.top.bottom.equalToSuperview()
-                $0.left.equalTo(superview.snp.right).priority(.high)
-                $0.width.equalToSuperview()
-            })
-            
-            UIView.animate(withDuration: 0.15, animations: {
-                self.view.layoutIfNeeded()
-            }, completion: { finished in
+        view.snp.updateConstraints({
+            $0.left.equalToSuperview().offset(ScreenSize.SCREEN_WIDTH)
+        })
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.superview?.layoutIfNeeded()
+        }, completion: { finished in
+            if finished {
                 self.remove()
-            })
-        }
+            }
+        })
     }
     
 //  MARK: - Keyboard opening
@@ -184,7 +182,29 @@ extension UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    func showAlertOk(title: String?, messsage: String? = nil, okCompletion: ((UIAlertAction) -> Void)? = nil) {
+        
+        let alertController = UIAlertController(title: title, message: messsage, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok".localized, style: .default, handler: okCompletion)
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
     @objc func dismissAnimated() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func removeSideSwipe() {
+        if let recognizers = self.navigationController?.view.gestureRecognizers{
+            var removed = 0
+            for i in 0..<recognizers.count{
+                if recognizers[i].name != "_UIParallaxTransitionPanGestureRecognizer"{
+                    self.navigationController?.view.gestureRecognizers?.remove(at: i - removed)
+                    removed += 1
+                }
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ class ImageSliderView: UIView {
         layout.scrollDirection = .horizontal
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsHorizontalScrollIndicator = false
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .black
         view.isPagingEnabled = true
         view.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.reuseIdentifier)
         return view
@@ -24,7 +24,7 @@ class ImageSliderView: UIView {
     lazy var pageNumberView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = StaticSize.size(3)
-        view.backgroundColor = .customTextBlack
+        view.backgroundColor = .darkGray
         return view
     }()
     
@@ -37,7 +37,7 @@ class ImageSliderView: UIView {
     
     lazy var closeButton: UIButton = {
         let view = UIButton()
-        view.setBackgroundImage(UIImage(named: "cross"), for: .normal)
+        view.setBackgroundImage(UIImage(named: "crossPurple"), for: .normal)
         return view
     }()
     

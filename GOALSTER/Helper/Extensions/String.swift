@@ -63,6 +63,24 @@ extension String {
         }
     }
     
+    var en: String {
+        get {
+            let path = Bundle.main.path(forResource: Language.en.rawValue, ofType: "lproj")
+            let bundle = Bundle(path: path!)
+            
+            return NSLocalizedString(self, tableName: nil, bundle: bundle!, value: "", comment: "")
+        }
+    }
+    
+    var ru: String {
+        get {
+            let path = Bundle.main.path(forResource: Language.ru.rawValue, ofType: "lproj")
+            let bundle = Bundle(path: path!)
+            
+            return NSLocalizedString(self, tableName: nil, bundle: bundle!, value: "", comment: "")
+        }
+    }
+    
     func isValidEmail() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
 

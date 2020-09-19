@@ -61,7 +61,7 @@ extension CalendarBaseViewController: JTAppleCalendarViewDelegate, JTAppleCalend
     }
     
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
-        return ConfigurationParameters(startDate: items?.first?.date?.toDate() ?? Date(), endDate: items?.last?.date?.toDate() ?? Date(), hasStrictBoundaries: false)
+        return ConfigurationParameters(startDate: items?.first?.date?.toDate() ?? Date(), endDate: items?.last?.date?.toDate() ?? Date(), generateInDates: .forFirstMonthOnly, generateOutDates: .off, hasStrictBoundaries: false)
     }
     
     func calendar(_ calendar: JTAppleCalendarView, headerViewForDateRange range: (start: Date, end: Date), at indexPath: IndexPath) -> JTAppleCollectionReusableView {

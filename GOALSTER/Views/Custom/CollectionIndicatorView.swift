@@ -73,10 +73,9 @@ class CollectionIndicatorView: UIStackView {
             view.removeFromSuperview()
         }
         
-        for i in 0..<number {
+        for _ in 0..<number {
             let view: Item = {
                 let view = Item()
-                view.isActive = i == 0
                 return view
             }()
             
@@ -84,12 +83,14 @@ class CollectionIndicatorView: UIStackView {
         }
     }
     
-    func setProgress(number: Int) {
-        for (index, view) in arrangedSubviews.enumerated() {
-            let view = view as! Item
-            UIView.animate(withDuration: 0.1, animations: {
-                view.isActive = index == (number - 1)
-            })
+    func setProgress(number: Int?, animated: Bool = true) {
+        if let number = number {
+            for (index, view) in arrangedSubviews.enumerated() {
+                let view = view as! Item
+                UIView.animate(withDuration: animated ? 0.1 : 0, animations: {
+                    view.isActive = index == (number - 1)
+                })
+            }
         }
     }
 }

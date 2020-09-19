@@ -90,7 +90,7 @@ enum Sphere: String, CaseIterable {
     static func findByName(name: String) -> Sphere {
         var returning: Sphere = .addOwnOption
         Sphere.allCases.forEach({
-            if $0.rawValue == name || $0.name == name {
+            if $0.rawValue.en == name || $0.rawValue.ru == name {
                 returning = $0
             }
         })
@@ -282,7 +282,7 @@ enum ProfileCellType {
             if ModuleUserDefaults.getHasSpheres(){
                 for (index, sphere) in (ModuleUserDefaults.getSpheres() ?? []).enumerated(){
                     if let name = sphere.sphere {
-                        spheres.append(contentsOf: index != ModuleUserDefaults.getSpheres()?.count ? "\(name), " : name)
+                        spheres.append(contentsOf: index + 1 != ModuleUserDefaults.getSpheres()?.count ? "\(name.localized), " : name.localized)
                     }
                 }
             }
@@ -293,4 +293,61 @@ enum ProfileCellType {
             return nil
         }
     }
+}
+
+enum NotificationType: Int {
+    case threeDays = 1
+    case beforeEnd = 2
+    case end = 3
+    
+    var title: String?{
+        switch self {
+        case .threeDays:
+            return "Three days notification title".localized
+        case .beforeEnd:
+            return "Before end notification title".localized
+        case .end:
+            return "End notification title".localized
+        }
+    }
+    
+    var message: String?{
+        switch self {
+        case .threeDays:
+            return "Three days notification message".localized
+        case .beforeEnd:
+            return "Before end notification message".localized
+        case .end:
+            return "End notification message".localized
+        }
+    }
+}
+
+enum ProductType: String {
+    case oneMonth = "com.goalsterapp.onemonth"
+    case threeMonth = "com.goalsterapp.threemonth"
+    case oneYear = "com.goalsterapp.oneyear"
+    
+    var timeAmount: Int {
+        switch self {
+        case .oneMonth, .oneYear:
+            return 1
+        case .threeMonth:
+            return 3
+        }
+    }
+    
+    var timeUnit: TimeUnit {
+        switch self {
+        case .oneMonth, .threeMonth:
+            return .month
+        case .oneYear:
+            return .year
+        }
+    }
+}
+
+enum TimeUnit: Int {
+    case month = 1
+    case year = 2
 }
