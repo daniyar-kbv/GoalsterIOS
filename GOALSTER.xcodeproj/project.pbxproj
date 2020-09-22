@@ -318,7 +318,7 @@
 		15D4D17825011AF900CE824F /* PremiumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewController.swift; sourceTree = "<group>"; };
 		15DD1D3324F2DBCE005A547B /* LanguagesModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesModalView.swift; sourceTree = "<group>"; };
 		15DD1D3524F2DC08005A547B /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
-		15EB1A1A24E1352D00202917 /* Goalster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Goalster.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		15EB1A1A24E1352D00202917 /* Goalster Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Goalster Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EB1A1D24E1352D00202917 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15EB1A1F24E1352D00202917 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		15EB1A2624E1352E00202917 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -736,7 +736,7 @@
 		15EB1A1B24E1352D00202917 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				15EB1A1A24E1352D00202917 /* Goalster.app */,
+				15EB1A1A24E1352D00202917 /* Goalster Test.app */,
 				15EB1A3024E1352E00202917 /* GOALSTERTests.xctest */,
 				15EB1A3B24E1352F00202917 /* GOALSTERUITests.xctest */,
 			);
@@ -1121,7 +1121,7 @@
 			);
 			name = GOALSTER;
 			productName = GOALSTER;
-			productReference = 15EB1A1A24E1352D00202917 /* Goalster.app */;
+			productReference = 15EB1A1A24E1352D00202917 /* Goalster Test.app */;
 			productType = "com.apple.product-type.application";
 		};
 		15EB1A2F24E1352E00202917 /* GOALSTERTests */ = {
@@ -1716,6 +1716,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GOALSTER/Goalster.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ULVD64ZNV2;
 				INFOPLIST_FILE = GOALSTER/Resources/Info.plist;
@@ -1724,8 +1725,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kz.mti.goalstertestapp;
-				PRODUCT_NAME = Goalster;
+				PRODUCT_BUNDLE_IDENTIFIER = kz.mti.goalsterapptest;
+				PRODUCT_NAME = "Goalster Test";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1737,6 +1739,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GOALSTER/Goalster.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ULVD64ZNV2;
 				INFOPLIST_FILE = GOALSTER/Resources/Info.plist;
@@ -1745,8 +1748,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kz.mti.goalstertestapp;
-				PRODUCT_NAME = Goalster;
+				PRODUCT_BUNDLE_IDENTIFIER = kz.mti.goalsterapptest;
+				PRODUCT_NAME = "Goalster Test";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

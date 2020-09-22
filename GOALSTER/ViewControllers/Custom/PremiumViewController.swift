@@ -85,7 +85,7 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     }
     
     func fetchProducts() {
-        let request = SKProductsRequest(productIdentifiers: ["com.goalsterapp.onemonth", "com.goalsterapp.threemonth", "com.goalsterapp.oneyear"])
+        let request = SKProductsRequest(productIdentifiers: ["kz.goalsterapptest.onemonth", "kz.goalsterapptest.threemonth", "kz.goalsterapptest.oneyear"])
         request.delegate = self
         request.start()
         SpinnerView.showSpinnerView(view: viewForSpinner)
