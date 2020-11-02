@@ -12,8 +12,33 @@ import RxSwift
 class AuthViewModel {
     let disposeBag  = DisposeBag()
     
-    lazy var responseSubject = PublishSubject<AuthResponse>()
+    lazy var success = PublishSubject<Bool>()
+
+    func verify(email: String){
+        SpinnerView.showSpinnerView()
+//        APIManager.shared.verify(email: email) { error, response in
+        APIManager.shared.verify(email: email) { error, response in
+            SpinnerView.completion = {
+                guard let response = response else {
+                    if let error = error{
+                        ErrorView.addToView(text: error)
+                    } else {
+                        ErrorView.addToView()
+                    }
+                    return
+                }
+                if response.emailed == true {
+                    self.success.onNext(true)
+                } else {
+                    self.response = response
+                }
+            }
+            SpinnerView.removeSpinnerView()
+        }
+    }
     
+    lazy var responseSubject = PublishSubject<AuthResponse>()
+
     var response: AuthResponse? {
         didSet {
             if let response = response {
@@ -23,10 +48,10 @@ class AuthViewModel {
             }
         }
     }
-
-    func auth(email: String){
+    
+    func tempAuth(email: String) {
         SpinnerView.showSpinnerView()
-        APIManager.shared.auth(email: email){ error, response in
+        APIManager.shared.tempAuth(email: email){ error, response in
             SpinnerView.completion = {
                 guard let response = response else {
                     if let error = error{

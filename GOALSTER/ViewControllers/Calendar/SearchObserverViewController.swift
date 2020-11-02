@@ -44,6 +44,8 @@ class SearchObserverViewController: UIViewController {
         searchView.backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
         searchView.closeButton.addTarget(self, action: #selector(clearField), for: .touchUpInside)
         searchView.addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        
+        hideKeyboardWhenTappedAround()
     }
     
     @objc func addButtonTapped() {

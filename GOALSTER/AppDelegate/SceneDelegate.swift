@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseDynamicLinks
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -24,6 +25,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = nav // Your initial view controller.
         window.makeKeyAndVisible()
         self.window = window
+        
+        if let activity = connectionOptions.userActivities.first(where: { $0.webpageURL != nil }) {
+            AppShared.sharedInstance.deeplinkURL = activity.webpageURL
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -53,7 +58,70 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        SceneDelegate.shareLinkHandling(userActivity.webpageURL!)
+    }
+    
+    static func shareLinkHandling(_ inCommingURL: URL) {
+        print("url: \(inCommingURL)")
+        let _ = DynamicLinks.dynamicLinks().handleUniversalLink(inCommingURL) { (dynamiclink, error) in
+            guard error == nil else {
+                print("Found an error: \(error?.localizedDescription ?? "")")
+                return
+            }
+            print("Dynamic link : \(String(describing: dynamiclink?.url))")
+            if let typeInt = Int(inCommingURL.getQueryStringParameter(param: "type") ?? ""), let type = DeepLinkType(rawValue: typeInt), let email = inCommingURL.getQueryStringParameter(param: "email"){
+                openDeepLink(type: type, email: email)
+            } else if let typeInt = Int(dynamiclink?.url?.getQueryStringParameter(param: "type") ?? ""), let type = DeepLinkType(rawValue: typeInt), let email = dynamiclink?.url?.getQueryStringParameter(param: "email"){
+                openDeepLink(type: type, email: email)
+            }
+        }
+    }
+        
+    static func openDeepLink(type: DeepLinkType, email: String){
+        switch type {
+        case .auth:
+            if !ModuleUserDefaults.getIsLoggedIn() {
+                UIApplication.topViewController()?.dismiss(animated: true, completion: {
+                    SpinnerView.showSpinnerView()
+                    APIManager.shared.auth(email: email) { error, response in
+                        SpinnerView.completion = {
+                            guard let response = response else {
+                                print(error)
+                                ErrorView.addToView(view: UIApplication.topViewController()?.view, text: error ?? "")
+                                return
+                            }
+                            AppShared.sharedInstance.auth(response: response)
+                            if !(response.spheres?.count == 3) {
+                                AppShared.sharedInstance.tabBarController.toTab(tab: 0)
+                                UIApplication.topViewController()?.present(SpheresListViewController(), animated: true, completion: nil)
+                            }
+                        }
+                        SpinnerView.removeSpinnerView()
+                    }
+                })
+            } else {
+                UIApplication.topViewController()?.showAlertOk(title: "You're already logged in".localized)
+            }
+        case .premium:
+            if email == ModuleUserDefaults.getEmail() {
+                AppShared.sharedInstance.tabBarController.toTab(tab: 4)
+                if !ModuleUserDefaults.getIsPremium() {
+                    DispatchQueue.main.async {
+                        let vc = ProfilePremiumViewController()
+                        vc.setOnSuccess(onSuccess: {
+                            vc.dismiss(animated: true, completion: {
+                                AppShared.sharedInstance.navigationController.pushViewController(ObservedViewController(), animated: true)
+                            })
+                        })
+                        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                    }
+                } else {
+                    AppShared.sharedInstance.navigationController.pushViewController(ObservedViewController(), animated: true)
+                }
+            }
+        }
+    }
 }
 

@@ -18,6 +18,7 @@ class ObserversView: UIView {
         view.rowHeight = StaticSize.size(48)
         view.contentInset = UIEdgeInsets(top: StaticSize.size(60), left: 0, bottom: StaticSize.size(60), right: 0)
         view.register(ObserverCell.self, forCellReuseIdentifier: ObserverCell.reuseIdentifier)
+        view.delaysContentTouches = false
         return view
     }()
     

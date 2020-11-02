@@ -11,6 +11,9 @@ import Alamofire
 
 enum APIPoint {
     case connect
+    case verify(email: String)
+    case verifyV2(email: String)
+    case verifyV3(email: String)
     case auth(email: String)
     case chooseSpheres(spheres: [String: Any])
     case updateSpheres(descriptions: [String])
@@ -18,6 +21,8 @@ enum APIPoint {
     case calendar(observation: Int?)
     case searchObserver(q: String)
     case addGoal(name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int)
+    case addGoalV2(name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int)
+    case addGoalV3(name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int)
     case todayGoals
     case doneGoal(id: Int)
     case getEmotions
@@ -35,6 +40,8 @@ enum APIPoint {
     case help(text: String)
     case premium(identifier: String, date: String, productType: ProductType)
     case results
+    case temp_auth(email: String)
+    case test_time
 }
 
 extension APIPoint: EndPointType {
@@ -42,8 +49,14 @@ extension APIPoint: EndPointType {
         switch self {
         case .connect:
             return "/users/users/connect/"
-        case .auth:
-            return "/users/users/temp_auth/"
+        case .verify:
+            return "/users/users/send_activation_email/"
+        case .verifyV2:
+            return "/users/users/send_activation_email_v2/"
+        case .verifyV3:
+            return "/users/users/send_activation_email_v3/"
+        case .auth(let email):
+            return "/users/users/\(email)/verify_email/"
         case .chooseSpheres:
             return "/main/spheres/choose_spheres/"
         case .updateSpheres:
@@ -56,6 +69,10 @@ extension APIPoint: EndPointType {
             return "/users/users/search/"
         case .addGoal:
             return "/main/goals/add/"
+        case .addGoalV2:
+            return "/main/goals/add_v2/"
+        case .addGoalV3:
+            return "/main/goals/add_v2/"
         case .todayGoals:
             return "/main/goals/today/"
         case .doneGoal(let id):
@@ -86,12 +103,16 @@ extension APIPoint: EndPointType {
             return "/users/users/premium/"
         case .results:
             return "/users/users/results/"
+        case .temp_auth:
+            return "users/users/temp_auth/"
+        case .test_time:
+            return "main/spheres/test/"
         }
     }
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .connect, .auth, .chooseSpheres, .addGoal, .doneGoal, .addEmtions, .addVisualization, .acceptObservation, .deleteObservation, .changeNotifications, .changeLanguage, .help, .premium:
+        case .connect, .verify, .verifyV2, .verifyV3, .chooseSpheres, .addGoal, .addGoalV2, .addGoalV3, .doneGoal, .addEmtions, .addVisualization, .acceptObservation, .deleteObservation, .changeNotifications, .changeLanguage, .help, .premium, .temp_auth, .test_time:
             return .post
         case .updateSpheres:
             return .put
@@ -108,7 +129,7 @@ extension APIPoint: EndPointType {
             return [
                 "fcm_token": ModuleUserDefaults.getFCMToken() ?? ""
             ]
-        case .auth(let email):
+        case .verify(let email), .verifyV2(let email), .verifyV3(let email):
             return [
                 "email": email
             ]
@@ -137,7 +158,7 @@ extension APIPoint: EndPointType {
             return [
                 "q": q
             ]
-        case .addGoal(let name, let date, let time, let isShared, let observer, let sphere):
+        case .addGoal(let name, let date, let time, let isShared, let observer, let sphere), .addGoalV2(let name, let date, let time, let isShared, let observer, let sphere), .addGoalV3(let name, let date, let time, let isShared, let observer, let sphere):
             return [
                 "name": name,
                 "date": date,
@@ -169,12 +190,17 @@ extension APIPoint: EndPointType {
                 "text": text
             ]
         case .premium(let identifier, let date, let productType):
-            return [
+            let parameters: Parameters = [
                 "identifier": identifier,
                 "date": date,
                 "product_id": productType.rawValue,
                 "time_amount": productType.timeAmount,
-                "time_unit": productType.timeUnit
+                "time_unit": productType.timeUnit.rawValue
+            ]
+            return parameters
+        case .temp_auth(let email):
+            return [
+                "email": email
             ]
         default:
             return nil
@@ -200,16 +226,23 @@ extension APIPoint: EndPointType {
     var baseURL: URL {
         return URL(string: "https://api.goalsterapp.com/api")!
 //        return URL(string: "http://192.168.1.19:8990/api")!
+//        return URL(string: "http://172.20.10.3:8990/api")!
     }
     
     var header: HTTPHeaders? {
         switch self {
-        case .auth:
-            return [:]
+        case .auth, .verify, .verifyV2, .verifyV3, .temp_auth, .test_time:
+            return [
+                "Accept-Language": ModuleUserDefaults.getLanguage() == .en ? "en-us" : "ru-ru",
+                "Timezone": TimeZone.current.identifier,
+                "FCM": ModuleUserDefaults.getFCMToken() ?? ""
+            ]
         default:
             return [
                 "Accept-Language": ModuleUserDefaults.getLanguage() == .en ? "en-us" : "ru-ru",
-                "Authorization": "JWT \(ModuleUserDefaults.getToken() ?? "")"
+                "Authorization": "JWT \(ModuleUserDefaults.getToken() ?? "")",
+                "Timezone": TimeZone.current.identifier,
+                "FCM": ModuleUserDefaults.getFCMToken() ?? ""
             ]
         }
     }

@@ -11,7 +11,6 @@ import UIKit
 import SnapKit
 
 class PremiumView: UIView {
-    var onSuccess: (()->())?
     var onBack: (()->())?
     
     lazy var container: UIView = {

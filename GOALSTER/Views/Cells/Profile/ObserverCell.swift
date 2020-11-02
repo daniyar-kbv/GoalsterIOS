@@ -31,7 +31,6 @@ class ObserverCell: UITableViewCell {
     lazy var deleteButton: UIButton = {
         let view = UIButton()
         view.setBackgroundImage(UIImage(named: "trash"), for: .normal)
-        view.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         return view
     }()
     
@@ -84,9 +83,13 @@ class ObserverCell: UITableViewCell {
         })
     }
     
-    @objc func buttonTapped(_ sender: UIButton) {
-        if let onTap = onTap, let id = observer?.id {
-            onTap(id)
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first
+        guard let location = touch?.location(in: contentView) else { return }
+        if deleteButton.frame.contains(location) {
+            if let onTap = onTap, let id = observer?.id {
+                onTap(id)
+            }
         }
     }
 }

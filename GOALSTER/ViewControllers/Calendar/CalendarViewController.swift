@@ -40,7 +40,9 @@ class CalendarViewController: BaseViewController {
     }
     
     func onTap(_ date: Date) {
-        superVc.chooseDate(date: date)
-        self.navigationController?.popViewController(animated: true)
+        if items?.contains(where: { $0.date == date.format() }) ?? false {
+            superVc.chooseDate(date: date)
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }

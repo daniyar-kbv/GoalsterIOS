@@ -14,13 +14,16 @@
 "1 month" = "1 month";
 "3 month" = "3 month";
 "1 year" = "1 year";
+"1 Month" = "1 month";
+"3 Month" = "3 month";
+"1 Year" = "1 year";
 "Premium functionality" = "Premium features";
-"Premium bottom text" = "Increased number of added goals - up to 30 per day\n• Tips for making a visualization board as a pdf-file\n• to-do-list customized for emotions\n• The most motivating push-notifications";
+"Premium bottom text" = "Increased number of added goals - up to 30 per day\n• Tips for making a visualization board as a pdf-file\n• to-do-list for effective thinking\n• The most motivating push-notifications";
 "On boarding top text 1" = "Become a master of achieving goals";
 "On boarding top text 2" = "Keep the balance";
 "On boarding top text 3" = "Drive motivation to the speed of light";
 "On boarding top text 4" = "Get the maximum benefit";
-"On boarding bottom text 1" = "By choosing only 3 areas for 30 days, you can achieve, without loss of energy, what they achieve in a YEAR";
+"On boarding bottom text 1" = "By choosing only 3 areas for 30 days, you can achieve, without loss of energy, what others achieve in a YEAR";
 "On boarding bottom text 2" = "Every evening fill out the section with emotions that will help you free your head from unnecessary thoughts and make sensible decisions";
 "On boarding bottom text 3" = "Create your own effective visualization board and capture your goals with pictures";
 "On boarding bottom text 4" = "If you need constant support or control, then you can share goals with friends or be an observer";
@@ -35,7 +38,7 @@
 "Choose" = "Choose";
 "Enter your email, we will send application login link on it" = "Enter your email, we will send there a link to enter the application";
 "Sign in" = "Sign in";
-"Check Your Email" = "Welcome to Goalster!\nYou have taken a big step towards your goal. Tune in to positive results and use the app daily.";
+"Check Your Email" = "Welcome to Goalsters!\nYou have taken a big step towards your goal. Tune in to positive results and use the app daily. We've sent email to the specified address, follow the link from the email to complete the registration.";
 "Health" = "Health";
 "Education" = "Education";
 "Finances" = "Finance";
@@ -186,7 +189,7 @@
 "Results bottom text" = "Congratulations!\nIt's time to choose the next 3 areas of life and start planning the month; start a new period";
 "Start new period" = "Start new period";
 "Ok" = "Ok";
-"Three days notification title" = "You haven't been in Goalster app for 3 days.";
+"Three days notification title" = "You haven't been in Goalsters app for 3 days.";
 "Three days notification message" = "Click here and I'll show you the reason you’ve started it.";
 "Before end notification title" = "Wrap-up is soon!";
 "Before end notification message" = "Are you ready?";
@@ -196,3 +199,4 @@
 "1 month" = "1 month";
 "3 month" = "3 month";
 "1 year" = "1 year";
+"You're already logged in" = "You're already logged in";

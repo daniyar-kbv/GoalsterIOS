@@ -44,6 +44,7 @@ class ResultsViewController: UIViewController {
         viewModel.getResults()
         
         resultsView.button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
     }
     
     func bind() {

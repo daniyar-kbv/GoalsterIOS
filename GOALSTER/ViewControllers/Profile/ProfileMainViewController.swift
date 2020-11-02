@@ -110,15 +110,13 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
             }
         case .observers:
             if !ModuleUserDefaults.getIsPremium() {
-                DispatchQueue.main.async {
-                    let vc = ProfilePremiumViewController()
-                    vc.setOnSuccess(onSuccess: {
-                        vc.dismiss(animated: true, completion: {
-                            self.navigationController?.pushViewController(ObserversViewController(), animated: true)
-                        })
+                let vc = ProfilePremiumViewController()
+                vc.setOnSuccess(onSuccess: {
+                    vc.dismiss(animated: true, completion: {
+                        self.navigationController?.pushViewController(ObserversViewController(), animated: true)
                     })
-                    self.present(vc, animated: true, completion: nil)
-                }
+                })
+                self.present(vc, animated: true, completion: nil)
             } else {
                 navigationController?.pushViewController(ObserversViewController(), animated: true)
             }
@@ -133,7 +131,9 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
                 AppShared.sharedInstance.tabBarController.toTab(tab: 0)
             }
         case .premium:
-            DispatchQueue.main.async {
+            if ModuleUserDefaults.getIsPremium() {
+                break
+            } else {
                 self.present(ProfilePremiumViewController(), animated: true, completion: nil)
             }
         case .notifications:
@@ -143,5 +143,6 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
         default:
             break
         }
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

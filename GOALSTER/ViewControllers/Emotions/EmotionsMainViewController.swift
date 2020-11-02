@@ -123,6 +123,10 @@ extension EmotionsMainViewController: UICollectionViewDelegate, UICollectionView
         self.currentPage = Int(currentPage)
         emotionsView.progress.setProgress(number: Int(currentPage))
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        emotionsView.progress.setProgress(number: indexPath.item + 1)
+    }
 }
 
 extension EmotionsMainViewController: UICollectionViewDelegateFlowLayout {

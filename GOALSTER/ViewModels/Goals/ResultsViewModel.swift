@@ -22,14 +22,20 @@ class ResultsViewModel {
     func getResults() {
         SpinnerView.showSpinnerView()
         APIManager.shared.results() { error, response in
-            SpinnerView.completion = {
-
-                guard let response = response else {
-                    return
-                }
-                self.response = response
+            guard let response = response else {
+                SpinnerView.removeSpinnerView()
+                return
             }
-            SpinnerView.removeSpinnerView()
+            APIManager.shared.connect(){ error, connectResponse in
+                    guard let connectResponse = connectResponse else {
+                        return
+                    }
+                    SpinnerView.completion = {
+                        AppShared.sharedInstance.auth(response: connectResponse)
+                        self.response = response
+                    }
+                    SpinnerView.removeSpinnerView()
+            }
         }
     }
 }

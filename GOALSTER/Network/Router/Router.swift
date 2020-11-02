@@ -45,8 +45,12 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
         }()
         AF.upload(multipartFormData: { multipartFormData in
             for (key, value) in route.parameters ?? [String: Any]() {
-                if key == "image", let url = value as? URL{
-                    multipartFormData.append(url, withName: key)
+                if key == "image"{
+                    if let url = value as? URL{
+                        multipartFormData.append(url, withName: key)
+                    } else if let data = value as? Data {
+                        multipartFormData.append(data, withName: key)
+                    }
                 } else if key == "sphere", let id = value as? Int{
                     multipartFormData.append("\(id)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: key)
                 } else if key == "annotation", let annotation = value as? String {
@@ -85,8 +89,8 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
                 return
             }
             do {
-//                let jsonData = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers)
-//                print(jsonData)
+                let jsonData = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers)
+                print(jsonData)
                 if statusCode != 200{
                     do {
                         let apiResponse = try JSONDecoder().decode(ErrorResponse.self, from: responseData)
@@ -147,7 +151,7 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
 //        case 500...599: return .failure(NetworkResponse.badRequest.rawValue)
 //        case 600: return .failure(NetworkResponse.outdated.rawValue)
 //        case 403: return .failure(NetworkResponse.unauthorized.rawValue)
-        default: return .failure(NetworkResponse.failed.rawValue)
+        default: return .failure(NetworkResponse.failed.localized)
         }
     }
     

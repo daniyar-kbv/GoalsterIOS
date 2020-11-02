@@ -17,7 +17,7 @@ class ErrorView: UIView {
         let label = UILabel()
         label.font = .systemFont(ofSize: StaticSize.size(16), weight: .bold)
         label.textColor = .customTextBlack
-        label.text = "Mario"
+        label.text = "Goalsters"
         return label
     }()
     

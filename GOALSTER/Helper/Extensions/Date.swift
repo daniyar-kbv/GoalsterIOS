@@ -11,6 +11,7 @@ import Foundation
 extension Date {
     func format(format: String = "dd-MM-yyyy") -> String {
         let dateFormatterOut = DateFormatter()
+        dateFormatterOut.timeZone = TimeZone.current
         dateFormatterOut.dateFormat = format
         return dateFormatterOut.string(from: self)
     }
@@ -22,5 +23,10 @@ extension Date {
             return day
         }
         return nil
+    }
+    
+    func convertToTimeZone(initTimeZone: TimeZone = TimeZone(secondsFromGMT: 0)!, timeZone: TimeZone = TimeZone.current) -> Date {
+         let delta = TimeInterval(timeZone.secondsFromGMT(for: self) - initTimeZone.secondsFromGMT(for: self))
+         return addingTimeInterval(delta)
     }
 }

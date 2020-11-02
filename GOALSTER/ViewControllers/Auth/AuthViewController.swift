@@ -45,25 +45,26 @@ class AuthViewController: BaseViewController {
     }
     
     func bind() {
+        viewModel.success.subscribe(onNext: { success in
+            DispatchQueue.main.async {
+                self.showSuccess()
+            }
+        }).disposed(by: disposeBag)
         viewModel.responseSubject.subscribe(onNext: { response in
             DispatchQueue.main.async {
-                if let token = response.token, let spheres = response.spheres {
-                    ModuleUserDefaults.setToken(token)
-                    ModuleUserDefaults.setIsLoggedIn(true)
-                    if spheres.count == 3 {
-                        AppShared.sharedInstance.selectedSpheres = spheres
-                        ModuleUserDefaults.setSpheres(value: spheres)
-                        AppShared.sharedInstance.hasSpheres = true
-                        ModuleUserDefaults.setHasSpheres(true)
-                    }
-                    self.showSuccess()
+                AppShared.sharedInstance.auth(response: response)
+                self.dismiss(animated: true, completion: nil)
+                if !(response.spheres?.count == 3) {
+                    AppShared.sharedInstance.tabBarController.toTab(tab: 0)
+                    UIApplication.topViewController()?.present(SpheresListViewController(), animated: true, completion: nil)
                 }
             }
         }).disposed(by: disposeBag)
     }
     
     @objc func buttonTapped(){
-        viewModel.auth(email: authView.field.text ?? "")
+        viewModel.verify(email: authView.field.text ?? "")
+//        viewModel.tempAuth(email: authView.field.text ?? "")
         authView.field.resignFirstResponder()
     }
     

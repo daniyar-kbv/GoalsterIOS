@@ -18,6 +18,7 @@ class ProfileMainCell: UITableViewCell {
             arrowDirection = type?.arrowDirection
             title.text = type?.title
             subtitle.text = type?.subtitle
+            arrow.isHidden = ModuleUserDefaults.getIsPremium() && type == .premium
         }
     }
     

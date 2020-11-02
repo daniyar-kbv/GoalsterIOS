@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import RxSwift
+import Photos
 
 class AddVisualizationViewController: UIViewController {
     lazy var addView = AddVisualizationsView()
@@ -16,6 +17,7 @@ class AddVisualizationViewController: UIViewController {
     lazy var viewModel = AddVisualizationViewModel()
     lazy var disposeBag = DisposeBag()
     var superVc: VisualizationsMainViewcontroller?
+    var uploadedFile: URL?
     
     var spheres: [SphereVisualization]? 
     
@@ -23,6 +25,10 @@ class AddVisualizationViewController: UIViewController {
         didSet {
             superVc?.reload()
             dismiss(animated: true, completion: nil)
+            if let uploadedFile = uploadedFile {
+                try? FileManager.default.removeItem(at: uploadedFile)
+                self.uploadedFile = nil
+            }
         }
     }
     
@@ -84,8 +90,20 @@ class AddVisualizationViewController: UIViewController {
     }
     
     @objc func addTapped() {
-        if let imageURL = selectedImage?[.imageURL] as? URL, let sphereIndex = selectedSphere?.1, let sphereId = spheres?[sphereIndex].id {
-            viewModel.addVisualization(imageUrl: imageURL, sphere: sphereId, annotation: addView.thirdBottom.textColor == .lightGray ? nil : addView.thirdBottom.text)
+        if let url = selectedImage?[.imageURL] as? URL{
+            do {
+                let data = try Data(contentsOf: url)
+                let image = UIImage(data: data)
+                let fileName = url.lastPathComponent
+                image?.jpeg(.medium)?.saveToFile(name: fileName)
+                let imageUrl = getDocumentsDirectory().appendingPathComponent(fileName)
+                uploadedFile = imageUrl
+                if let sphereIndex = selectedSphere?.1, let sphereId = spheres?[sphereIndex].id {
+                    viewModel.addVisualization(imageUrl: imageUrl, sphere: sphereId, annotation: addView.thirdBottom.textColor == .lightGray ? nil : addView.thirdBottom.text)
+                }
+            } catch {
+                print(error)
+            }
         }
     }
     

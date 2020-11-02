@@ -24,7 +24,6 @@ class GoalsMainViewController: BaseViewController {
             tableVc.dayView = goalsView.tableView
             tableVc.response = response?.goals
             tableVc.onReload = onReload
-            tableVc.viewModel.view = goalsView
             add(tableVc)
             goalsView.finishSetUp(state: state)
         }
@@ -45,8 +44,13 @@ class GoalsMainViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(onWillEnterForegroundNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
         
         viewModel.view = view
+        tableVc.viewModel.view = view
         
         bind()
+        
+        if let url = AppShared.sharedInstance.deeplinkURL {
+            SceneDelegate.shareLinkHandling(url)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,14 +99,14 @@ class GoalsMainViewController: BaseViewController {
                 self.goalsView.thirdGoalView.name = spheres?[2].sphere?.localized ?? ""
             }
         }).disposed(by: disposeBag)
+        AppShared.sharedInstance.doneGoalResponse.subscribe(onNext: { response in
+            DispatchQueue.main.async {
+                self.viewModel.todayGoals(withSpinner: false)
+            }
+        }).disposed(by: disposeBag)
         viewModel.response.subscribe(onNext: { response in
             DispatchQueue.main.async {
                 self.response = response
-            }
-        }).disposed(by: disposeBag)
-        viewModel.done.subscribe(onNext: { done in
-            DispatchQueue.main.async {
-                self.viewModel.todayGoals()
             }
         }).disposed(by: disposeBag)
     }
@@ -122,64 +126,3 @@ class GoalsMainViewController: BaseViewController {
         viewWillAppear(true)
     }
 }
-
-extension GoalsMainViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return response?.goals?.morning?.count ?? 0 == 0 ? 0 : (response?.goals?.morning?.count ?? 0) + 1
-        case 1:
-            return response?.goals?.day?.count ?? 0 == 0 ? 0 : (response?.goals?.day?.count ?? 0) + 1
-        case 2:
-            return response?.goals?.evening?.count ?? 0 == 0 ? 0 : (response?.goals?.evening?.count ?? 0) + 1
-        default:
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0{
-            let cell = tableView.dequeueReusableCell(withIdentifier: GoalsHeaderCell.reuseIdentifier, for: indexPath) as! GoalsHeaderCell
-            switch indexPath.section {
-            case 0:
-                cell.time = .morning
-            case 1:
-                cell.time = .day
-            case 2:
-                cell.time = .evening
-            default:
-                break
-            }
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: GoalsCell.reuseIdentifier, for: indexPath) as! GoalsCell
-            switch indexPath.section {
-            case 0:
-                cell.goal = response?.goals?.morning?[indexPath.row - 1]
-            case 1:
-                cell.goal = response?.goals?.day?[indexPath.row - 1]
-            case 2:
-                cell.goal = response?.goals?.evening?[indexPath.row - 1]
-            default:
-                break
-            }
-            return cell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row != 0{
-            let cell = tableView.cellForRow(at: indexPath) as! GoalsCell
-            viewModel.doneGoal(id: cell.goal?.id)
-        }
-    }
-}
-

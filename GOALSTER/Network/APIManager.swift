@@ -12,9 +12,15 @@ struct APIManager {
     static let shared = APIManager()
     let router = MyRouter<APIPoint>()
     
-    func connect(completion:@escaping(_ error:String?,_ module: ConnectResponse?)->()) {
-        router.request(.connect, returning: ConnectResponse?.self) { error, response in
-            completion(error, response as? ConnectResponse)
+    func connect(completion:@escaping(_ error:String?,_ module: AuthResponse?)->()) {
+        router.request(.connect, returning: AuthResponse?.self) { error, response in
+            completion(error, response as? AuthResponse)
+        }
+    }
+    
+    func verify(email: String, completion:@escaping(_ error:String?,_ module: AuthResponse?)->()) {
+        router.request(.verifyV3(email: email), returning: AuthResponse?.self) { error, response in
+            completion(error, response as? AuthResponse)
         }
     }
     
@@ -55,7 +61,7 @@ struct APIManager {
     }
     
     func addGoal(name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int, completion:@escaping(_ error:String?,_ module: Bool?)->()) {
-        router.request(.addGoal(name: name, date: date, time: time, isShared: isShared, observer: observer, sphere: sphere), returning: Bool?.self, boolResult: true) { error, response in
+        router.request(.addGoalV3(name: name, date: date, time: time, isShared: isShared, observer: observer, sphere: sphere), returning: Bool?.self, boolResult: true) { error, response in
             completion(error, response as? Bool)
         }
     }
@@ -159,6 +165,18 @@ struct APIManager {
     func results(completion:@escaping(_ error:String?,_ module: ResultsResponse?)->()) {
         router.request(.results, returning: ResultsResponse?.self) { error, response in
             completion(error, response as? ResultsResponse)
+        }
+    }
+    
+    func tempAuth(email: String, completion:@escaping(_ error:String?,_ module: AuthResponse?)->()) {
+        router.request(.temp_auth(email: email), returning: AuthResponse?.self) { error, response in
+            completion(error, response as? AuthResponse)
+        }
+    }
+    
+    func testTime(completion:@escaping(_ error:String?,_ module: GeneralResponse?)->()) {
+        router.request(.test_time, returning: GeneralResponse?.self) { error, response in
+            completion(error, response as? GeneralResponse)
         }
     }
 }

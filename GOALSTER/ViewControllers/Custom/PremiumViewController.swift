@@ -17,10 +17,20 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     lazy var viewModel = PremiumViewModel()
     var viewForSpinner: UIView?
     
+    var productIdsOrder: [(key: String, value: Int)] = [(key:"com.goalsterapp.onemonth", value: 0), (key: "com.goalsterapp.threemonth", value: 1), (key: "com.goalsterapp.oneyear", value: 2)]
+    
     var success: Bool? {
         didSet {
             if parent is ProfilePremiumViewController{
-                parent?.dismiss(animated: true, completion: nil)
+                if let _ = parent?.parent as? AddGoalViewController, let p = parent as? ProfilePremiumViewController {
+                    p.onSuccess?()
+                } else {
+                    parent?.dismiss(animated: true, completion: {
+                        if let vc = UIApplication.topViewController() as? ProfileMainViewController {
+                            vc.reload()
+                        }
+                    })
+                }
             } else if parent is OnBoardingViewController {
                 let vc = AppShared.sharedInstance.tabBarController
                 parent?.navigationController?.pushViewController(vc, animated: true)
@@ -31,12 +41,28 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     var products: [SKProduct]? {
         didSet {
             guard let products = products else { return }
-            for product in products {
+            let sordedProducts = products.sorted(by: { product1, product2 in
+                let order1 = self.productIdsOrder.first(
+                    where: { prod in
+                        prod.key == product1.productIdentifier
+                    }
+                )?.value
+                let order2 = self.productIdsOrder.first(
+                    where: {
+                        prod in prod.key == product2.productIdentifier
+                    }
+                )?.value
+                return order1! < order2!
+            })
+            for product in sordedProducts {
                 let button: ProductButton = {
                     let view = ProductButton(product: product)
                     view.setTitle(product.buttonTitle, for: .normal)
                     view.titleLabel?.font = .gotham(ofSize: StaticSize.size(18), weight: .medium)
                     view.addTarget(self, action: #selector(makePayment(_:)), for: .touchUpInside)
+                    if parent is OnBoardingViewController {
+                        view.isUserInteractionEnabled = false
+                    }
                     return view
                 }()
                 
@@ -63,6 +89,7 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
         }
         
         fetchProducts()
+        bind()
     }
     
     func bind() {
@@ -85,7 +112,7 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     }
     
     func fetchProducts() {
-        let request = SKProductsRequest(productIdentifiers: ["kz.goalsterapptest.onemonth", "kz.goalsterapptest.threemonth", "kz.goalsterapptest.oneyear"])
+        let request = SKProductsRequest(productIdentifiers: ["com.goalsterapp.onemonth", "com.goalsterapp.threemonth", "com.goalsterapp.oneyear"])
         request.delegate = self
         request.start()
         SpinnerView.showSpinnerView(view: viewForSpinner)
@@ -100,7 +127,7 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
-            if transaction.transactionState != .purchasing {
+            if [SKPaymentTransactionState.purchased, SKPaymentTransactionState.restored, SKPaymentTransactionState.failed, SKPaymentTransactionState.deferred].contains(transaction.transactionState) {
                 SpinnerView.removeSpinnerView()
             }
             switch transaction.transactionState {
@@ -109,12 +136,12 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
             case .purchased, .restored:
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
+                if let productType = ProductType(rawValue: transaction.payment.productIdentifier), let identifier = transaction.transactionIdentifier, let date = transaction.transactionDate {
+                    self.viewModel.premium(identifier: identifier, date: date, productType: productType)
+                }
             case .failed, .deferred:
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
-                if let productType = ProductType(rawValue: transaction.payment.productIdentifier), let identifier = transaction.transactionIdentifier, let date = transaction.transactionDate {
-                    viewModel.premium(identifier: identifier, date: date, productType: productType)
-                }
             default:
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)

@@ -30,14 +30,8 @@ class LaunchScreenViewController: UIViewController {
             runTimer()
         } else {
             APIManager.shared.connect(){ error, response in
-                AppShared.sharedInstance.hasSpheres = response?.hasSpheres
-                ModuleUserDefaults.setHasSpheres(response?.hasSpheres ?? false)
-                if !(response?.hasSpheres ?? false) {
-                    ModuleUserDefaults.setSpheres(value: nil)
-                    AppShared.sharedInstance.selectedSpheres = nil
-                }
-                ModuleUserDefaults.setEmail(response?.email ?? "")
-                ModuleUserDefaults.setIsPremium(response?.isPremium ?? false)
+                guard let response = response else { return }
+                AppShared.sharedInstance.auth(response: response)
                 self.toMain()
             }
         }
@@ -71,7 +65,9 @@ class LaunchScreenViewController: UIViewController {
         transition.type = .fade
         self.navigationController?.view.layer.add(transition, forKey: nil)
         let vc = ModuleUserDefaults.getIsInitial() ? AppShared.sharedInstance.tabBarController : StartViewController()
-        self.navigationController?.pushViewController(vc, animated: false)
+        if !(self.navigationController?.topViewController?.isKind(of: type(of: vc)) ?? false){
+            self.navigationController?.pushViewController(vc, animated: false)
+        }
         AppShared.sharedInstance.appLoaded = true
     }
 }

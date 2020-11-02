@@ -55,13 +55,14 @@ class NotificationCell: UITableViewCell {
     }
     
     @objc func onSwitch(_ sender: UISwitch) {
+        print("asd")
         if let onChange = onChange {
             onChange(sender)
         }
     }
     
     func setUp() {
-        addSubViews([switchButton, title, topLine, bottomLine])
+        contentView.addSubViews([switchButton, title, topLine, bottomLine])
         
         switchButton.snp.makeConstraints({
             $0.right.centerY.equalToSuperview()

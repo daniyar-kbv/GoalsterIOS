@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>348390053936-379hckuea14c0srf2pfusj9ffm9pfkl4.apps.googleusercontent.com</string>
+	<string>348390053936-vg6i163fuipvff9ib68074tanvqotd5c.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.348390053936-379hckuea14c0srf2pfusj9ffm9pfkl4</string>
+	<string>com.googleusercontent.apps.348390053936-vg6i163fuipvff9ib68074tanvqotd5c</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBtRMIqk3GP5jGav6NNoxftCaOTcZn_UN8</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>mti.kz.Goalster</string>
+	<string>com.goalster.app</string>
 	<key>PROJECT_ID</key>
 	<string>goalster-a82d3</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:348390053936:ios:23a3fd661047ca69e1f5f5</string>
+	<string>1:348390053936:ios:1538e22c61c2e904e1f5f5</string>
 	<key>DATABASE_URL</key>
 	<string>https://goalster-a82d3.firebaseio.com</string>
 </dict>

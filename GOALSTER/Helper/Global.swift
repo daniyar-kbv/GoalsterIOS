@@ -49,10 +49,11 @@ struct ScreenSize {
 }
 
 struct StaticSize {
+    static private let proportion: CGFloat = 414 / 896
     static let buttonHeight = size(45)
     static let tabBarHeight = Global.safeAreaBottom() + size(60)
     
     static func size(_ size: CGFloat) -> CGFloat {
-        return ScreenSize.SCREEN_WIDTH / 375 * size
+        return (ScreenSize.SCREEN_HEIGHT * proportion) / 375 * size
     }
 }

@@ -12,7 +12,6 @@ import RxSwift
 
 class ObservedViewModel {
     lazy var observed = PublishSubject<[Observed]>()
-    lazy var success = PublishSubject<Bool>()
     
     var observedResponse: ObservedResponse? {
         didSet {
@@ -37,13 +36,19 @@ class ObservedViewModel {
     func acceptObservation(id: Int, isConfirmed: Bool) {
         SpinnerView.showSpinnerView()
         APIManager.shared.acceptObservation(id: id, isConfirmed: isConfirmed) { error, response in
-            SpinnerView.completion = {
-                guard let response = response else {
-                    return
-                }
-                self.success.onNext(response)
+            guard response != nil else {
+                SpinnerView.removeSpinnerView()
+                return
             }
-            SpinnerView.removeSpinnerView()
+            APIManager.shared.getObserved() { error, response in
+                SpinnerView.completion = {
+                    guard let response = response else {
+                        return
+                    }
+                    self.observedResponse = response
+                }
+                SpinnerView.removeSpinnerView()
+            }
         }
     }
 }

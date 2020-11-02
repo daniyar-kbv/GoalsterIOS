@@ -14,7 +14,7 @@ class ProfileMainViewModel {
     
     lazy var count = PublishSubject<Int>()
     
-    var response: ConnectResponse? {
+    var response: AuthResponse? {
         didSet {
             guard let count = response?.notConfirmedCount else { return }
             self.count.onNext(count)
@@ -28,9 +28,7 @@ class ProfileMainViewModel {
                 guard let response = response else {
                     return
                 }
-                ModuleUserDefaults.setHasSpheres(response.hasSpheres ?? false)
-                ModuleUserDefaults.setEmail(response.email ?? "")
-                ModuleUserDefaults.setIsPremium(response.isPremium ?? false)
+                AppShared.sharedInstance.auth(response: response)
                 self.response = response
             }
             SpinnerView.removeSpinnerView()

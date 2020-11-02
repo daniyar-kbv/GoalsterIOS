@@ -16,11 +16,6 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     lazy var disposeBag = DisposeBag()
     var onReload: (()->())?
     var isObserved = false
-    var isMain = true {
-        didSet {
-            viewModel.isMain = isMain
-        }
-    }
     
     var date: Date? {
         didSet {

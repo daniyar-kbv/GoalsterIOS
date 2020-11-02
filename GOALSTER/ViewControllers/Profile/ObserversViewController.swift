@@ -21,12 +21,6 @@ class ObserversViewController: ProfileBaseViewController, UIGestureRecognizerDel
         }
     }
     
-    var success: Bool? {
-        didSet {
-            reload()
-        }
-    }
-    
     override func loadView() {
         super.loadView()
         
@@ -58,11 +52,6 @@ class ObserversViewController: ProfileBaseViewController, UIGestureRecognizerDel
         viewModel.observers.subscribe(onNext: { observers in
             DispatchQueue.main.async {
                 self.observers = observers
-            }
-        }).disposed(by: disposeBag)
-        viewModel.success.subscribe(onNext: { success in
-            DispatchQueue.main.async {
-                self.success = success
             }
         }).disposed(by: disposeBag)
     }

@@ -13,7 +13,6 @@
 		1515DA1D24F3DE1A00E98C28 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1515DA1C24F3DE1A00E98C28 /* HelpViewController.swift */; };
 		152C2B2924E184DC00C83ECD /* PremuimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152C2B2824E184DC00C83ECD /* PremuimView.swift */; };
 		152C2B2B24E18A1600C83ECD /* OnBoardingPremiumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152C2B2A24E18A1600C83ECD /* OnBoardingPremiumCell.swift */; };
-		152C2B2D24E19AC300C83ECD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 152C2B2C24E19AC200C83ECD /* GoogleService-Info.plist */; };
 		1538D87024ED16AF00DB873E /* VisualizationsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538D86F24ED16AF00DB873E /* VisualizationsMainView.swift */; };
 		1538D87324ED1CB500DB873E /* VisualizationsMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538D87224ED1CB500DB873E /* VisualizationsMainViewController.swift */; };
 		1538D87624ED1D3000DB873E /* VisulizationsMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538D87524ED1D3000DB873E /* VisulizationsMainViewModel.swift */; };
@@ -53,6 +52,7 @@
 		153BAA7424E5773B007A92BB /* ChooseSpheresViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BAA7324E5773B007A92BB /* ChooseSpheresViewModel.swift */; };
 		153BAA7624E58D3B007A92BB /* Connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BAA7524E58D3B007A92BB /* Connect.swift */; };
 		1548C7FA24F7E1C000CFA319 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1548C7F924F7E1C000CFA319 /* CustomTextView.swift */; };
+		1550D3542523467100DA9B82 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D3532523467100DA9B82 /* Data.swift */; };
 		1561533724FD1E5D00A30D3C /* TextViewWithInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1561533624FD1E5D00A30D3C /* TextViewWithInput.swift */; };
 		1564D4E924EAA0D100885E9A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564D4E824EAA0D100885E9A /* CalendarViewController.swift */; };
 		1564D4EB24EAAEE000885E9A /* CalendarHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564D4EA24EAAEE000885E9A /* CalendarHeaderCell.swift */; };
@@ -77,6 +77,8 @@
 		157552B624ED40F70092111C /* VisualizationSmallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157552B524ED40F70092111C /* VisualizationSmallCell.swift */; };
 		157552B924EE47820092111C /* ProfileMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157552B824EE47820092111C /* ProfileMainView.swift */; };
 		157552BB24EE48C50092111C /* ProfileMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157552BA24EE48C50092111C /* ProfileMainCell.swift */; };
+		15B20F862519F8A6003F91E3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15B20F852519F8A6003F91E3 /* GoogleService-Info.plist */; };
+		15B20FBC251A1963003F91E3 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B20FBB251A1963003F91E3 /* URL.swift */; };
 		15B4754324EE5D940025EC31 /* ProfileMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B4754224EE5D940025EC31 /* ProfileMainViewController.swift */; };
 		15B4754624EE5DE00025EC31 /* ProfileMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B4754524EE5DE00025EC31 /* ProfileMainViewModel.swift */; };
 		15B4754824EE7F630025EC31 /* ObservedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B4754724EE7F630025EC31 /* ObservedView.swift */; };
@@ -239,7 +241,6 @@
 		1515DA1C24F3DE1A00E98C28 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		152C2B2824E184DC00C83ECD /* PremuimView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremuimView.swift; sourceTree = "<group>"; };
 		152C2B2A24E18A1600C83ECD /* OnBoardingPremiumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPremiumCell.swift; sourceTree = "<group>"; };
-		152C2B2C24E19AC200C83ECD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		152C2B2E24E19F1D00C83ECD /* Goalster.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Goalster.entitlements; sourceTree = "<group>"; };
 		1538D86F24ED16AF00DB873E /* VisualizationsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizationsMainView.swift; sourceTree = "<group>"; };
 		1538D87224ED1CB500DB873E /* VisualizationsMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizationsMainViewController.swift; sourceTree = "<group>"; };
@@ -280,6 +281,7 @@
 		153BAA7324E5773B007A92BB /* ChooseSpheresViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseSpheresViewModel.swift; sourceTree = "<group>"; };
 		153BAA7524E58D3B007A92BB /* Connect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connect.swift; sourceTree = "<group>"; };
 		1548C7F924F7E1C000CFA319 /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
+		1550D3532523467100DA9B82 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		1561533624FD1E5D00A30D3C /* TextViewWithInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewWithInput.swift; sourceTree = "<group>"; };
 		1564D4E824EAA0D100885E9A /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		1564D4EA24EAAEE000885E9A /* CalendarHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderCell.swift; sourceTree = "<group>"; };
@@ -304,6 +306,8 @@
 		157552B524ED40F70092111C /* VisualizationSmallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizationSmallCell.swift; sourceTree = "<group>"; };
 		157552B824EE47820092111C /* ProfileMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainView.swift; sourceTree = "<group>"; };
 		157552BA24EE48C50092111C /* ProfileMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainCell.swift; sourceTree = "<group>"; };
+		15B20F852519F8A6003F91E3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		15B20FBB251A1963003F91E3 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		15B4754224EE5D940025EC31 /* ProfileMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainViewController.swift; sourceTree = "<group>"; };
 		15B4754524EE5DE00025EC31 /* ProfileMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainViewModel.swift; sourceTree = "<group>"; };
 		15B4754724EE7F630025EC31 /* ObservedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedView.swift; sourceTree = "<group>"; };
@@ -318,7 +322,7 @@
 		15D4D17825011AF900CE824F /* PremiumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewController.swift; sourceTree = "<group>"; };
 		15DD1D3324F2DBCE005A547B /* LanguagesModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesModalView.swift; sourceTree = "<group>"; };
 		15DD1D3524F2DC08005A547B /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
-		15EB1A1A24E1352D00202917 /* Goalster Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Goalster Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		15EB1A1A24E1352D00202917 /* Goalsters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Goalsters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EB1A1D24E1352D00202917 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15EB1A1F24E1352D00202917 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		15EB1A2624E1352E00202917 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -736,7 +740,7 @@
 		15EB1A1B24E1352D00202917 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				15EB1A1A24E1352D00202917 /* Goalster Test.app */,
+				15EB1A1A24E1352D00202917 /* Goalsters.app */,
 				15EB1A3024E1352E00202917 /* GOALSTERTests.xctest */,
 				15EB1A3B24E1352F00202917 /* GOALSTERUITests.xctest */,
 			);
@@ -814,6 +818,8 @@
 				15F5784F24E9441D005447F4 /* Date.swift */,
 				1565E35324FFAF93000BDC0D /* NSObject.swift */,
 				15398F3525062E0E00E481AD /* SKProduct.swift */,
+				15B20FBB251A1963003F91E3 /* URL.swift */,
+				1550D3532523467100DA9B82 /* Data.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -902,7 +908,7 @@
 				15EB1A2624E1352E00202917 /* Assets.xcassets */,
 				15EB1A2824E1352E00202917 /* LaunchScreen.storyboard */,
 				15EB1A2B24E1352E00202917 /* Info.plist */,
-				152C2B2C24E19AC200C83ECD /* GoogleService-Info.plist */,
+				15B20F852519F8A6003F91E3 /* GoogleService-Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1114,6 +1120,7 @@
 				15EB1A1724E1352D00202917 /* Frameworks */,
 				15EB1A1824E1352D00202917 /* Resources */,
 				C1FE2B1E78A5DE75597E43B9 /* [CP] Embed Pods Frameworks */,
+				15F87794253C4DDE0047D8EB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1121,7 +1128,7 @@
 			);
 			name = GOALSTER;
 			productName = GOALSTER;
-			productReference = 15EB1A1A24E1352D00202917 /* Goalster Test.app */;
+			productReference = 15EB1A1A24E1352D00202917 /* Goalsters.app */;
 			productType = "com.apple.product-type.application";
 		};
 		15EB1A2F24E1352E00202917 /* GOALSTERTests */ = {
@@ -1223,7 +1230,6 @@
 				153BAA4C24E2EC07007A92BB /* goals_selected_animation.json in Resources */,
 				153BAA4824E2EC07007A92BB /* visualizations_animation.json in Resources */,
 				15EB1ABF24E13CB500202917 /* Gotham ExtraLight Italic.ttf in Resources */,
-				152C2B2D24E19AC300C83ECD /* GoogleService-Info.plist in Resources */,
 				153BAA4B24E2EC07007A92BB /* calendar_animation.json in Resources */,
 				15EB1AC324E13CB500202917 /* Gotham Book Italic.ttf in Resources */,
 				15EB1AD024E1427000202917 /* Localizable.strings in Resources */,
@@ -1232,6 +1238,7 @@
 				153BAA4A24E2EC07007A92BB /* emotions_animation.json in Resources */,
 				15EB1AC024E13CB500202917 /* Gotham Light.ttf in Resources */,
 				15EB1A2724E1352E00202917 /* Assets.xcassets in Resources */,
+				15B20F862519F8A6003F91E3 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1252,6 +1259,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		15F87794253C4DDE0047D8EB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		1D820E3C0F5895B654CF92AF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1428,6 +1454,7 @@
 				1538D87C24ED27A300DB873E /* AddVisualizationViewController.swift in Sources */,
 				153BAA5924E3E618007A92BB /* Auth.swift in Sources */,
 				15B4755424EE8C2C0025EC31 /* ObservedCell.swift in Sources */,
+				1550D3542523467100DA9B82 /* Data.swift in Sources */,
 				15EB1A7424E1374400202917 /* UIColor.swift in Sources */,
 				15EB1ADF24E1583B00202917 /* StartViewController.swift in Sources */,
 				15EB1A9F24E1394000202917 /* NoInternetView.swift in Sources */,
@@ -1514,6 +1541,7 @@
 				1515DA1924F3BF3C00E98C28 /* HelpView.swift in Sources */,
 				15EB1A9E24E1394000202917 /* MainPageModalView.swift in Sources */,
 				153BAA6724E42C27007A92BB /* SpheresListViewController.swift in Sources */,
+				15B20FBC251A1963003F91E3 /* URL.swift in Sources */,
 				153BAA7624E58D3B007A92BB /* Connect.swift in Sources */,
 				15EB1A7A24E1374400202917 /* UIBezirePath.swift in Sources */,
 				15EB1A7C24E1374500202917 /* String.swift in Sources */,
@@ -1718,18 +1746,21 @@
 				CODE_SIGN_ENTITLEMENTS = GOALSTER/Goalster.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ULVD64ZNV2;
+				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JKKXY42PFK;
 				INFOPLIST_FILE = GOALSTER/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kz.mti.goalsterapptest;
-				PRODUCT_NAME = "Goalster Test";
+				MARKETING_VERSION = 1.2.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.goalster.app;
+				PRODUCT_NAME = Goalsters;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1741,18 +1772,20 @@
 				CODE_SIGN_ENTITLEMENTS = GOALSTER/Goalster.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ULVD64ZNV2;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = JKKXY42PFK;
 				INFOPLIST_FILE = GOALSTER/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kz.mti.goalsterapptest;
-				PRODUCT_NAME = "Goalster Test";
+				MARKETING_VERSION = 1.2.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.goalster.app;
+				PRODUCT_NAME = Goalsters;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

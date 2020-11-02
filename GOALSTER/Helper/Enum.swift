@@ -105,13 +105,13 @@ enum CalendarViewState {
 }
 
 enum DayOfWeek: Int {
-    case monday = 1
-    case tuesday = 2
-    case wednesday = 3
-    case thursday = 4
-    case friday = 5
-    case saturday = 6
-    case sunday = 7
+    case monday = 2
+    case tuesday = 3
+    case wednesday = 4
+    case thursday = 5
+    case friday = 6
+    case saturday = 7
+    case sunday = 1
     
     var toStr: String {
         switch self {
@@ -288,7 +288,7 @@ enum ProfileCellType {
             }
             return spheres
         case .premium:
-            return ModuleUserDefaults.getIsPremium() ?? false ? "" : "Not purchased".localized
+            return ModuleUserDefaults.getIsPremium() ?? false ? ModuleUserDefaults.getPremiumType() ?? "" : "Not purchased".localized
         default:
             return nil
         }
@@ -350,4 +350,9 @@ enum ProductType: String {
 enum TimeUnit: Int {
     case month = 1
     case year = 2
+}
+
+enum DeepLinkType: Int {
+    case auth = 1
+    case premium = 2
 }

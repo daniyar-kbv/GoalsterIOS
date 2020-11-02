@@ -123,6 +123,14 @@ struct ModuleUserDefaults {
     return false
     }
     
+    static func setPremiumType(_ value: String) {
+        defaults.setValue(value, forKey: "premiumType")
+    }
+    
+    static func getPremiumType() -> String? {
+        return defaults.value(forKey: "premiumType") as? String
+    }
+    
     static func setNotifications(_ value: Bool){
         defaults.setValue(value, forKey: "notifications")
     }

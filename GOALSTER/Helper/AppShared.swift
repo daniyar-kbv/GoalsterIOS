@@ -51,4 +51,28 @@ class AppShared {
     var modalSelectedSphere: (SelectedSphere, Int)?
     
     lazy var doneGoalResponse = PublishSubject<Bool>()
+    
+    var deeplinkURL: URL?
+    
+    func auth(response: AuthResponse) {
+        if let token = response.token {
+            ModuleUserDefaults.setToken(token)
+            ModuleUserDefaults.setIsLoggedIn(true)
+        }
+        if let hasSpheres = response.hasSpheres {
+            AppShared.sharedInstance.hasSpheres = hasSpheres
+            ModuleUserDefaults.setHasSpheres(hasSpheres)
+            AppShared.sharedInstance.selectedSpheres = hasSpheres ? response.spheres : nil
+            ModuleUserDefaults.setSpheres(value: hasSpheres ? response.spheres : nil)
+        }
+        if let email = response.email {
+            ModuleUserDefaults.setEmail(email)
+        }
+        if let isPremium = response.isPremium {
+            ModuleUserDefaults.setIsPremium(isPremium)
+        }
+        if let premiumType = response.premiumType {
+            ModuleUserDefaults.setPremiumType(premiumType)
+        }
+    }
 }

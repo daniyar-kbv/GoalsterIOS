@@ -86,7 +86,7 @@ class CalendarView: UIView {
             $0.bottom.equalToSuperview()
         })
         
-        for i in 1..<8 {
+        for i in [2, 3, 4, 5, 6, 7, 1] {
             let view = UIView()
             let label: UILabel = {
                 let label = UILabel()

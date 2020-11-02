@@ -13,6 +13,7 @@ class ObservedCell: UITableViewCell {
     static let reuseIdentifier = "ObservedCell"
     
     var onAccept: ((_ button: UIButton, _ id: Int)->())?
+    var onSelect: ((_ id: Int?)->())?
     
     var observed: Observed? {
         didSet {
@@ -54,7 +55,8 @@ class ObservedCell: UITableViewCell {
         view.setBackgroundImage(UIImage(named: "accept"), for: .normal)
         view.isHidden = true
         view.accessibilityIdentifier = "acceptButton"
-        view.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+//        view.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+//        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -63,7 +65,8 @@ class ObservedCell: UITableViewCell {
         view.setBackgroundImage(UIImage(named: "decline"), for: .normal)
         view.isHidden = true
         view.accessibilityIdentifier = "declineButton"
-        view.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+//        view.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+//        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -111,6 +114,7 @@ class ObservedCell: UITableViewCell {
         
         rightStack.snp.makeConstraints({
             $0.right.centerY.equalToSuperview()
+            $0.width.equalTo(StaticSize.size(56))
         })
         
         arrow.snp.makeConstraints({
@@ -145,6 +149,18 @@ class ObservedCell: UITableViewCell {
     @objc func buttonTapped(_ sender: UIButton) {
         if let onAccept = onAccept, let id = observed?.id {
             onAccept(sender, id)
+        }
+    }
+    
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first
+        guard let location = touch?.location(in: contentView) else { return }
+        if rightStack.convert(acceptButton.frame, to: self).contains(location) || rightStack.convert(declineButton.frame, to: self).contains(location) {
+            if let onAccept = onAccept, let id = observed?.id {
+                onAccept(rightStack.convert(acceptButton.frame, to: self).contains(location) ? acceptButton : declineButton, id)
+            }
+        } else {
+            onSelect?(observed?.id)
         }
     }
 }

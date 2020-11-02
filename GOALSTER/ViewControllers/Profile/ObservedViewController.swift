@@ -14,16 +14,15 @@ class ObservedViewController: ProfileBaseViewController {
     lazy var profileView = ObservedView()
     lazy var viewModel = ObservedViewModel()
     lazy var disposeBag = DisposeBag()
+    var observationId: Int?
     
     var observed: [Observed]? {
         didSet {
             profileView.tableView.reloadData()
-        }
-    }
-    
-    var success: Bool? {
-        didSet {
-            reload()
+            if let id = observationId {
+                onSelect(id)
+                observationId = nil
+            }
         }
     }
     
@@ -55,11 +54,6 @@ class ObservedViewController: ProfileBaseViewController {
                 self.observed = observed
             }
         }).disposed(by: disposeBag)
-        viewModel.success.subscribe(onNext: { success in
-            DispatchQueue.main.async {
-                self.success = success
-            }
-        }).disposed(by: disposeBag)
     }
     
     func reload() {
@@ -68,6 +62,16 @@ class ObservedViewController: ProfileBaseViewController {
     
     func acceptObservation(_ button: UIButton, _ id: Int) {
         viewModel.acceptObservation(id: id, isConfirmed: button.accessibilityIdentifier == "acceptButton")
+        if button.accessibilityIdentifier == "acceptButton" {
+            observationId = id
+        }
+    }
+    
+    func onSelect(_ id: Int?) {
+        if let id = id {
+            let vc = ObservedCalendarViewController(observation: id)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
@@ -83,14 +87,8 @@ extension ObservedViewController: UITableViewDelegate, UITableViewDataSource {
         }
         cell.onAccept = acceptObservation(_:_:)
         cell.observed = observed?[indexPath.row]
+        cell.onSelect = onSelect(_:)
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let id = observed?[indexPath.row].id {
-            let vc = ObservedCalendarViewController(observation: id)
-            navigationController?.pushViewController(vc, animated: true)
-        }
     }
 }
 

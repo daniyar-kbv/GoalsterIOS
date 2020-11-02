@@ -25,7 +25,6 @@ class DayViewController: BaseViewController {
                 tableVc.onReload = reload
                 tableVc.viewModel.view = view
                 tableVc.date = selectedDate
-                tableVc.isMain = false
                 add(tableVc)
                 state = .goals
             } else {
@@ -113,6 +112,8 @@ class DayViewController: BaseViewController {
             present(AuthViewController(), animated: true, completion: nil)
         } else if !ModuleUserDefaults.getHasSpheres() {
             AppShared.sharedInstance.tabBarController.toTab(tab: 0)
+        } else if let morning = response?.morning?.count, let day = response?.day?.count, let evening = response?.evening?.count, (morning + day + evening >= 6 && !ModuleUserDefaults.getIsPremium())  {
+            self.present(ProfilePremiumViewController(), animated: true, completion: nil)
         } else {
             let vc = AddGoalViewController()
             vc.superVc = self

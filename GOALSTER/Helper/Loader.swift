@@ -57,8 +57,6 @@ class SpinnerView: UIView {
     }
     
     static func showSpinnerView(view: UIView? = nil) {
-        print("asd")
-        print(view)
         if let view = view{
             view.showSpinnerViewFull()
         } else if let vc = UIApplication.topViewController() {
@@ -90,10 +88,10 @@ class SpinnerView: UIView {
     static func runTimer(){
         secondPassed = false
         dataGot = false
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+//        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
             secondPassed = true
-            timer.invalidate()
-        }
+//            timer.invalidate()
+//        }
     }
     
     override var layer: CAShapeLayer {

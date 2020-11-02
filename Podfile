@@ -20,6 +20,7 @@ target 'GOALSTER' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
   pod 'Firebase/DynamicLinks'
+  pod 'Firebase/Crashlytics’
 
   pod 'ReachabilitySwift'
 

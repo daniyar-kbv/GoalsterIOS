@@ -8,23 +8,15 @@
 
 import Foundation
 
-//class MySphere: Codable {
-//    var id: Int?
-//    var name: String?
-//
-//    enum CodingKeys: String, CodingKey {
-//        case id, name
-//    }
-//}
-
 class ConnectResponse: Codable {
     var hasSpheres: Bool?
+    var spheres: [SelectedSphere]?
     var email: String?
     var isPremium: Bool?
+    var premiumType: String?
     var notConfirmedCount: Int?
-//    var spheres: [MySphere]?
     
     enum CodingKeys: String, CodingKey {
-        case hasSpheres, email, isPremium, notConfirmedCount
+        case hasSpheres, spheres, email, isPremium, notConfirmedCount, premiumType
     }
 }

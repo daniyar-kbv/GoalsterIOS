@@ -12,6 +12,7 @@ import UIKit
 class ProfilePremiumViewController: UIViewController {
     lazy var premiumView = ProfilePremiumView()
     lazy var premiumVc = PremiumViewController()
+    var onSuccess: (()->())?
     
     override func loadView() {
         super.loadView()
@@ -27,7 +28,7 @@ class ProfilePremiumViewController: UIViewController {
     }
     
     func setOnSuccess(onSuccess: (()->())?) {
-        premiumVc.premiumView.onSuccess = onSuccess
+        self.onSuccess = onSuccess
     }
     
     func showBackButton(onBack: (()->())?) {

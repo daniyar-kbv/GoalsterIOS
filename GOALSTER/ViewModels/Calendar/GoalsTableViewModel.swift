@@ -11,7 +11,6 @@ import RxSwift
 
 class GoalsTableViewModel {
     lazy var done = PublishSubject<Bool>()
-    lazy var isMain = true
     
     var view: UIView?
     
@@ -19,21 +18,11 @@ class GoalsTableViewModel {
         if let id = id{
             SpinnerView.showSpinnerView(view: view)
             APIManager.shared.doneGoal(id: id) { error, response in
-                if self.isMain {
-                    SpinnerView.completion = {
-                        guard let response = response else {
-                            return
-                        }
-                        self.done.onNext(response)
-                    }
+                guard let response = response else {
                     SpinnerView.removeSpinnerView()
-                } else {
-                    guard let response = response else {
-                        SpinnerView.removeSpinnerView()
-                        return
-                    }
-                    AppShared.sharedInstance.doneGoalResponse.onNext(response)
+                    return
                 }
+                AppShared.sharedInstance.doneGoalResponse.onNext(response)
             }
         }
     }
