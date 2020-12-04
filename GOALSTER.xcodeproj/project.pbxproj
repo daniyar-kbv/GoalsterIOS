@@ -1746,7 +1746,7 @@
 				CODE_SIGN_ENTITLEMENTS = GOALSTER/Goalster.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JKKXY42PFK;
 				INFOPLIST_FILE = GOALSTER/Resources/Info.plist;
@@ -1755,7 +1755,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.goalster.app;
 				PRODUCT_NAME = Goalsters;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1772,7 +1772,7 @@
 				CODE_SIGN_ENTITLEMENTS = GOALSTER/Goalster.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JKKXY42PFK;
 				INFOPLIST_FILE = GOALSTER/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1780,7 +1780,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.goalster.app;
 				PRODUCT_NAME = Goalsters;
 				PROVISIONING_PROFILE_SPECIFIER = "";

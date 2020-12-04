@@ -13,9 +13,11 @@
 "Premium top text" = "Users who buy premium achieve their goal 7 times more efficiently";
 "1 month" = "1 month";
 "3 month" = "3 month";
+"6 month" = "6 month";
 "1 year" = "1 year";
 "1 Month" = "1 month";
 "3 Month" = "3 month";
+"6 Month" = "6 month";
 "1 Year" = "1 year";
 "Premium functionality" = "Premium features";
 "Premium bottom text" = "Increased number of added goals - up to 30 per day\n• Tips for making a visualization board as a pdf-file\n• to-do-list for effective thinking\n• The most motivating push-notifications";
@@ -38,7 +40,7 @@
 "Choose" = "Choose";
 "Enter your email, we will send application login link on it" = "Enter your email, we will send there a link to enter the application";
 "Sign in" = "Sign in";
-"Check Your Email" = "Welcome to Goalsters!\nYou have taken a big step towards your goal. Tune in to positive results and use the app daily. We've sent email to the specified address, follow the link from the email to complete the registration.";
+"Check Your Email" = "Welcome to 24Goals!\nYou have taken a big step towards your goal. Tune in to positive results and use the app daily. We've sent email to the specified address, follow the link from the email to complete the registration.";
 "Health" = "Health";
 "Education" = "Education";
 "Finances" = "Finance";
@@ -189,14 +191,11 @@
 "Results bottom text" = "Congratulations!\nIt's time to choose the next 3 areas of life and start planning the month; start a new period";
 "Start new period" = "Start new period";
 "Ok" = "Ok";
-"Three days notification title" = "You haven't been in Goalsters app for 3 days.";
+"Three days notification title" = "You haven't been in 24Goals app for 3 days.";
 "Three days notification message" = "Click here and I'll show you the reason you’ve started it.";
 "Before end notification title" = "Wrap-up is soon!";
 "Before end notification message" = "Are you ready?";
 "End notification title" = "The 30-day period ends today!";
 "End notification message" = "Click here to wrap-up.";
 "Allow push-notifications in settings" = "Allow push-notifications in settings";
-"1 month" = "1 month";
-"3 month" = "3 month";
-"1 year" = "1 year";
 "You're already logged in" = "You're already logged in";

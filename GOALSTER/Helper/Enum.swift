@@ -326,6 +326,7 @@ enum NotificationType: Int {
 enum ProductType: String {
     case oneMonth = "com.goalsterapp.onemonth"
     case threeMonth = "com.goalsterapp.threemonth"
+    case sixMonth = "com.goalsterapp.sixmonth"
     case oneYear = "com.goalsterapp.oneyear"
     
     var timeAmount: Int {
@@ -334,12 +335,14 @@ enum ProductType: String {
             return 1
         case .threeMonth:
             return 3
+        case .sixMonth:
+            return 6
         }
     }
     
     var timeUnit: TimeUnit {
         switch self {
-        case .oneMonth, .threeMonth:
+        case .oneMonth, .threeMonth, .sixMonth:
             return .month
         case .oneYear:
             return .year

@@ -480,7 +480,7 @@ class AddGoalView: UIView, UITextViewDelegate {
             label.font = .gotham(ofSize: StaticSize.size(16), weight: .book)
             label.textColor = .customTextBlack
             label.adjustsFontSizeToFitWidth = true
-            label.text = sphere.sphere
+            label.text = sphere.sphere?.localized
             return label
         }()
         

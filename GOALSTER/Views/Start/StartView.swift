@@ -15,7 +15,7 @@ class StartView: UIView {
         let label = UILabel()
         label.font = .gotham(ofSize: StaticSize.size(44), weight: .medium)
         label.textColor = .customTextDarkPurple
-        label.text = "Goalsters"
+        label.text = "24Goals"
         label.adjustsFontSizeToFitWidth = true
         return label
     }()

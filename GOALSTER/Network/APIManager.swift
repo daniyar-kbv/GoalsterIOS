@@ -19,7 +19,7 @@ struct APIManager {
     }
     
     func verify(email: String, completion:@escaping(_ error:String?,_ module: AuthResponse?)->()) {
-        router.request(.verifyV3(email: email), returning: AuthResponse?.self) { error, response in
+        router.request(.verify(email: email), returning: AuthResponse?.self) { error, response in
             completion(error, response as? AuthResponse)
         }
     }
@@ -61,7 +61,7 @@ struct APIManager {
     }
     
     func addGoal(name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int, completion:@escaping(_ error:String?,_ module: Bool?)->()) {
-        router.request(.addGoalV3(name: name, date: date, time: time, isShared: isShared, observer: observer, sphere: sphere), returning: Bool?.self, boolResult: true) { error, response in
+        router.request(.addGoal(name: name, date: date, time: time, isShared: isShared, observer: observer, sphere: sphere), returning: Bool?.self, boolResult: true) { error, response in
             completion(error, response as? Bool)
         }
     }

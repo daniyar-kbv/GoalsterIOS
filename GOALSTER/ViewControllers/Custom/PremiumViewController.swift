@@ -17,7 +17,7 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     lazy var viewModel = PremiumViewModel()
     var viewForSpinner: UIView?
     
-    var productIdsOrder: [(key: String, value: Int)] = [(key:"com.goalsterapp.onemonth", value: 0), (key: "com.goalsterapp.threemonth", value: 1), (key: "com.goalsterapp.oneyear", value: 2)]
+    var productIdsOrder: [(key: String, value: Int)] = [(key:"com.goalsterapp.threemonth", value: 0), (key: "com.goalsterapp.sixmonth", value: 1), (key: "com.goalsterapp.oneyear", value: 2)]
     
     var success: Bool? {
         didSet {
@@ -112,7 +112,7 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     }
     
     func fetchProducts() {
-        let request = SKProductsRequest(productIdentifiers: ["com.goalsterapp.onemonth", "com.goalsterapp.threemonth", "com.goalsterapp.oneyear"])
+        let request = SKProductsRequest(productIdentifiers: ["com.goalsterapp.threemonth", "com.goalsterapp.sixmonth", "com.goalsterapp.oneyear"])
         request.delegate = self
         request.start()
         SpinnerView.showSpinnerView(view: viewForSpinner)

@@ -7,6 +7,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:app.goalsterapp.com</string>
+		<string>applinks:dynamic.24goalsapp.com</string>
 	</array>
 </dict>
 </plist>

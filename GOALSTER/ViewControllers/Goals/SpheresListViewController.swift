@@ -37,6 +37,7 @@ class SpheresListViewController: UIViewController {
             }
             spheresView.tableView.reloadData()
             spheresView.nextButton.isActive = selected.count == 3
+            ownOption = (ModuleUserDefaults.getSpheres() ?? [])[2].sphere ?? ""
         }
     }
     
