@@ -32,12 +32,12 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>auth</string>
+			<string>Bundle ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>dynamic.24goalsapp.com</string>
+				<string>com.goalster.app</string>
 			</array>
 		</dict>
 	</array>

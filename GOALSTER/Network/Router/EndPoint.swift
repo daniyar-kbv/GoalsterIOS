@@ -212,7 +212,7 @@ extension APIPoint: EndPointType {
     }
     
     var baseURL: URL {
-        return URL(string: "https://api.goalsterapp.com/api")!
+        return URL(string: "https://api.24goalsapp.com/api")!
 //        return URL(string: "http://192.168.1.19:8990/api")!
 //        return URL(string: "http://172.20.10.3:8990/api")!
     }
