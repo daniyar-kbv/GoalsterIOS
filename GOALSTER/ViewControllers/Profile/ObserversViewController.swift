@@ -54,6 +54,11 @@ class ObserversViewController: ProfileBaseViewController, UIGestureRecognizerDel
                 self.observers = observers
             }
         }).disposed(by: disposeBag)
+        viewModel.deleteResponse.subscribe(onNext: { object in
+            DispatchQueue.main.async {
+                self.showAlertOk(title: "Observer removed".localized)
+            }
+        }).disposed(by: disposeBag)
     }
     
     func reload() {
@@ -61,13 +66,14 @@ class ObserversViewController: ProfileBaseViewController, UIGestureRecognizerDel
     }
     
     func deleteObservation(_ id: Int) {
-        showAlert(title: "Do you really want to delete selected observer?".localized,
-                  yesCompletion: { _ in
-                      self.viewModel.deleteObservation(id: id)
-                  },
-                  noCompletion: { _ in
-                      
-                  })
+        showAlert(
+            title: "Confirmation".localized,
+            messsage: "Do you really want to delete selected observer?".localized,
+            yesCompletion: { _ in
+                self.viewModel.deleteObservation(id: id)
+            },
+            noCompletion: { _ in }
+        )
         
     }
 }

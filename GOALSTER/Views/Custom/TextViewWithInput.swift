@@ -98,8 +98,8 @@ class TextViewWithInput: UITextView, UITextViewDelegate {
             layer.borderWidth = 0.5
             layer.borderColor = UIColor.lightGray.cgColor
             
-            font = .gotham(ofSize: StaticSize.size(15), weight: .book)
-            textColor = .customTextBlack
+            font = .primary(ofSize: StaticSize.size(15), weight: .regular)
+            textColor = .ultraGray
             
             delegate = self
         }

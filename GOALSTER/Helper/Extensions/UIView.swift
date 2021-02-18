@@ -32,6 +32,27 @@ extension UIView {
         })
     }
     
+    func showSpinnerViewBottom(){
+        addSubview(SpinnerView.view)
+        SpinnerView.view.backgroundColor = .clear
+        
+        SpinnerView.view.snp.remakeConstraints({
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(StaticSize.size(100))
+            $0.bottom.equalToSuperview().offset(StaticSize.size(100))
+        })
+        
+        layoutIfNeeded()
+        
+        SpinnerView.view.snp.updateConstraints({
+            $0.bottom.equalToSuperview().offset(-StaticSize.size(100))
+        })
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        })
+    }
+    
     func findConstraint(layoutAttribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint? {
         for constraint in constraints where itemMatch(constraint: constraint, layoutAttribute: layoutAttribute) {
             return constraint
@@ -97,7 +118,7 @@ extension UIView {
         case rightToLeft
     }
     
-    func addGradientBackground(colors: [UIColor] = [.customBackPink, .white], locations: [NSNumber]? = [0.0, 1.0], direction: Direction = .topToBottom) {
+    func addGradientBackground(colors: [UIColor] = [.arcticPink, .white], locations: [NSNumber]? = [0.0, 1.0], direction: Direction = .topToBottom) {
         
         let gradientLayer = CAGradientLayer()
         var cgColors: [CGColor] = []
@@ -126,7 +147,7 @@ extension UIView {
             gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.5)
         }
         
-        self.layer.addSublayer(gradientLayer)
+        layer.sublayers?.first(where: { $0 is CAGradientLayer })?.removeFromSuperlayer()
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
     

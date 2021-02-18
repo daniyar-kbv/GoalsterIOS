@@ -15,8 +15,8 @@ class CalendarSmallCell: UICollectionViewCell {
     
     var isToday = false {
         didSet {
-            weekDayLabel.textColor = isToday ? .customTextDarkPurple : .lightGray
-            numberLabel.textColor = isToday ? .customTextDarkPurple : .lightGray
+            weekDayLabel.textColor = isToday ? .deepBlue : .lightGray
+            numberLabel.textColor = isToday ? .deepBlue : .lightGray
         }
     }
     var isActive = false {
@@ -28,8 +28,8 @@ class CalendarSmallCell: UICollectionViewCell {
                 weekDayLabel.textColor = .white
                 numberLabel.textColor = .white
             } else if !isActive && isToday {
-                weekDayLabel.textColor = .customTextDarkPurple
-                numberLabel.textColor = .customTextDarkPurple
+                weekDayLabel.textColor = .deepBlue
+                numberLabel.textColor = .deepBlue
             } else {
                 weekDayLabel.textColor = .lightGray
                 numberLabel.textColor = .lightGray
@@ -54,7 +54,7 @@ class CalendarSmallCell: UICollectionViewCell {
     
     lazy var weekDayLabel: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(14), weight: .bold)
+        label.font = .primary(ofSize: StaticSize.size(14), weight: .bold)
         label.textColor = .lightGray
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
@@ -63,7 +63,7 @@ class CalendarSmallCell: UICollectionViewCell {
     
     lazy var numberLabel: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(15), weight: .bold)
+        label.font = .primary(ofSize: StaticSize.size(15), weight: .bold)
         label.textColor = .lightGray
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
@@ -73,21 +73,21 @@ class CalendarSmallCell: UICollectionViewCell {
     lazy var firstDot: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "dot")?.withRenderingMode(.alwaysTemplate)
-        view.tintColor = .customGoalRed
+        view.tintColor = .greatRed
         return view
     }()
     
     lazy var secondDot: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "dot")?.withRenderingMode(.alwaysTemplate)
-        view.tintColor = .customGoalYellow
+        view.tintColor = .goodYellow
         return view
     }()
     
     lazy var thirdDot: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "dot")?.withRenderingMode(.alwaysTemplate)
-        view.tintColor = .customGoalGreen
+        view.tintColor = .calmGreen
         return view
     }()
     

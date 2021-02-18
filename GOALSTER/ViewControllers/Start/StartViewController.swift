@@ -22,8 +22,6 @@ class StartViewController: UIViewController {
         super.viewDidLoad()
         
         configActions()
-        
-        ModuleUserDefaults.setIsInitial(true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -46,6 +44,6 @@ class StartViewController: UIViewController {
         default:
             break
         }
-        navigationController?.pushViewController(OnBoardingViewController(), animated: true)
+        navigationController?.pushViewController(AskNotificationsViewController(), animated: true)
     }
 }

@@ -13,9 +13,11 @@ import CoreLocation
 var textViewToClose: UITextView?
 
 extension UIViewController {    
-    func add(_ child: UIViewController) {
+    func add(_ child: UIViewController, onView: UIView? = nil) {
+        let view_ = onView == nil ? view : onView
+        
         addChild(child)
-        view.addSubview(child.view)
+        view_!.addSubview(child.view)
         child.didMove(toParent: self)
     }
 
@@ -55,18 +57,6 @@ extension UIViewController {
     }
 
 //  MARK: - Modal opening
-
-    @objc func openTimeModal(){
-        openModal(vc: TimeModalViewController(modalHeight: ScreenSize.SCREEN_HEIGHT / 3))
-    }
-    
-    @objc func openSphereModal(){
-        openModal(vc: SphereModalViewController(modalHeight: ScreenSize.SCREEN_HEIGHT / 3))
-    }
-    
-    @objc func openLanguagesModal(){
-        openModal(vc: LanguagesModalViewController(modalHeight: ScreenSize.SCREEN_HEIGHT / 3))
-    }
     
     func openModal(vc: CustomModalViewController){
         add(vc)
@@ -89,7 +79,7 @@ extension UIViewController {
             $0.width.equalToSuperview()
         })
         
-        view.layoutIfNeeded()
+        view?.layoutIfNeeded()
         
         vc.view.snp.updateConstraints({
             $0.left.equalToSuperview()
@@ -101,17 +91,21 @@ extension UIViewController {
     }
     
     func removeTop(){
-        view.snp.updateConstraints({
-            $0.left.equalToSuperview().offset(ScreenSize.SCREEN_WIDTH)
-        })
-        
-        UIView.animate(withDuration: 0.2, animations: {
+        if view.superview != nil {
             self.view.superview?.layoutIfNeeded()
-        }, completion: { finished in
-            if finished {
-                self.remove()
-            }
-        })
+            
+            view.snp.updateConstraints({
+                $0.left.equalToSuperview().offset(ScreenSize.SCREEN_WIDTH)
+            })
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.superview?.layoutIfNeeded()
+            }, completion: { finished in
+                if finished {
+                    self.remove()
+                }
+            })
+        }
     }
     
 //  MARK: - Keyboard opening

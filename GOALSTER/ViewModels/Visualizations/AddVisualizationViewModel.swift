@@ -11,7 +11,7 @@ import RxSwift
 
 
 class AddVisualizationViewModel {
-    lazy var success = PublishSubject<Bool>()
+    lazy var sphere = PublishSubject<SphereVisualization>()
     var errorView: UIView?
     
     func addVisualization(imageUrl: URL, sphere: Int, annotation: String?) {
@@ -29,7 +29,7 @@ class AddVisualizationViewModel {
                     ErrorView.addToView(view: self.errorView, text: error ?? "", withName: false, disableScroll: false)
                     return
                 }
-                self.success.onNext(response)
+                self.sphere.onNext(response)
             }
             SpinnerView.removeSpinnerView()
         }

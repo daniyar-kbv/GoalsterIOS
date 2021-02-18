@@ -14,16 +14,13 @@ class GoalsTableViewModel {
     
     var view: UIView?
     
-    func doneGoal(id: Int?, withSpnner: Bool = true) {
-        if let id = id{
-            SpinnerView.showSpinnerView(view: view)
-            APIManager.shared.doneGoal(id: id) { error, response in
-                guard let response = response else {
-                    SpinnerView.removeSpinnerView()
-                    return
-                }
-                AppShared.sharedInstance.doneGoalResponse.onNext(response)
+    func doneGoal(id: Int?) {
+        guard let id = id else { return }
+        APIManager.shared.doneGoal(id: id) { error, response in
+            guard let response = response else {
+                return
             }
+            self.done.onNext(response)
         }
     }
 }

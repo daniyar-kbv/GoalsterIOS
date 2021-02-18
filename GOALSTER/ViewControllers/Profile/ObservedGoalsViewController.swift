@@ -21,7 +21,7 @@ class ObservedGoalsViewController: ProfileBaseViewController {
         didSet {
             tableVc.dayView = dayView.tableView
             tableVc.response = response
-            tableVc.onReload = reload
+//            tableVc.onReload = reload
             tableVc.viewModel.view = dayView
             tableVc.date = selectedDate
             tableVc.isObserved = true
@@ -52,6 +52,12 @@ class ObservedGoalsViewController: ProfileBaseViewController {
         super.loadView()
         
         setView(dayView)
+        dayView.snp.remakeConstraints({
+            $0.top.equalToSuperview().offset(StaticSize.size(25))
+            $0.left.right.bottom.equalToSuperview()
+        })
+        dayView.isObserved = true
+        dayView.addButton.isHidden = true
     }
     
     override func viewDidLoad() {

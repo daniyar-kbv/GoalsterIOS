@@ -23,8 +23,8 @@ class OnBoardingTextCell: UICollectionViewCell {
     lazy var topText: CustomLabelWithoutPadding = {
         let view = CustomLabelWithoutPadding()
         view.textAlignment = .center
-        view.font = .gotham(ofSize: StaticSize.size(22), weight: .bold)
-        view.textColor = .customTextDarkPurple
+        view.font = .primary(ofSize: StaticSize.size(22), weight: .bold)
+        view.textColor = .deepBlue
         return view
     }()
     

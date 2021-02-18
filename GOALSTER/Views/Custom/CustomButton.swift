@@ -12,23 +12,78 @@ import SnapKit
 import StoreKit
 
 class CustomButton: UIButton {
-    var backgroundImage: UIImage = UIImage(named: "buttonBack")!
-    var isActive: Bool = true {
+    enum State {
+        case normal
+        case presses
+        case disabled
+    }
+    
+    var phase: State? = .none {
         didSet {
-            setBackgroundImage(backgroundImage.alpha(isActive ? 1 : 0.5), for: .normal)
-            isUserInteractionEnabled = isActive
+            setNeedsLayout()
         }
     }
+    
+    var isActive: Bool = true {
+        didSet {
+            phase = isActive ? .normal : .disabled
+        }
+    }
+    
+    lazy var normal = toNormal
+    lazy var disabled = toDisabled
+    lazy var pressed = toPressed
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setBackgroundImage(backgroundImage, for: .normal)
-        titleLabel?.font = .gotham(ofSize: StaticSize.size(20), weight: .book)
+        layer.masksToBounds = true
+        layer.cornerRadius = StaticSize.size(10)
+        titleLabel?.font = .primary(ofSize: StaticSize.size(20), weight: .regular)
+        setTitleColor(.arcticWhite, for: .normal)
+        backgroundColor = .deepBlue
+        
+        addTarget(self, action: #selector(holdDown), for: .touchDown)
+        addTarget(self, action: #selector(holdRelease), for: .touchUpInside)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        switch phase{
+        case .none, .normal:
+            normal()
+        case .disabled:
+            disabled()
+        case .presses:
+            pressed()
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func holdDown() {
+        phase = .presses
+    }
+    
+    @objc private func holdRelease() {
+        phase = .normal
+    }
+    
+    func toNormal() {
+        isUserInteractionEnabled = true
+        addGradientBackground(colors: UIColor.buttonGradient, direction: .topToBottom)
+    }
+    
+    func toDisabled() {
+        isUserInteractionEnabled = false
+        addGradientBackground(colors: UIColor.turnedOffGradient, direction: .topToBottom)
+    }
+    
+    func toPressed() {
+        layer.sublayers?.first(where: { $0 is CAGradientLayer })?.removeFromSuperlayer()
     }
 }
 
@@ -80,16 +135,26 @@ class CustomButtonTwoText: CustomButton {
     }
 }
 
-class ProductButton: CustomButton {
-    var product: SKProduct
+class TappableButton: UIButton {
+    var initialColor: UIColor?
     
-    required init(product: SKProduct) {
-        self.product = product
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
-        super.init(frame: .zero)
+        addTarget(self, action: #selector(holdDown), for: .touchUpInside)
+        addTarget(self, action: #selector(holdRelease), for: .touchDown)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func holdDown() {
+        backgroundColor = initialColor
+    }
+
+    @objc private func holdRelease() {
+        initialColor = backgroundColor
+        backgroundColor = initialColor?.withAlphaComponent(0.5)
     }
 }

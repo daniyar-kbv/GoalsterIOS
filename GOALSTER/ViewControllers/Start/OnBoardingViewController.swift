@@ -68,26 +68,7 @@ class OnBoardingViewController: UIViewController {
         for i in 0..<5 {
             if i < 4 {
                 let cell = boardingView.collectionView.dequeueReusableCell(withReuseIdentifier: OnBoardingCell.reuseIdentifier, for: IndexPath(item: i, section: 0)) as! OnBoardingCell
-                switch i {
-                case 0:
-                    cell.imageView.image = UIImage(named: "onBoarding1")
-                    cell.topText.text = "On boarding top text 1".localized
-                    cell.bottomText.text = "On boarding bottom text 1".localized
-                case 1:
-                    cell.imageView.image = UIImage(named: "onBoarding2")
-                    cell.topText.text = "On boarding top text 2".localized
-                    cell.bottomText.text = "On boarding bottom text 2".localized
-                case 2:
-                    cell.imageView.image = UIImage(named: "onBoarding3")
-                    cell.topText.text = "On boarding top text 3".localized
-                    cell.bottomText.text = "On boarding bottom text 3".localized
-                case 3:
-                    cell.imageView.image = UIImage(named: "onBoarding4")
-                    cell.topText.text = "On boarding top text 4".localized
-                    cell.bottomText.text = "On boarding bottom text 4".localized
-                default:
-                    break
-                }
+                cell.type = OnBoardingCell.ViewType(rawValue: i)
                 cells_.append(cell)
             } else if i == 4 {
                 let cell = boardingView.collectionView.dequeueReusableCell(withReuseIdentifier: OnBoardingPremiumCell.reuseIdentifier, for: IndexPath(item: i, section: 0)) as! OnBoardingPremiumCell

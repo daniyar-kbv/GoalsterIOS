@@ -14,13 +14,16 @@ class TabBarItemView: UIView {
     var isActive: Bool? {
         didSet {
             guard let isActive = isActive else { return }
-            itemIconView.image = isActive ? item.icon_active : item.icon_inactive
+            UIView.animate(withDuration: 0.2, animations: { [self] in
+                itemIconView.tintColor = isActive ? .ultraPink : .middleGray
+            })
         }
     }
     
     lazy var itemIconView: UIImageView = {
         let view = UIImageView()
-        view.image = item.icon_inactive
+        view.image = item.icon.withRenderingMode(.alwaysTemplate)
+        view.tintColor = .middleGray
         return view
     }()
     
@@ -42,8 +45,7 @@ class TabBarItemView: UIView {
         itemIconView.snp.makeConstraints({
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(StaticSize.size(7))
-            $0.width.equalTo(StaticSize.size(30))
-            $0.height.equalTo(StaticSize.size(28))
+            $0.size.equalTo(StaticSize.size(24))
         })
     }
 }

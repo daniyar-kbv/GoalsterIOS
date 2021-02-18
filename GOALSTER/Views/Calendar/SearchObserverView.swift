@@ -25,15 +25,15 @@ class SearchObserverView: UIView {
     lazy var titleLabel: CustomLabelWithoutPadding = {
         let view = CustomLabelWithoutPadding()
         view.text = "Observer addition".localized
-        view.font = .gotham(ofSize: StaticSize.size(21), weight: .medium)
-        view.textColor = .customTextDarkPurple
+        view.font = .primary(ofSize: StaticSize.size(21), weight: .medium)
+        view.textColor = .deepBlue
         return view
     }()
     
     lazy var searchView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = StaticSize.size(5)
-        view.layer.borderColor = UIColor.lightGray.cgColor
+        view.layer.borderColor = UIColor.borderGray.cgColor
         view.layer.borderWidth = 0.5
         return view
     }()
@@ -48,8 +48,8 @@ class SearchObserverView: UIView {
         let view = UITextField()
         view.adjustsFontSizeToFitWidth = true
         view.placeholder = "Enter observer's E-mail".localized
-        view.font = .gotham(ofSize: StaticSize.size(16), weight: .book)
-        view.textColor = .customTextBlack
+        view.font = .primary(ofSize: StaticSize.size(15), weight: .medium)
+        view.textColor = .ultraGray
         return view
     }()
     
@@ -117,9 +117,9 @@ class SearchObserverView: UIView {
         searchView.addSubViews([closeButton, searchField])
         
         closeButton.snp.makeConstraints({
-            $0.right.equalToSuperview().offset(-StaticSize.size(10))
+            $0.right.equalToSuperview().offset(-StaticSize.size(3))
             $0.centerY.equalToSuperview()
-            $0.size.equalTo(StaticSize.size(16))
+            $0.size.equalTo(StaticSize.size(30))
         })
         
         searchField.snp.makeConstraints({

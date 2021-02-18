@@ -16,7 +16,7 @@ class ErrorView: UIView {
     lazy var appName: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: StaticSize.size(16), weight: .bold)
-        label.textColor = .customTextBlack
+        label.textColor = .ultraGray
         label.text = "24Goals"
         return label
     }()
@@ -54,6 +54,7 @@ class ErrorView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
+        alpha = 0
         
         setUp()
     }
@@ -101,9 +102,11 @@ class ErrorView: UIView {
         
         view?.addSubview(errorView)
         errorView.snp.makeConstraints({
-            $0.center.equalToSuperview()
-            $0.size.equalToSuperview()
-            
+            $0.edges.equalToSuperview()
+        })
+        
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
+            errorView.alpha = 1
         })
         
         if disableScroll, let superview = errorView.superview as? UIScrollView {
@@ -118,7 +121,13 @@ class ErrorView: UIView {
             superview.isScrollEnabled = true
         }
         
-        self.removeFromSuperview()
-        vc?.viewDidLoad()
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
+            self.alpha = 0
+        }, completion: {
+            if $0 {
+                self.removeFromSuperview()
+                vc?.viewDidLoad()
+            }
+        })
     }
 }

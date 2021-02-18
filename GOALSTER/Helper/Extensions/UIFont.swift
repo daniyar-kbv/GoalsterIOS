@@ -10,7 +10,11 @@ import Foundation
 import UIKit
 
 extension UIFont {
-    class func gotham(ofSize: CGFloat, weight: FontStyles) -> UIFont {
-        return UIFont(name: "Gotham-\(weight)", size: ofSize)!
+    class func primary(ofSize: CGFloat, weight: FontStyles) -> UIFont {
+        return UIFont(name: weight.rawValue, size: ofSize)!
+    }
+    
+    class func secondary(ofSize: CGFloat, weight: SecondaryFontStyles) -> UIFont {
+        return UIFont(name: weight.rawValue, size: ofSize)!
     }
 }

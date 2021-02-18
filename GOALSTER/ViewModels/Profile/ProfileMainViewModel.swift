@@ -22,7 +22,7 @@ class ProfileMainViewModel {
     }
     
     func connect() {
-        SpinnerView.showSpinnerView(view: view)
+//        SpinnerView.showSpinnerView(view: view)
         APIManager.shared.connect(){ error, response in
             SpinnerView.completion = {
                 guard let response = response else {

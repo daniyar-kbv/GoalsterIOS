@@ -20,22 +20,22 @@ class SearchObserverCell: UITableViewCell {
     
     lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(16), weight: .book)
-        label.textColor = .customTextBlack
+        label.font = .primary(ofSize: StaticSize.size(15), weight: .medium)
+        label.textColor = .ultraGray
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     lazy var topLine: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .borderGray
         view.isHidden = true
         return view
     }()
     
     lazy var bottomLine: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .borderGray
         return view
     }()
     

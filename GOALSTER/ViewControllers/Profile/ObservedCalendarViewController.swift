@@ -38,6 +38,11 @@ class ObservedCalendarViewController: ProfileBaseViewController {
         
         add(calendarViewController)
         setView(calendarViewController.calendarView)
+        calendarViewController.calendarView.snp.remakeConstraints({
+            $0.top.equalToSuperview().offset(StaticSize.size(25))
+            $0.left.right.bottom.equalToSuperview()
+        })
+        calendarViewController.calendarView.addButton.isHidden = true
     }
     
     override func viewDidLoad() {

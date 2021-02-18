@@ -10,18 +10,16 @@ import Foundation
 import UIKit
 
 enum FontStyles: String {
-    case mediumItalic = "MediumItalic"
-    case medium = "Medium"
-    case lightItalic = "LightItalic"
-    case light = "Light"
-    case bookItalic = "BookItalic"
-    case book = "Book"
-    case ultraItalic = "UltraItalic"
-    case ultra = "Ultra"
-    case boldItalic = "BoldItalic"
-    case bold = "Bold"
-    case extraLightItalic = "ExtraLightItalic"
-    case extraLight = "ExtraLight"
+    case light = "Gilroy-Light"
+    case regular = "Gilroy-Regular"
+    case medium = "Gilroy-Medium"
+    case semiBold = "Gilroy-Semibold"
+    case bold = "Gilroy-Bold"
+    case black = "Gilroy-Black"
+}
+
+enum SecondaryFontStyles: String {
+    case black = "Gotham-Black"
 }
 
 enum Language: String {
@@ -71,20 +69,13 @@ enum Sphere: String, CaseIterable {
         return self.rawValue.localized
     }
     
-    var icon_inactive: UIImageView {
-        if self == .career{
-            return UIImageView(image: UIImage(named: "CareerBusiness"))
+    var icon: UIImage {
+        switch self {
+        case .career:
+            return UIImage(named: "CareerBusiness")!
+        default:
+            return UIImage(named: self.rawValue)!
         }
-        return UIImageView(image: UIImage(named: self.rawValue))
-    }
-    
-    var icon_active: UIImageView {
-        var view = UIImageView(image: UIImage(named: self.rawValue)?.withRenderingMode(.alwaysTemplate))
-        if self == .career{
-            view = UIImageView(image: UIImage(named: "CareerBusiness")?.withRenderingMode(.alwaysTemplate))
-        }
-        view.tintColor = .customActivePurple
-        return view
     }
     
     static func findByName(name: String) -> Sphere {
@@ -228,43 +219,40 @@ enum ArrowDirection {
     case left
 }
 
-enum ProfileCellType {
+enum ProfileCellType: CaseIterable {
+    case personalInfo
     case observe
     case observers
+    case following
     case language
-    case spheres
     case premium
     case notifications
     case help
-    case empty
-    
-    var arrowDirection: ArrowDirection {
-        switch self {
-        case .observe, .observers:
-            return .right
-        default:
-            return .down
-        }
-    }
+    case about
+    case rateApp
     
     var title: String {
         switch self {
+        case .personalInfo:
+            return "Personal info".localized
         case .observe:
             return "Observe".localized
         case .observers:
             return "My observers".localized
+        case .following:
+            return "Following".localized
         case .language:
             return "Change app's language".localized
-        case .spheres:
-            return "Chosen spheres".localized
         case .premium:
             return "Premium subscription".localized
         case .notifications:
             return "Notifications".localized
         case .help:
             return "Help".localized
-        default:
-            return ""
+        case .about:
+            return "About app".localized
+        case .rateApp:
+            return "Rate app".localized
         }
     }
     
@@ -277,18 +265,10 @@ enum ProfileCellType {
             case .ru:
                 return "Русский язык"
             }
-        case .spheres:
-            var spheres = ""
-            if ModuleUserDefaults.getHasSpheres(){
-                for (index, sphere) in (ModuleUserDefaults.getSpheres() ?? []).enumerated(){
-                    if let name = sphere.sphere {
-                        spheres.append(contentsOf: index + 1 != ModuleUserDefaults.getSpheres()?.count ? "\(name.localized), " : name.localized)
-                    }
-                }
-            }
-            return spheres
         case .premium:
-            return ModuleUserDefaults.getIsPremium() ?? false ? ModuleUserDefaults.getPremiumType() ?? "" : "Not purchased".localized
+            return ModuleUserDefaults.getIsPremium() ?
+                "\("Valid through".localized) \(ModuleUserDefaults.getPremiumEndDate()?.toDate()?.format(format: "dd.MM.yyyy") ?? "")" :
+                "Not purchased".localized
         default:
             return nil
         }
@@ -299,6 +279,7 @@ enum NotificationType: Int {
     case threeDays = 1
     case beforeEnd = 2
     case end = 3
+    case comment = 4
     
     var title: String?{
         switch self {
@@ -308,6 +289,8 @@ enum NotificationType: Int {
             return "Before end notification title".localized
         case .end:
             return "End notification title".localized
+        case .comment:
+            return "New comment".localized
         }
     }
     
@@ -319,6 +302,8 @@ enum NotificationType: Int {
             return "Before end notification message".localized
         case .end:
             return "End notification message".localized
+        case .comment:
+            return ""
         }
     }
 }
@@ -358,4 +343,37 @@ enum TimeUnit: Int {
 enum DeepLinkType: Int {
     case auth = 1
     case premium = 2
+}
+
+enum SegmentType: CaseIterable {
+    case emotions
+    case visualizations
+    case following
+    case recommendations
+    
+    var name: String {
+        switch self {
+        case .emotions:
+            return "Emotions".localized
+        case .visualizations:
+            return "Visualizations".localized
+        case .following:
+            return "Following".localized
+        case .recommendations:
+            return "Reccondations".localized
+        }
+    }
+    
+    var viewController: SegmentVc {
+        switch self {
+        case .emotions:
+            return EmotionsMainViewController(id: self.name)
+        case .visualizations:
+            return VisualizationsMainViewcontroller(id: self.name)
+        case .following:
+            return FeedViewController(type: .following, id: self.name)
+        case .recommendations:
+            return FeedViewController(type: .recommendations, id: self.name)
+        }
+    }
 }

@@ -20,8 +20,10 @@ class EmotionsMainViewModel {
         }
     }
     
-    func getEmotions() {
-        SpinnerView.showSpinnerView(view: view)
+    func getEmotions(withSpinner: Bool = true) {
+        if withSpinner {
+            SpinnerView.showSpinnerView(view: view)
+        }
         APIManager.shared.getEmotions() { error, response in
             SpinnerView.completion = {
                 guard let response = response else {

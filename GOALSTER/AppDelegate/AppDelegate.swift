@@ -26,9 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         UNUserNotificationCenter.current().delegate = self
 
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: {_, _ in })
-
         application.registerForRemoteNotifications()
 
         Messaging.messaging().delegate = self
@@ -45,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DynamicLinks.performDiagnostics(completion: nil)
         
         configData()
+        configNotifications()
         
         return true
     }
@@ -66,6 +64,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func configData() {
         AppShared.sharedInstance.selectedSpheres = ModuleUserDefaults.getSpheres()
         UIApplication.setNotificationBadge(count: 0)
+    }
+    
+    func configNotifications() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        let calendar = Calendar.current
+        notificationCenter.removeAllPendingNotificationRequests()
+        
+        let inviteContent = UNMutableNotificationContent()
+        inviteContent.title = "Invite a friend or become an observer".localized
+        
+        for weekday in [1, 4] {
+            var dateComponents = DateComponents()
+            dateComponents.calendar = calendar
+            dateComponents.weekday = weekday
+            dateComponents.hour = 12
+            dateComponents.minute = 0
+    
+            let trigger = UNCalendarNotificationTrigger(
+                     dateMatching: dateComponents, repeats: true)
+            let uuidString = UUID().uuidString
+            let request = UNNotificationRequest(identifier: uuidString,
+                        content: inviteContent, trigger: trigger)
+            
+            notificationCenter.add(request) { (error) in
+                if error != nil {
+                    print(error as Any)
+                }
+            }
+        }
+        
+        if ModuleUserDefaults.getIsLoggedIn() {
+            let threeDaysContent = UNMutableNotificationContent()
+            threeDaysContent.title = "You haven't opened the 24Goals app in 3 days.".localized
+            threeDaysContent.body = "Click here and I'll show you what you started it all for.".localized
+            threeDaysContent.userInfo = [
+                "type": String(NotificationType.threeDays.rawValue)
+            ]
+            
+            var dateComponents = DateComponents()
+            dateComponents.day = 3
+//            dateComponents.second = 5
+
+            let trigger = UNCalendarNotificationTrigger(
+                     dateMatching: dateComponents, repeats: false)
+            let uuidString = UUID().uuidString
+            let request = UNNotificationRequest(identifier: uuidString,
+                        content: threeDaysContent, trigger: trigger)
+
+            notificationCenter.add(request) { (error) in
+                if error != nil {
+                    print(error as Any)
+                }
+            }
+        }
     }
 }
 
@@ -107,21 +159,19 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
 
     //Present in app
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let userInfo = notification.request.content.userInfo
-        if let typeStr = userInfo["type"] as? String, let typeInt = Int(typeStr), let type = NotificationType(rawValue: typeInt) {
-            let vc = UIApplication.topViewController()
-            vc?.showAlertOk(title: type.title, messsage: type.message, okCompletion: { _ in
-                AppShared.sharedInstance.notificationType = type
-            })
-        }
+        let content = notification.request.content
+        print(content.userInfo)
+        let vc = UIApplication.topViewController()
+        vc?.showAlertOk(title: content.title, messsage: content.body, okCompletion: { _ in
+            AppShared.sharedInstance.notification = content
+        })
     }
 
     //On tap
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        if let typeStr = userInfo["type"] as? String, let typeInt = Int(typeStr), let type = NotificationType(rawValue: typeInt) {
-            AppShared.sharedInstance.notificationType = type
-        }
+        let content = response.notification.request.content
+        print(content.userInfo)
+        AppShared.sharedInstance.notification = content
         completionHandler()
     }
 }

@@ -11,17 +11,18 @@ import UIKit
 import RxSwift
 
 class SpheresDescriptionViewController: UIViewController {
-    lazy var spheresView = SpheresDescriptionView()
+    lazy var spheresView = SpheresDescriptionView(spheres: spheres, fromProfile: fromProfile)
     lazy var disposeBag = DisposeBag()
     lazy var viewModel = ChooseSpheresViewModel()
-    lazy var fromProfile = false
     
-    var spheres: [(key: Sphere, value: String)]? {
-        didSet {
-            spheresView.firstView.sphere = spheres?[0]
-            spheresView.secondView.sphere = spheres?[1]
-            spheresView.thirdView.sphere = spheres?[2]
-        }
+    var spheres: [(key: Sphere, value: String)]
+    var fromProfile: Bool
+    
+    required init(spheres: [(key: Sphere, value: String)], fromProfile: Bool = false) {
+        self.spheres = spheres
+        self.fromProfile = fromProfile
+        
+        super.init(nibName: .none, bundle: .none)
     }
     
     override func loadView() {
@@ -37,21 +38,17 @@ class SpheresDescriptionViewController: UIViewController {
             self.removeTop()
         }
         
-        spheresView.firstView.onChange = fieldChanged(_:)
-        spheresView.secondView.onChange = fieldChanged(_:)
-        spheresView.thirdView.onChange = fieldChanged(_:)
-        
-        spheresView.nextButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
-        
-        if fromProfile {
-            spheresView.firstView.textView.text = ModuleUserDefaults.getSpheres()?[0].description_
-            spheresView.firstView.textView.textColor = .customTextBlack
-            spheresView.secondView.textView.text = ModuleUserDefaults.getSpheres()?[1].description_
-            spheresView.secondView.textView.textColor = .customTextBlack
-            spheresView.thirdView.textView.text = ModuleUserDefaults.getSpheres()?[2].description_
-            spheresView.thirdView.textView.textColor = .customTextBlack
-            spheresView.nextButton.isActive = false
+        for (index, view) in ((spheresView.mainStackView.arrangedSubviews as? [SpheresDescriptionSmallView]) ?? []).enumerated() {
+            view.textView.onChange = fieldChanged(_:)
+            if fromProfile {
+                view.textView.text = ModuleUserDefaults.getSpheres()?[index].description_
+                view.textView.textColor = .ultraGray
+                view.textView.isEmpty = false
+            }
         }
+        
+        spheresView.nextButton.isActive = !fromProfile
+        spheresView.nextButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
         
         bind()
     }
@@ -60,35 +57,38 @@ class SpheresDescriptionViewController: UIViewController {
         viewModel.spheres.subscribe(onNext: { spheres in
             DispatchQueue.main.async {
                 AppShared.sharedInstance.selectedSpheres = spheres
-                ModuleUserDefaults.setSpheres(value: spheres)
+                ModuleUserDefaults.setSpheres(object: spheres)
                 AppShared.sharedInstance.hasSpheres = true
                 ModuleUserDefaults.setHasSpheres(true)
-                if !self.fromProfile {
+                if self.parent != nil {
                     self.parent?.dismiss(animated: true, completion: nil)
                 } else {
-                    self.openTop(vc: SpheresSuccessViewController())
+                    self.dismiss(animated: true)
                 }
             }
         }).disposed(by: disposeBag)
     }
     
     func fieldChanged(_ textView: UITextView){
-        spheresView.nextButton.isActive = spheresView.firstView.textView.textColor != .lightGray && spheresView.secondView.textView.textColor != .lightGray && spheresView.thirdView.textView.textColor != .lightGray
+        spheresView.nextButton.isActive = !((spheresView.mainStackView.arrangedSubviews as? [SpheresDescriptionSmallView])?.map({ $0.textView.textColor }).contains(.lightGray) ?? true)
     }
     
     @objc func nextTapped() {
         if fromProfile {
-            viewModel.updateSpheres(firstDescription: spheresView.firstView.textView.text, secondDescription: spheresView.secondView.textView.text, thirdDescription: spheresView.thirdView.textView.text)
+            guard let views = spheresView.mainStackView.arrangedSubviews as? [SpheresDescriptionSmallView] else { return }
+            viewModel.updateSpheres(firstDescription: views[0].textView.text, secondDescription: views[1].textView.text, thirdDescription: views[2].textView.text)
         } else {
             var spheres_: [(key: String, value: String)] = []
             for view in spheresView.mainStackView.arrangedSubviews as! [SpheresDescriptionSmallView] {
-                if let sphereName = spheres?[view.index ?? 0].value{
-                    spheres_.append((key: sphereName, value: view.textView.text))
-                }
+                spheres_.append((key: spheres[view.index ?? 0].value, value: view.textView.text))
             }
             if spheres_.count == 3 {
                 viewModel.chooseSpheres(spheres: spheres_)
             }
         }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

@@ -13,6 +13,50 @@ import SnapKit
 class OnBoardingCell: UICollectionViewCell {
     static let reuseIdentifier = "OnBoardingCell"
     
+    enum ViewType: Int {
+        case first
+        case second
+        case third
+        case fourth
+        
+        var image: UIImage? {
+            return UIImage(named: "onBoarding\(rawValue + 1)")
+        }
+        
+        var title: String {
+            return "On boarding top text \(rawValue + 1)".localized
+        }
+        
+        var text: String {
+            return "On boarding bottom text \(rawValue + 1)".localized
+        }
+        
+        var imageSize: CGSize {
+            switch self {
+            case .first:
+                return CGSize(width: StaticSize.size(284), height: StaticSize.size(189))
+            case .second:
+                return CGSize(width: StaticSize.size(252), height: StaticSize.size(191))
+            case .third:
+                return CGSize(width: StaticSize.size(210), height: StaticSize.size(182))
+            case .fourth:
+                return CGSize(width: StaticSize.size(233), height: StaticSize.size(167))
+            }
+        }
+    }
+    
+    var type: ViewType? {
+        didSet {
+            imageView.image = type?.image
+            topText.text = type?.title
+            bottomText.text = type?.text
+            imageView.snp.makeConstraints({
+                $0.width.equalTo(type?.imageSize.width ?? 0)
+                $0.height.equalTo(type?.imageSize.height ?? 0)
+            })
+        }
+    }
+    
     lazy var backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -25,19 +69,39 @@ class OnBoardingCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var topText: CustomLabelWithoutPadding = {
-        let view = CustomLabelWithoutPadding()
+    lazy var topText: UILabel = {
+        let view = UILabel()
         view.textAlignment = .center
-        view.font = .gotham(ofSize: StaticSize.size(22), weight: .bold)
-        view.textColor = .customTextDarkPurple
+        view.font = .primary(ofSize: StaticSize.size(20), weight: .semiBold)
+        view.textColor = .deepBlue
+        view.numberOfLines = 0
         return view
     }()
     
-    lazy var bottomText: CustomLabelWithoutPadding = {
-        let view = CustomLabelWithoutPadding()
+    lazy var bottomText: UILabel = {
+        let view = UILabel()
         view.textAlignment = .center
-        view.font = .gotham(ofSize: StaticSize.size(16), weight: .book)
-        view.textColor = .customTextBlack
+        view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
+        view.textColor = .ultraGray
+        view.numberOfLines = 0
+        return view
+    }()
+    
+    lazy var textStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [topText, bottomText])
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.alignment = .fill
+        view.spacing = StaticSize.size(13)
+        return view
+    }()
+    
+    lazy var mainStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [imageView, textStack])
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.alignment = .center
+        view.spacing = StaticSize.size(80)
         return view
     }()
     
@@ -58,22 +122,11 @@ class OnBoardingCell: UICollectionViewCell {
             $0.edges.equalToSuperview().inset(StaticSize.size(10))
         })
         
-        backView.addSubViews([imageView, topText, bottomText])
+        backView.addSubViews([mainStack])
         
-        imageView.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(StaticSize.size(145))
-            $0.centerX.equalToSuperview()
-            $0.size.equalTo(StaticSize.size(150))
-        })
-        
-        topText.snp.makeConstraints({
-            $0.top.equalTo(imageView.snp.bottom).offset(StaticSize.size(20))
+        mainStack.snp.makeConstraints({
             $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-        })
-        
-        bottomText.snp.makeConstraints({
-            $0.top.equalTo(topText.snp.bottom).offset(StaticSize.size(48))
-            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
+            $0.centerY.equalToSuperview()
         })
     }
 }

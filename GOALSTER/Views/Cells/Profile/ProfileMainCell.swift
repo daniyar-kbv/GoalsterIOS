@@ -11,79 +11,68 @@ import UIKit
 
 class ProfileMainCell: UITableViewCell {
     static let reuseIdentifier = "ProfileMainCell"
-    
-    var type: ProfileCellType? {
+    var count: Int? {
         didSet {
-            container.isHidden = type == .empty
-            arrowDirection = type?.arrowDirection
-            title.text = type?.title
-            subtitle.text = type?.subtitle
-            arrow.isHidden = ModuleUserDefaults.getIsPremium() && type == .premium
+            guard let count = count else { return }
+            circle.isHidden = count == 0
+            number.text = "\(count)"
         }
     }
     
-    var arrowDirection: ArrowDirection? {
+    var type: ProfileCellType? {
         didSet {
-            switch arrowDirection {
-            case .right:
-                arrow.image = UIImage(named: "arrowRight")
-                arrow.snp.makeConstraints({
-                    $0.width.equalTo(StaticSize.size(8))
-                    $0.height.equalTo(StaticSize.size(13))
-                })
-            case .down:
-                arrow.image = UIImage(named: "arrowDownGray")
-                arrow.snp.makeConstraints({
-                    $0.width.equalTo(StaticSize.size(13))
-                    $0.height.equalTo(StaticSize.size(8))
-                })
-            default:
-                break
+            title.text = type?.title
+            arrow.isHidden = ModuleUserDefaults.getIsPremium() && type == .premium
+            if let subtitle_ = type?.subtitle {
+                subtitle.text = subtitle_
+                titleStack.addArrangedSubview(subtitle)
             }
         }
     }
     
     lazy var container: UIView = {
         let view = UIView()
+        view.backgroundColor = .buttonPink
+        view.layer.cornerRadius = StaticSize.size(8)
         return view
     }()
     
     lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(20), weight: .medium)
-        label.textColor = .customTextBlack
+        label.font = .primary(ofSize: StaticSize.size(15), weight: .medium)
+        label.textColor = .deepBlue
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     lazy var subtitle: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(12), weight: .medium)
+        label.font = .primary(ofSize: StaticSize.size(12), weight: .medium)
         label.textColor = .lightGray
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     lazy var titleStack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [title, subtitle])
+        let view = UIStackView(arrangedSubviews: [title])
         view.axis = .vertical
-        view.distribution = .fillProportionally
+        view.distribution = .equalSpacing
         view.alignment = .fill
-        view.spacing = StaticSize.size(4)
+        view.spacing = StaticSize.size(5)
         return view
     }()
     
-    lazy var circle: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "circle")?.withRenderingMode(.alwaysTemplate)
-        view.tintColor = .customLightRed
+    lazy var circle: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = StaticSize.size(12)
+        view.backgroundColor = .greatRed
         view.isHidden = true
         return view
     }()
     
     lazy var number: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(16), weight: .medium)
+        label.font = .primary(ofSize: StaticSize.size(13), weight: .medium)
         label.textColor = .white
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
@@ -92,19 +81,8 @@ class ProfileMainCell: UITableViewCell {
     
     lazy var arrow: UIImageView = {
         let view = UIImageView()
-        return view
-    }()
-    
-    lazy var topLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
-        view.isHidden = true
-        return view
-    }()
-    
-    lazy var bottomLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
+        view.image = UIImage(named: "arrowRight")?.withRenderingMode(.alwaysTemplate)
+        view.tintColor = .deepBlue
         return view
     }()
     
@@ -121,33 +99,26 @@ class ProfileMainCell: UITableViewCell {
     }
     
     func setUp() {
-        addSubViews([container, topLine, bottomLine])
+        contentView.addSubViews([container])
         
         container.snp.makeConstraints({
-            $0.edges.equalToSuperview()
-        })
-        
-        topLine.snp.makeConstraints({
-            $0.top.left.right.equalToSuperview()
-            $0.height.equalTo(0.5)
-        })
-        
-        bottomLine.snp.makeConstraints({
-            $0.bottom.left.right.equalToSuperview()
-            $0.height.equalTo(0.5)
+            $0.top.bottom.equalToSuperview().inset(StaticSize.size(8))
+            $0.left.right.equalToSuperview()
         })
         
         container.addSubViews([arrow, circle, titleStack])
         
         arrow.snp.makeConstraints({
-            $0.right.equalToSuperview().offset(-StaticSize.size(11))
+            $0.right.equalToSuperview().offset(-StaticSize.size(24))
+            $0.width.equalTo(StaticSize.size(8))
+            $0.height.equalTo(StaticSize.size(14))
             $0.centerY.equalToSuperview()
         })
         
         circle.snp.makeConstraints({
-            $0.right.equalTo(arrow.snp.left).offset(-StaticSize.size(21))
+            $0.right.equalTo(arrow.snp.left).offset(-StaticSize.size(24))
             $0.centerY.equalToSuperview()
-            $0.size.equalTo(StaticSize.size(28))
+            $0.size.equalTo(StaticSize.size(24))
         })
         
         circle.addSubViews([number])
@@ -157,9 +128,8 @@ class ProfileMainCell: UITableViewCell {
         })
         
         titleStack.snp.makeConstraints({
-            $0.left.equalToSuperview()
-            $0.top.bottom.equalToSuperview().inset(StaticSize.size(8))
-            $0.right.equalTo(arrow.snp.left).offset(-StaticSize.size(10))
+            $0.right.left.equalToSuperview().inset(StaticSize.size(15))
+            $0.centerY.equalToSuperview()
         })
     }
 }

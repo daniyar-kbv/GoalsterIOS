@@ -8,12 +8,28 @@
 
 import Foundation
 
-class User: Codable {
+class User: NSObject, Codable, NSCoding {
     var id: Int?
     var email: String?
     
     enum CodingKeys: String, CodingKey {
         case id, email
+    }
+    
+    init(id: Int?, email: String?) {
+        self.id = id
+        self.email = email
+    }
+
+    required convenience init(coder aDecoder: NSCoder) {
+        let id = aDecoder.decodeObject(forKey: "id") as? Int
+        let email = aDecoder.decodeObject(forKey: "email") as? String
+        self.init(id: id, email: email)
+    }
+
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: "id")
+        aCoder.encode(email, forKey: "email")
     }
 }
 

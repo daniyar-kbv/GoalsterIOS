@@ -17,6 +17,7 @@ class BackButton: UIButton {
         
         setBackgroundImage(UIImage(named: "backButton"), for: .normal)
         addTarget(self, action: #selector(tapped), for: .touchUpInside)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -26,6 +27,12 @@ class BackButton: UIButton {
     @objc func tapped() {
         if let onBack = onBack {
             onBack()
+        } else if let vc = viewContainingController() as? ChildViewController {
+            vc.removeTop()
+        } else if viewContainingController()?.parent is UINavigationController {
+            viewContainingController()?.navigationController?.popViewController(animated: true)
+        } else {
+            viewContainingController()?.dismiss(animated: true)
         }
     }
 }

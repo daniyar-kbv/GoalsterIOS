@@ -21,8 +21,10 @@ class VisulizationsMainViewModel {
         }
     }
     
-    func getVisualizations() {
-        SpinnerView.showSpinnerView(view: view)
+    func getVisualizations(withSpinner: Bool = true) {
+        if withSpinner {
+            SpinnerView.showSpinnerView(view: view)
+        }
         APIManager.shared.getVisualizations() { error, response in
             SpinnerView.completion = {
                 guard let response = response else {
@@ -34,9 +36,11 @@ class VisulizationsMainViewModel {
         }
     }
     
-    func deleteVisualization(id: Int?) {
+    func deleteVisualization(id: Int?, withSpinner: Bool = true) {
         if let id = id {
-            SpinnerView.showSpinnerView(view: view)
+            if withSpinner {
+                SpinnerView.showSpinnerView(view: view)
+            }
             APIManager.shared.deleteVisualization(id: id) { error, response in
                 guard response != nil else {
                     SpinnerView.removeSpinnerView()

@@ -13,6 +13,7 @@ class DayViewModel {
     lazy var response = PublishSubject<GoalsResponse>()
     lazy var calendarItems = PublishSubject<[CaledarItem]>()
     var view: UIView?
+    var vc: DayViewController?
     
     var calendarResponse: CalendarResponse? {
         didSet {
@@ -35,11 +36,27 @@ class DayViewModel {
                     guard let calendarRes = calendarRes else {
                         return
                     }
-                    self.response.onNext(res)
                     self.calendarResponse = calendarRes
+                    self.vc?.setResponse(date: date, response: res)
                 }
                 SpinnerView.removeSpinnerView()
             }
+        }
+    }
+    
+    func getGoalsOnly(date: Date, withSpinner: Bool = true) {
+        if withSpinner {
+            SpinnerView.showSpinnerView(view: view)
+        }
+        APIManager.shared.getGoals(date: date.format(), observation: nil) { error, response in
+            SpinnerView.completion = {
+                guard let res = response else {
+                    SpinnerView.removeSpinnerView()
+                    return
+                }
+                self.vc?.setResponse(date: date, response: res)
+            }
+            SpinnerView.removeSpinnerView()
         }
     }
 }

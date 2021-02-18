@@ -24,8 +24,8 @@ class VisualizationSmallCell: UICollectionViewCell {
     
     lazy var text: UILabel = {
         let view = UILabel()
-        view.font = .gotham(ofSize: StaticSize.size(12), weight: .book)
-        view.textColor = .customTextBlack
+        view.font = .primary(ofSize: StaticSize.size(12), weight: .medium)
+        view.textColor = .darkBlack
         view.numberOfLines = 2
         view.adjustsFontSizeToFitWidth = true
         return view

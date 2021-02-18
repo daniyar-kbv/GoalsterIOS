@@ -9,23 +9,22 @@
 import Foundation
 import UIKit
 
-class SphereModalViewController: CustomModalViewController, UITableViewDelegate, UITableViewDataSource {
+class SphereModalViewController: ChildViewController, UITableViewDelegate, UITableViewDataSource {
     lazy var sphereModalView = SphereModalView()
     lazy var spheresToShow: [Int] = [0, 1, 2]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        modalView.setView(view: sphereModalView)
-        
         sphereModalView.tableView.delegate = self
         sphereModalView.tableView.dataSource = self
+        sphereModalView.backButton.onBack = backToParent
     }
     
     override func loadView() {
         super.loadView()
         
-        view = modalView
+        view = sphereModalView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,12 +44,12 @@ class SphereModalViewController: CustomModalViewController, UITableViewDelegate,
             let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! SphereCell
             cell.isActive = i == indexPath.row
             if i == indexPath.row{
-                if let parentVc = parent as? AddGoalViewController{
+                if let parentVc = parentVc as? AddGoalViewController{
                     parentVc.selectedSphere = (cell.sphere!, cell.index!)
-                } else if let parentVc = parent as? AddVisualizationViewController {
+                } else if let parentVc = parentVc as? AddVisualizationViewController {
                     parentVc.selectedSphere = (cell.sphere!, cell.index!)
                 }
-                animateDown()
+                backToParent()
                 AppShared.sharedInstance.modalSelectedSphere = nil
             }
         }

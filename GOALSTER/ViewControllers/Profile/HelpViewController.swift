@@ -10,23 +10,23 @@ import Foundation
 import UIKit
 import RxSwift
 
-class HelpViewController: UIViewController {
+class HelpViewController: ProfileFirstViewController {
     lazy var helpView = HelpView()
     lazy var viewModel = HelpViewModel()
     lazy var disposeBag = DisposeBag()
+    lazy var textFieldVc = TextFieldViewController(textView: helpView.fakeTextView, parentVc: self)
     
     var success: Bool? {
         didSet {
-            let vc = SpheresSuccessViewController()
-            vc.successView.text.text = "Sent successfully!".localized
-            openTop(vc: vc)
+            navigationController?.pushViewController(HelpSuccessViewController(), animated: true)
         }
     }
     
     override func loadView() {
         super.loadView()
         
-        view = helpView
+        setView(helpView)
+        setTitle("Help".localized)
     }
     
     override func viewDidLoad() {
@@ -34,24 +34,35 @@ class HelpViewController: UIViewController {
         
         bind()
         
-        helpView.onFieldChange = onChange
+        addChild(textFieldVc)
+        textFieldVc.view.snp.makeConstraints({
+            $0.size.equalTo(0)
+        })
+        helpView.addSubview(textFieldVc.mainView.textView)
+        textFieldVc.mainView.textView.snp.makeConstraints({
+            $0.top.equalTo(helpView.topTextLabel.snp.bottom).offset(StaticSize.size(12))
+            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
+            $0.bottom.equalToSuperview().offset(-(StaticSize.buttonHeight + StaticSize.size(30)))
+        })
         
-        helpView.addButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        helpView.backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
-        
-        hideKeyboardWhenTappedAround(textView: helpView.textView)
+        textFieldVc.mainView.nextButton.setTitle("Send".localized, for: .normal)
+        textFieldVc.mainView.nextButton.isActive = false
+        textFieldVc.mainView.nextButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        textFieldVc.mainView.textView.onChange = onChange(_:)
     }
     
-    func onChange() {
-        helpView.addButton.isActive = helpView.textView.textColor != .lightGray
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        textFieldVc.mainView.textView.becomeFirstResponder()
     }
     
-    @objc func backTapped() {
-        dismiss(animated: true, completion: nil)
+    func onChange(_ textView: UITextView) {
+        textFieldVc.mainView.nextButton.isActive = textFieldVc.mainView.textView.text.count != 0
     }
     
     @objc func buttonTapped() {
-        viewModel.help(text: helpView.textView.text)
+        viewModel.help(text: textFieldVc.mainView.textView.text)
     }
     
     func bind() {

@@ -16,7 +16,7 @@ class NotificationsView: UIView {
         view.separatorStyle = .none
         view.backgroundColor = .clear
         view.rowHeight = StaticSize.size(48)
-        view.contentInset = UIEdgeInsets(top: StaticSize.size(60), left: 0, bottom: StaticSize.size(60), right: 0)
+        view.contentInset = UIEdgeInsets(top: StaticSize.size(40), left: 0, bottom: StaticSize.size(60), right: 0)
         view.register(NotificationCell.self, forCellReuseIdentifier: NotificationCell.reuseIdentifier)
         return view
     }()

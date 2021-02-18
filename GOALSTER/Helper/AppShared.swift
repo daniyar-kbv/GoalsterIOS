@@ -21,14 +21,19 @@ class AppShared {
     lazy var noInternetViewController = NoInternetViewController()
     
     lazy var openedKeyboardSizeSubject = PublishSubject<CGRect>()
-    var openedKeyboardSize: CGRect? 
+    var openedKeyboardSize: CGRect? {
+        didSet {
+            guard let openedKeyboardSize = openedKeyboardSize else { return }
+            openedKeyboardSizeSubject.onNext(openedKeyboardSize)
+        }
+    }
     var keyboardInitialSize: CGRect?
     
-    var notificationTypeSubject = PublishSubject<NotificationType>()
-    var notificationType: NotificationType? {
+    var notificationSubject = PublishSubject<UNNotificationContent>()
+    var notification: UNNotificationContent? {
         didSet {
-            guard let type = notificationType else { return }
-            notificationTypeSubject.onNext(type)
+            guard let notification = notification else { return }
+            notificationSubject.onNext(notification)
         }
     }
     
@@ -54,16 +59,109 @@ class AppShared {
     
     var deeplinkURL: URL?
     
+    lazy var profileSubject = PublishSubject<Profile?>()
+    var profile: Profile? = ModuleUserDefaults.getProfile() {
+        didSet {
+            guard let profile = profile else { return }
+            profileSubject.onNext(profile)
+            ModuleUserDefaults.setProfile(object: profile)
+        }
+    }
+    
+    lazy var goalsStatusSubject = PublishSubject<GoalsStatus?>()
+    var goalsStatus = ModuleUserDefaults.getGoalsStatus() {
+        didSet {
+            ModuleUserDefaults.setGoalsStatus(object: goalsStatus)
+            goalsStatusSubject.onNext(goalsStatus)
+        }
+    }
+    
+    lazy var totalGoalsSubject = PublishSubject<TotalGoals>()
+    var totalGoals: TotalGoals? = ModuleUserDefaults.getTotalGoals() {
+        didSet {
+            guard let totalGoals = totalGoals else { return }
+            totalGoalsSubject.onNext(totalGoals)
+            ModuleUserDefaults.setTotalGoals(object: totalGoals)
+        }
+    }
+    
+    lazy var localCalendarSubject = PublishSubject<[LocalCalendarItem]>()
+    var localCalendar: [LocalCalendarItem]? = ModuleUserDefaults.getLocalCalendar() {
+        didSet {
+            guard let localCalendar = localCalendar else { return }
+            localCalendarSubject.onNext(localCalendar)
+            ModuleUserDefaults.setLocalCalendar(object: localCalendar)
+        }
+    }
+    
+    lazy var emotionsSubject = PublishSubject<[EmotionAnswer]>()
+    var emotions: [EmotionAnswer]? = ModuleUserDefaults.getEmotions() {
+        didSet {
+            guard let emotions = emotions else { return }
+            emotionsSubject.onNext(emotions)
+            ModuleUserDefaults.setEmotions(object: emotions)
+        }
+    }
+    
+    lazy var visualizationsSubject = PublishSubject<[SphereVisualization]>()
+    var visualizations: [SphereVisualization]? = ModuleUserDefaults.getVisualizations() {
+        didSet {
+            guard let visualizations = visualizations else { return }
+            visualizationsSubject.onNext(visualizations)
+            ModuleUserDefaults.setVisualizations(object: visualizations)
+        }
+    }
+    
+    var followingVc: FeedViewController?
+    var followedUser: FeedUserFull? {
+        didSet {
+            guard let user = followedUser, let vc = followingVc else { return }
+            switch user.isFollowing ?? false {
+            case true:
+                if vc.mainView.tableView.numberOfRows(inSection: 0) == 0 {
+                    vc.viewModel.feed(type: vc.type.rawValue)
+                } else {
+                    var users = vc.users
+                    users.append(FeedUser(id: user.id, profile: user.profile, selected: user.selected, reactions: user.reactions))
+                    vc.users = users
+                    vc.viewModel.users = users
+                }
+            case false:
+                if vc.mainView.tableView.numberOfRows(inSection: 0) == 0 {
+                    vc.viewModel.feed(type: vc.type.rawValue)
+                } else {
+                    var users = vc.users
+                    users.removeAll(where: { $0.id == user.id })
+                    vc.users = users
+                    vc.viewModel.users = users
+                }
+            }
+        }
+    }
+    
+    lazy var reaction = PublishSubject<(Int, Reaction)>()
+    
+    lazy var isLoggedInSubject = PublishSubject<Bool>()
+    var isLoggedIn: Bool? {
+        didSet {
+            guard let isLoggedIn = isLoggedIn else { return }
+            ModuleUserDefaults.setIsLoggedIn(isLoggedIn)
+            isLoggedInSubject.onNext(isLoggedIn)
+        }
+    }
+    
     func auth(response: AuthResponse) {
         if let token = response.token {
             ModuleUserDefaults.setToken(token)
-            ModuleUserDefaults.setIsLoggedIn(true)
+            isLoggedIn = true
         }
         if let hasSpheres = response.hasSpheres {
             AppShared.sharedInstance.hasSpheres = hasSpheres
             ModuleUserDefaults.setHasSpheres(hasSpheres)
-            AppShared.sharedInstance.selectedSpheres = hasSpheres ? response.spheres : nil
-            ModuleUserDefaults.setSpheres(value: hasSpheres ? response.spheres : nil)
+            if hasSpheres, let spheres = response.spheres {
+                selectedSpheres = spheres
+                ModuleUserDefaults.setSpheres(object: spheres)
+            }
         }
         if let email = response.email {
             ModuleUserDefaults.setEmail(email)
@@ -71,8 +169,16 @@ class AppShared {
         if let isPremium = response.isPremium {
             ModuleUserDefaults.setIsPremium(isPremium)
         }
-        if let premiumType = response.premiumType {
-            ModuleUserDefaults.setPremiumType(premiumType)
+        if let premiumEndDate = response.premiumEndDate {
+            ModuleUserDefaults.setPremiumEndDate(premiumEndDate)
         }
+        if let showResults = response.showResults, showResults {
+            let content = UNNotificationContent()
+            content.setValue([
+                "type": NotificationType.end.rawValue
+            ], forKey: "userInfo")
+            notification = content
+        }
+        profile = response.profile
     }
 }

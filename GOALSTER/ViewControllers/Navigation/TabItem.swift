@@ -10,32 +10,28 @@ import Foundation
 import UIKit
 
 enum TabItem: String, CaseIterable {
+    case feed = "feed"
     case goals = "goals"
     case emotions = "emotions"
     case calendar = "calendar"
-    case visualizations = "visualizations"
     case profile = "profile"
     
     var viewController: UIViewController {
         switch self {
+        case .feed:
+            return SegmentedViewController(segments: [.following, .recommendations])
         case .goals:
             return GoalsMainViewController()
         case .emotions:
-            return EmotionsMainViewController()
+            return SegmentedViewController(segments: [.emotions, .visualizations])
         case .calendar:
             return DayViewController()
-        case .visualizations:
-            return VisualizationsMainViewcontroller()
         case .profile:
             return ProfileMainViewController()
         }
     }
     
-    var icon_active: UIImage {
-        return UIImage(named: "\(self.rawValue)_active")!
-    }
-    
-    var icon_inactive: UIImage {
-        return UIImage(named: "\(self.rawValue)_inactive")!
+    var icon: UIImage {
+        return UIImage(named: self.rawValue)!
     }
 }

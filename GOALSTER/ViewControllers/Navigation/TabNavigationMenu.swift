@@ -59,7 +59,7 @@ class TabNavigationMenu: UIView {
     func switchTab(from: Int, to: Int, completion: ((Bool) -> Void)? = nil) {
         if !ModuleUserDefaults.getIsLoggedIn() && to == 4 {
             let vc = UIApplication.topViewController()
-            vc?.present(AuthViewController(), animated: true, completion: nil)
+            vc?.present(FirstAuthViewController(), animated: true, completion: nil)
         } else {
             deactivateTab(tab: from)
             activateTab(tab: to, completion: completion)
@@ -68,23 +68,15 @@ class TabNavigationMenu: UIView {
     
     func activateTab(tab: Int, completion: ((Bool) -> Void)? = nil) {
         let tabToActivate = subviews[tab] as? TabBarItemView
-        
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.8, delay: 0.0, options: [.curveEaseIn, .allowUserInteraction], animations: {
-                tabToActivate?.isActive = true
-            }, completion: completion)
+        UIView.animate(withDuration: 0, animations: {
+            tabToActivate?.isActive = true
             self.itemTapped?(tab)
-        }
+        }, completion: completion)
         activeItem = tab
     }
     
     func deactivateTab(tab: Int) {
         let inactiveTab = subviews[tab] as? TabBarItemView
-        
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.4, delay: 0.0, options: [.curveEaseIn, .allowUserInteraction], animations: {
-                inactiveTab?.isActive = false
-            })
-        }
+        inactiveTab?.isActive = false
     }
 }

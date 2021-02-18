@@ -16,8 +16,8 @@ class NotificationCell: UITableViewCell {
     
     lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(20), weight: .medium)
-        label.textColor = .customTextBlack
+        label.font = .primary(ofSize: StaticSize.size(17), weight: .medium)
+        label.textColor = .ultraGray
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -25,20 +25,9 @@ class NotificationCell: UITableViewCell {
     lazy var switchButton: UISwitch = {
         let view = UISwitch()
         view.isOn = false
+        view.onTintColor = .ultraPink
+        view.tintColor = .arcticWhite
         view.addTarget(self, action: #selector(onSwitch(_:)), for: .valueChanged)
-        return view
-    }()
-    
-    lazy var topLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
-        view.isHidden = true
-        return view
-    }()
-    
-    lazy var bottomLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
         return view
     }()
     
@@ -62,7 +51,7 @@ class NotificationCell: UITableViewCell {
     }
     
     func setUp() {
-        contentView.addSubViews([switchButton, title, topLine, bottomLine])
+        contentView.addSubViews([switchButton, title])
         
         switchButton.snp.makeConstraints({
             $0.right.centerY.equalToSuperview()
@@ -73,16 +62,6 @@ class NotificationCell: UITableViewCell {
         title.snp.makeConstraints({
             $0.left.centerY.equalToSuperview()
             $0.right.equalTo(switchButton.snp.left).offset(-StaticSize.size(5))
-        })
-        
-        topLine.snp.makeConstraints({
-            $0.top.left.right.equalToSuperview()
-            $0.height.equalTo(0.5)
-        })
-        
-        bottomLine.snp.makeConstraints({
-            $0.bottom.left.right.equalToSuperview()
-            $0.height.equalTo(0.5)
         })
     }
 }

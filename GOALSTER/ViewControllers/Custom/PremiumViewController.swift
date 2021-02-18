@@ -21,19 +21,15 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     
     var success: Bool? {
         didSet {
-            if parent is ProfilePremiumViewController{
-                if let _ = parent?.parent as? AddGoalViewController, let p = parent as? ProfilePremiumViewController {
-                    p.onSuccess?()
-                } else {
-                    parent?.dismiss(animated: true, completion: {
-                        if let vc = UIApplication.topViewController() as? ProfileMainViewController {
-                            vc.reload()
-                        }
-                    })
-                }
-            } else if parent is OnBoardingViewController {
-                let vc = AppShared.sharedInstance.tabBarController
-                parent?.navigationController?.pushViewController(vc, animated: true)
+            guard let parent = parent as? PremiumVC else { return }
+            switch parent.type {
+            case .pop:
+                AppShared.sharedInstance.navigationController.popViewController(animated: true)
+                parent.onSuccess?()
+            case .dismiss:
+                self.parent?.dismiss(animated: true, completion: {
+                    parent.onSuccess?()
+                })
             }
         }
     }
@@ -55,25 +51,26 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
                 return order1! < order2!
             })
             for product in sordedProducts {
-                let button: ProductButton = {
-                    let view = ProductButton(product: product)
-                    view.setTitle(product.buttonTitle, for: .normal)
-                    view.titleLabel?.font = .gotham(ofSize: StaticSize.size(18), weight: .medium)
+                let button: PremiumButton = {
+                    let view = PremiumButton()
+                    view.product = product
                     view.addTarget(self, action: #selector(makePayment(_:)), for: .touchUpInside)
                     if parent is OnBoardingViewController {
-                        view.isUserInteractionEnabled = false
+                        view.style = .inactive
                     }
                     return view
                 }()
                 
-                button.snp.makeConstraints({
-                    $0.height.equalTo(StaticSize.buttonHeight)
-                })
+//                button.snp.makeConstraints({
+//                    $0.height.equalTo(StaticSize.buttonHeight)
+//                })
                 
                 premiumView.buttonsStack.addArrangedSubview(button)
             }
         }
     }
+    
+//    required init(type: )
     
     override func loadView() {
         super.loadView()
@@ -84,8 +81,15 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if parent is ProfilePremiumViewController {
+        if parent is PremiumVC {
             viewForSpinner = parent?.view
+            premiumView.buttonsStack.snp.makeConstraints({
+                $0.width.equalTo(ScreenSize.SCREEN_WIDTH - StaticSize.size(64))
+            })
+        } else {
+            premiumView.buttonsTitleLabel.isHidden = false
+            premiumView.topText.font = .primary(ofSize: StaticSize.size(12), weight: .medium)
+            premiumView.bottomSecondLabel.font = .primary(ofSize: StaticSize.size(12), weight: .medium)
         }
         
         fetchProducts()
@@ -100,10 +104,11 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
         }).disposed(by: disposeBag)
     }
     
-    @objc func makePayment(_ sender: ProductButton) {
+    @objc func makePayment(_ sender: PremiumButton) {
+        guard let product = sender.product else { return }
         DispatchQueue.main.async {
             if SKPaymentQueue.canMakePayments() {
-                let payment = SKPayment(product: sender.product)
+                let payment = SKPayment(product: product)
                 SKPaymentQueue.default().add(self)
                 SKPaymentQueue.default().add(payment)
                 SpinnerView.showSpinnerView()
@@ -115,12 +120,10 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
         let request = SKProductsRequest(productIdentifiers: ["com.goalsterapp.threemonth", "com.goalsterapp.sixmonth", "com.goalsterapp.oneyear"])
         request.delegate = self
         request.start()
-        SpinnerView.showSpinnerView(view: viewForSpinner)
     }
     
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         DispatchQueue.main.async {
-            SpinnerView.removeSpinnerView()
             self.products = response.products
         }
     }

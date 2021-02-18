@@ -12,7 +12,7 @@ import RxSwift
 
 class NavigationMenuBaseController: UITabBarController {
     lazy var disposeBag = DisposeBag()
-    lazy var tabItems: [TabItem] = [.goals, .emotions, .calendar, .visualizations, .profile]
+    lazy var tabItems: [TabItem] = [.feed, .goals, .calendar, .emotions, .profile]
     
     var customTabBar: TabNavigationMenu!
     
@@ -23,15 +23,18 @@ class NavigationMenuBaseController: UITabBarController {
         loadTabBar()
         bind()
         
-        if let type = AppShared.sharedInstance.notificationType {
-            openNotification(type: type)
+        if let notification = AppShared.sharedInstance.notification {
+            openNotification(notification: notification)
         }
+        
+        AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = false
+        ModuleUserDefaults.setIsInitial(true)
     }
     
     func bind() {
-        AppShared.sharedInstance.notificationTypeSubject.subscribe(onNext: { type in
+        AppShared.sharedInstance.notificationSubject.subscribe(onNext: { type in
             DispatchQueue.main.async {
-                self.openNotification(type: type)
+                self.openNotification(notification: type)
             }
         }).disposed(by: disposeBag)
     }
@@ -80,10 +83,13 @@ class NavigationMenuBaseController: UITabBarController {
         customTabBar.switchTab(from: customTabBar.activeItem, to: tab, completion: completion)
     }
     
-    func openNotification(type: NotificationType) {
+    func openNotification(notification: UNNotificationContent) {
+        guard let typeInt = Int(notification.userInfo["type"] as? String ?? ""), let type = NotificationType(rawValue: typeInt) else { return }
         switch type {
         case .threeDays:
-            toTab(tab: 3)
+            toTab(tab: 3, completion: { _ in
+                (self.viewControllers?[3] as? SegmentedViewController)?.mainView.segmentControll.buttonTapped(SegmentButton(segment: .visualizations))
+            })
         case .beforeEnd:
             toTab(tab: 2, completion: { _ in
                 if let vc = UIApplication.topViewController() as? DayViewController {
@@ -91,8 +97,15 @@ class NavigationMenuBaseController: UITabBarController {
                 }
             })
         case .end:
-            toTab(tab: 0, completion: { _ in
+            toTab(tab: 1, completion: { _ in
                 UIApplication.topViewController()?.present(ResultsViewController(), animated: true, completion: nil)
+            })
+        case .comment:
+            guard let date = (notification.userInfo["date"] as? String)?.toDate(), let idStr = notification.userInfo["id"] as? String, let goalId = Int(idStr) else { return }
+            toTab(tab: 2, completion: { _ in
+                guard let vc = UIApplication.topViewController() as? DayViewController else { return }
+                vc.tableVc.openGoal = goalId
+                vc.chooseDate(date: date)
             })
         }
         UIApplication.setNotificationBadge(count: 0)
@@ -134,7 +147,7 @@ final class TabBarAnimatedTransitioning: NSObject, UIViewControllerAnimatedTrans
     }
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.25
+        return 0.2
     }
 
 }

@@ -19,11 +19,11 @@ class VisualizationCell: UICollectionViewCell {
         didSet {
             switch index {
             case 0:
-                dot.tintColor = .customGoalRed
+                bottomLine.backgroundColor = .greatRed
             case 1:
-                dot.tintColor = .customGoalYellow
+                bottomLine.backgroundColor = .goodYellow
             case 2:
-                dot.tintColor = .customGoalGreen
+                bottomLine.backgroundColor = .calmGreen
             default:
                 break
             }
@@ -32,16 +32,16 @@ class VisualizationCell: UICollectionViewCell {
         }
     }
     
-    lazy var dot: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "dot")?.withRenderingMode(.alwaysTemplate)
+    lazy var bottomLine: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = StaticSize.size(2.5)
         return view
     }()
     
     lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(24), weight: .medium)
-        label.textColor = .customTextBlack
+        label.font = .primary(ofSize: StaticSize.size(24), weight: .medium)
+        label.textColor = .darkBlack
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -76,17 +76,18 @@ class VisualizationCell: UICollectionViewCell {
             $0.left.right.bottom.equalToSuperview()
         })
         
-        collection.addSubViews([dot, title])
-        
-        dot.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(StaticSize.size(19))
-            $0.left.equalToSuperview().offset(StaticSize.size(26))
-            $0.size.equalTo(StaticSize.size(8))
-        })
+        collection.addSubViews([title, bottomLine])
         
         title.snp.makeConstraints({
-            $0.left.equalTo(dot.snp.right).offset(StaticSize.size(5))
-            $0.centerY.equalTo(dot)
+            $0.top.equalToSuperview()
+            $0.left.equalToSuperview().offset(StaticSize.size(26))
+        })
+        
+        bottomLine.snp.makeConstraints({
+            $0.top.equalTo(title.snp.bottom).offset(StaticSize.size(2))
+            $0.left.equalToSuperview().offset(StaticSize.size(26))
+            $0.width.equalTo(StaticSize.size(150))
+            $0.height.equalTo(StaticSize.size(5))
         })
     }
 }
@@ -116,11 +117,11 @@ extension VisualizationCell: UICollectionViewDelegate, UICollectionViewDataSourc
 
 extension VisualizationCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: StaticSize.size(162), height: StaticSize.size(195))
+        return CGSize(width: StaticSize.size(162), height: StaticSize.size(190))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: StaticSize.size(41), left: StaticSize.size(20), bottom: 0, right: StaticSize.size(20))
+        return UIEdgeInsets(top: StaticSize.size(46), left: StaticSize.size(20), bottom: 0, right: StaticSize.size(20))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

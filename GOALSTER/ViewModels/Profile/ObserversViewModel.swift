@@ -12,6 +12,7 @@ import RxSwift
 
 class ObserversViewModel {
     lazy var observers = PublishSubject<[Observer]>()
+    lazy var deleteResponse = PublishSubject<Bool>()
     
     var observersResponse: ObserversResponse? {
         didSet {
@@ -36,7 +37,7 @@ class ObserversViewModel {
     func deleteObservation(id: Int) {
         SpinnerView.showSpinnerView()
         APIManager.shared.deleteObservation(id: id) { error, response in
-            guard let response = response else {
+            guard let deleteResponse = response else {
                 SpinnerView.removeSpinnerView()
                 return
             }
@@ -46,6 +47,7 @@ class ObserversViewModel {
                         return
                     }
                     self.observersResponse = response
+                    self.deleteResponse.onNext(deleteResponse)
                 }
                 SpinnerView.removeSpinnerView()
             }

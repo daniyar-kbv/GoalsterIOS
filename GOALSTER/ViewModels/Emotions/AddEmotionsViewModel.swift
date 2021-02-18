@@ -10,14 +10,21 @@ import Foundation
 import RxSwift
 
 class AddEmotionsViewModel {
-    lazy var success = PublishSubject<Bool>()
+    lazy var emotions = PublishSubject<[EmotionAnswer]>()
+    
+    var response: EmotionsResponse? {
+        didSet {
+            guard let emotions = response?.emotions else { return }
+            self.emotions.onNext(emotions)
+        }
+    }
     
     func addEmotions(stackView: UIStackView){
         var answers: [[String: Any]] = []
-        for view in stackView.arrangedSubviews as! [CustomFieldWithLabel] {
+        for view in stackView.arrangedSubviews as! [InputView] {
             answers.append([
-                "question": view.label.text ?? "",
-                "answer": view.textView.text
+                "question": view.viewType.title,
+                "answer": view.textView?.text ?? ""
             ])
         }
         SpinnerView.showSpinnerView()
@@ -26,7 +33,7 @@ class AddEmotionsViewModel {
                 guard let response = response else {
                     return
                 }
-                self.success.onNext(response)
+                self.response = response
             }
             SpinnerView.removeSpinnerView()
         }

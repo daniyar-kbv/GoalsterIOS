@@ -13,7 +13,7 @@ class CollectionIndicatorView: UIStackView {
     class Item: UIView {
         var isActive = false {
             didSet {
-                innerView.backgroundColor = isActive ? .customActivePurple : .white
+                innerView.backgroundColor = isActive ? .ultraPink : .white
             }
         }
         

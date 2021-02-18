@@ -14,13 +14,16 @@ class PremiumViewModel {
     var view: UIView?
     
     func premium(identifier: String, date: Date, productType: ProductType) {
+        ModuleUserDefaults.setIsPurchaseProcessed(false)
+        ModuleUserDefaults.setLastPurchase(object: PremiumPurchase(productType: productType, identifier: identifier, date: date))
         APIManager.shared.premium(identifier: identifier, date: date.format(format: "dd-MM-yyyy HH:mm:ss"), productType: productType) {
             error, response in
             SpinnerView.completion = {
                 guard let response = response else {
-                    ErrorView.addToView(view: self.view, text: error ?? "", withName: false, disableScroll: false)
+                    self.premium(identifier: identifier, date: date, productType: productType)
                     return
                 }
+                ModuleUserDefaults.setIsPurchaseProcessed(true)
                 self.success.onNext(response)
             }
             SpinnerView.removeSpinnerView()

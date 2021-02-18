@@ -15,8 +15,8 @@ class CalendarHeaderCell: JTAppleCollectionReusableView {
     
     lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(24), weight: .medium)
-        label.textColor = .customTextDarkPurple
+        label.font = .primary(ofSize: StaticSize.size(24), weight: .medium)
+        label.textColor = .deepBlue
         label.adjustsFontSizeToFitWidth = true
         return label
     }()

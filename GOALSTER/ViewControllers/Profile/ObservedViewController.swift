@@ -68,7 +68,7 @@ class ObservedViewController: ProfileBaseViewController {
     }
     
     func onSelect(_ id: Int?) {
-        if let id = id {
+        if let id = id, observed?.first(where: { $0.id == id })?.isConfirmed ?? false {
             let vc = ObservedCalendarViewController(observation: id)
             navigationController?.pushViewController(vc, animated: true)
         }

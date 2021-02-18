@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>24Goals</string>
+	<string>24Goals (2)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -61,18 +61,13 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Gotham Bold Italic.ttf</string>
-		<string>Gotham Bold.ttf</string>
-		<string>Gotham Book Italic.ttf</string>
-		<string>Gotham Book.ttf</string>
-		<string>Gotham ExtraLight Italic.ttf</string>
-		<string>Gotham ExtraLight.ttf</string>
-		<string>Gotham Light Italic.ttf</string>
-		<string>Gotham Light.ttf</string>
-		<string>Gotham Medium Italic.ttf</string>
-		<string>Gotham Medium.ttf</string>
-		<string>Gotham Ultra Italic.ttf</string>
-		<string>Gotham Ultra.ttf</string>
+		<string>Gilroy-Black.ttf</string>
+		<string>Gilroy-Bold.ttf</string>
+		<string>Gilroy-Light.ttf</string>
+		<string>Gilroy-Medium.ttf</string>
+		<string>Gilroy-Regular.ttf</string>
+		<string>Gilroy-Semibold.ttf</string>
+		<string>Gotham-Black.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

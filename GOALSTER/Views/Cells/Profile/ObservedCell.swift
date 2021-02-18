@@ -27,15 +27,15 @@ class ObservedCell: UITableViewCell {
     
     lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(20), weight: .medium)
-        label.textColor = .customTextBlack
+        label.font = .primary(ofSize: StaticSize.size(20), weight: .medium)
+        label.textColor = .ultraGray
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     lazy var subtitle: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(12), weight: .medium)
+        label.font = .primary(ofSize: StaticSize.size(12), weight: .medium)
         label.textColor = .lightGray
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -76,7 +76,7 @@ class ObservedCell: UITableViewCell {
     }()
     
     lazy var rightStack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [acceptButton, declineButton, arrow])
+        let view = UIStackView(arrangedSubviews: [declineButton, acceptButton, arrow])
         view.axis = .horizontal
         view.distribution = .equalSpacing
         view.alignment = .center
@@ -132,7 +132,7 @@ class ObservedCell: UITableViewCell {
         
         titleStack.snp.makeConstraints({
             $0.left.centerY.equalToSuperview()
-            $0.right.equalTo(rightStack.snp.left)
+            $0.right.equalTo(rightStack.snp.left).offset(-StaticSize.size(15))
         })
         
         topLine.snp.makeConstraints({

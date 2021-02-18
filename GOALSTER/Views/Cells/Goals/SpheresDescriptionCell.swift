@@ -12,30 +12,35 @@ import UIKit
 class SpheresDescriptionSmallView: UIView, UITextViewDelegate {
     var initialHeight: CGFloat = 0
     
-    var sphere: (key: Sphere, value: String)? {
-        didSet {
-            icon.image = sphere?.key.icon_active.image
-            icon.tintColor = .customActivePurple
-            nameLabel.text = sphere?.value
-        }
-    }
+    var sphere: (key: Sphere, value: String)
+    var fromProfile: Bool
     
     var index: Int? {
         didSet {
+            let total = ModuleUserDefaults.getTotalGoals()
             switch index {
             case 0:
-                leftView.backgroundColor = .customGoalRed
+                leftView.backgroundColor = .greatRed
+                goalsNumberLabel.text = total?.first?.toGoalsNumber()
             case 1:
-                leftView.backgroundColor = .customGoalYellow
+                leftView.backgroundColor = .goodYellow
+                goalsNumberLabel.text = total?.second?.toGoalsNumber()
             case 2:
-                leftView.backgroundColor = .customGoalGreen
+                leftView.backgroundColor = .calmGreen
+                goalsNumberLabel.text = total?.third?.toGoalsNumber()
             default:
                 break
             }
         }
     }
     
-    var onChange: ((_ textView: UITextView)->())?
+    lazy var goalsNumberLabel: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(44), weight: .black)
+        view.textColor = .deepBlue
+        view.adjustsFontSizeToFitWidth = true
+        return view
+    }()
     
     lazy var icon: UIImageView = {
         let view = UIImageView()
@@ -44,17 +49,27 @@ class SpheresDescriptionSmallView: UIView, UITextViewDelegate {
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(18), weight: .book)
-        label.textColor = .customTextDarkPurple
+        label.font = .primary(ofSize: StaticSize.size(18), weight: .medium)
+        label.textColor = .deepBlue
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
-    lazy var topTextLabel: UILabel = {
-        let view = UILabel()
-        view.font = .gotham(ofSize: StaticSize.size(12), weight: .light)
-        view.textColor = .customTextDarkPurple
-        view.text = "Text about more detailed shpere's goal description".localized
+    lazy var editButton: UIButton = {
+        let view = UIButton()
+        view.setAttributedTitle(
+            NSAttributedString(
+                string: "Edit".localized,
+                attributes: [
+                    NSAttributedString.Key.font: UIFont.primary(ofSize: StaticSize.size(13), weight: .light),
+                    NSAttributedString.Key.foregroundColor: UIColor.deepBlue,
+                    NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
+                    NSAttributedString.Key.underlineColor: UIColor.deepBlue
+                ]
+            ),
+            for: .normal
+        )
+        view.addTarget(self, action: #selector(editTapped), for: .touchUpInside)
         return view
     }()
     
@@ -70,20 +85,28 @@ class SpheresDescriptionSmallView: UIView, UITextViewDelegate {
         return view
     }()
     
-    lazy var textView: TextViewWithInput = {
-        let view = TextViewWithInput()
-        view.font = .gotham(ofSize: StaticSize.size(15), weight: .book)
-        view.textColor = .lightGray
-        view.text = "Enter description here".localized
+    lazy var textView: PrimaryTextView = {
+        let view = PrimaryTextView(placeholder: "Enter description here".localized, title: sphere.key.name, iconImage: sphere.key.icon)
+        view.font = .primary(ofSize: StaticSize.size(13), weight: .regular)
+        view.isUserInteractionEnabled = !fromProfile
         view.isScrollEnabled = false
-        view.delegate_ = self
         return view
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    required init(sphere: (key: Sphere, value: String), fromProfile: Bool = false) {
+        self.sphere = sphere
+        self.fromProfile = fromProfile
+        
+        super.init(frame: .zero)
+        
+        icon.image = sphere.key.icon
+        nameLabel.text = sphere.value
         
         setUp()
+    }
+    
+    @objc func editTapped() {
+        _ = textView.textViewShouldBeginEditing(textView)
     }
     
     required init?(coder: NSCoder) {
@@ -91,31 +114,25 @@ class SpheresDescriptionSmallView: UIView, UITextViewDelegate {
     }
     
     func setUp() {
-        addSubViews([icon, nameLabel, topTextLabel, textFieldView])
+        addSubViews([icon, nameLabel, textFieldView])
         
         icon.snp.makeConstraints({
             $0.top.equalToSuperview()
             $0.left.equalToSuperview().offset(StaticSize.size(15))
-            $0.size.equalTo(StaticSize.size(30))
+            $0.size.equalTo(StaticSize.size(20))
         })
         
         nameLabel.snp.makeConstraints({
-            $0.left.equalTo(icon.snp.right).offset(StaticSize.size(15))
+            $0.left.equalTo(icon.snp.right).offset(StaticSize.size(8))
             $0.right.equalToSuperview().offset(-StaticSize.size(15))
             $0.centerY.equalTo(icon)
         })
         
-        topTextLabel.snp.makeConstraints({
-            $0.top.equalTo(nameLabel.snp.bottom).offset(StaticSize.size(4))
-            $0.left.equalTo(nameLabel)
-            $0.right.equalToSuperview().offset(-StaticSize.size(15))
-        })
-        
         textFieldView.snp.makeConstraints({
-            $0.left.equalTo(topTextLabel)
-            $0.top.equalTo(topTextLabel.snp.bottom).offset(StaticSize.size(14))
+            $0.left.equalTo(nameLabel)
+            $0.top.equalTo(nameLabel.snp.bottom).offset(StaticSize.size(16))
             $0.right.equalToSuperview().offset(-StaticSize.size(15))
-            $0.bottom.equalToSuperview().offset(-StaticSize.size(15))
+            $0.bottom.equalToSuperview()
         })
         
         textFieldView.addSubViews([leftView, textView])
@@ -126,33 +143,36 @@ class SpheresDescriptionSmallView: UIView, UITextViewDelegate {
         })
         
         textView.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(StaticSize.size(5))
-            $0.left.equalTo(leftView.snp.right)
-            $0.right.equalToSuperview().offset(-StaticSize.size(15))
+            $0.top.left.right.equalToSuperview().inset(StaticSize.size(10))
             $0.bottom.equalToSuperview().offset(-StaticSize.size(5))
         })
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .lightGray {
-            textView.text = nil
-            textView.textColor = .customTextBlack
-        }
-    }
+        
+        if fromProfile {
+            insertSubview(goalsNumberLabel, at: 0)
+            addSubview(editButton)
+            
+            goalsNumberLabel.snp.makeConstraints({
+                $0.top.equalToSuperview()
+                $0.left.equalToSuperview().offset(StaticSize.size(44))
+                $0.right.equalToSuperview().inset(StaticSize.size(15))
+            })
 
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if let onChange = onChange {
-            onChange(textView)
-        }
-        if textView.text.isEmpty {
-            textView.text = "Enter description here".localized
-            textView.textColor = .lightGray
-        }
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        if let onChange = onChange {
-            onChange(textView)
+            icon.snp.remakeConstraints({
+                $0.top.equalTo(goalsNumberLabel.snp.bottom).offset(StaticSize.size(12))
+                $0.left.equalToSuperview().offset(StaticSize.size(15))
+                $0.size.equalTo(StaticSize.size(20))
+            })
+
+            editButton.snp.makeConstraints({
+                $0.right.equalToSuperview().offset(-StaticSize.size(15))
+                $0.centerY.equalTo(icon)
+            })
+
+            nameLabel.snp.remakeConstraints({
+                $0.right.equalTo(editButton.snp.left).offset(StaticSize.size(10))
+                $0.left.equalTo(icon.snp.right).offset(StaticSize.size(8))
+                $0.centerY.equalTo(icon)
+            })
         }
     }
 }

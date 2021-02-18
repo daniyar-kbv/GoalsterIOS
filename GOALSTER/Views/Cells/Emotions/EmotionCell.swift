@@ -38,8 +38,8 @@ class EmotionCell: UICollectionViewCell {
     
     lazy var question: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(12), weight: .book)
-        label.textColor = .customTextDarkPurple
+        label.font = .primary(ofSize: StaticSize.size(15), weight: .medium)
+        label.textColor = .deepBlue
         label.text = "Ideas".localized
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -54,10 +54,11 @@ class EmotionCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var text: CustomLabelWithoutPadding = {
-        let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(15), weight: .book)
-        view.textColor = .customTextBlack
+    lazy var text: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(15), weight: .medium)
+        view.textColor = .ultraGray
+        view.numberOfLines = 0
         return view
     }()
     
@@ -97,7 +98,7 @@ class EmotionCell: UICollectionViewCell {
         })
         
         container.snp.makeConstraints({
-            $0.top.equalTo(question.snp.bottom).offset(StaticSize.size(16))
+            $0.top.equalTo(question.snp.bottom).offset(StaticSize.size(7))
             $0.left.right.equalToSuperview().inset(StaticSize.size(15))
             $0.bottom.equalToSuperview()
         })
@@ -105,7 +106,8 @@ class EmotionCell: UICollectionViewCell {
         container.addSubViews([text])
         
         text.snp.makeConstraints({
-            $0.edges.equalToSuperview().inset(StaticSize.size(11))
+            $0.top.bottom.equalToSuperview().inset(StaticSize.size(10))
+            $0.left.right.equalToSuperview().inset(StaticSize.size(8))
         })
     }
 }

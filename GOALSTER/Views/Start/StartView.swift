@@ -13,10 +13,11 @@ import SnapKit
 class StartView: UIView {
     lazy var topTitle: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(44), weight: .medium)
-        label.textColor = .customTextDarkPurple
+        label.font = .secondary(ofSize: StaticSize.size(34), weight: .black)
+        label.textColor = .deepBlue
         label.text = "24Goals"
         label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         return label
     }()
     
@@ -26,21 +27,42 @@ class StartView: UIView {
         return view
     }()
     
-    lazy var text: CustomLabelWithoutPadding = {
-        let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(16), weight: .medium)
-        view.textColor = .customTextBlack
-        view.text = "Some text on start page".localized
+    lazy var text: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
+        view.textColor = .ultraGray
+        view.text = "The application will help you gain the skill of effective achievement all your bright goals, keeping your life balance and motivation"
+        view.textAlignment = .center
+        view.numberOfLines = 0
         return view
     }()
     
     lazy var chooseLanguageLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .customLightGray
-        label.font = .gotham(ofSize: StaticSize.size(14), weight: .book)
-        label.text = "Choose language".localized
+        label.textColor = .strongGray
+        label.font = .primary(ofSize: StaticSize.size(14), weight: .regular)
+        label.text = "Choose language"
         label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         return label
+    }()
+    
+    lazy var innerStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [logo, topTitle])
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.alignment = .center
+        view.spacing = StaticSize.size(15)
+        return view
+    }()
+    
+    lazy var mainStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [innerStack, text])
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.alignment = .fill
+        view.spacing = StaticSize.size(24)
+        return view
     }()
     
     lazy var englishButton: CustomButton = {
@@ -66,22 +88,15 @@ class StartView: UIView {
     }
     
     func setUp() {
-        addSubViews([topTitle, logo, text, chooseLanguageLabel, englishButton, russianButton])
-        
-        topTitle.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(StaticSize.size(125))
-            $0.left.equalToSuperview().offset(StaticSize.size(15))
-        })
+        addSubViews([mainStack, chooseLanguageLabel, englishButton, russianButton])
         
         logo.snp.makeConstraints({
-            $0.top.equalTo(topTitle.snp.bottom).offset(StaticSize.size(15))
-            $0.centerX.equalToSuperview()
-            $0.size.equalTo(StaticSize.size(300))
+            $0.size.equalTo(StaticSize.size(100))
         })
         
-        text.snp.makeConstraints({
-            $0.top.equalTo(logo.snp.bottom).offset(StaticSize.size(38))
-            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
+        mainStack.snp.makeConstraints({
+            $0.left.right.equalToSuperview()
+            $0.centerY.equalToSuperview()
         })
         
         russianButton.snp.makeConstraints({
@@ -98,7 +113,7 @@ class StartView: UIView {
         
         chooseLanguageLabel.snp.makeConstraints({
             $0.bottom.equalTo(englishButton.snp.top).offset(-StaticSize.size(12))
-            $0.left.equalToSuperview().offset(StaticSize.size(15))
+            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
         })
     }
 }

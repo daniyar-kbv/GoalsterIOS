@@ -21,7 +21,7 @@ class TimeCell: UITableViewCell {
     
     var isActive = false {
         didSet {
-            radio.image = UIImage(named: "radio_purple_\(isActive ? "active" : "inactive")")
+            radio.image = UIImage(named: "radio_\(isActive ? "active" : "inactive")")
         }
     }
     
@@ -32,8 +32,8 @@ class TimeCell: UITableViewCell {
     
     lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(16), weight: .medium)
-        label.textColor = .customTextDarkPurple
+        label.font = .primary(ofSize: StaticSize.size(18), weight: .medium)
+        label.textColor = .deepBlue
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -61,18 +61,17 @@ class TimeCell: UITableViewCell {
         icon.snp.makeConstraints({
             $0.left.equalToSuperview().offset(StaticSize.size(15))
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(StaticSize.size(20.5))
-            $0.height.equalTo(StaticSize.size(19))
+            $0.size.equalTo(StaticSize.size(20))
         })
         
         title.snp.makeConstraints({
-            $0.left.equalTo(icon.snp.right).offset(StaticSize.size(15))
+            $0.left.equalTo(icon.snp.right).offset(StaticSize.size(9))
             $0.centerY.equalToSuperview()
         })
         
         radio.snp.makeConstraints({
             $0.right.equalToSuperview().offset(-StaticSize.size(15))
-            $0.size.equalTo(StaticSize.size(24))
+            $0.size.equalTo(StaticSize.size(18))
             $0.centerY.equalToSuperview()
         })
     }

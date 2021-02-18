@@ -9,30 +9,33 @@
 import Foundation
 import UIKit
 import RxSwift
+import StoreKit
 
-class ProfileMainViewController: BaseViewController {
-    lazy var profileView = ProfileMainView()
+class ProfileMainViewController: UIViewController {
+    lazy var profileView = ProfileMainView(vc: self)
     lazy var viewModel = ProfileMainViewModel()
     lazy var disposeBag = DisposeBag()
+    lazy var cellTypes: [ProfileCellType] = AppStoreReviewManager.isAppropriate() ? ProfileCellType.allCases : Array(ProfileCellType.allCases[0..<ProfileCellType.allCases.count-1])
     var count: Int = 0 {
         didSet {
-            profileView.tableView.reloadData()
+            let cell = profileView.tableView.cellForRow(at: IndexPath(row: cellTypes.firstIndex(of: .observe) ?? 0, section: 0)) as? ProfileMainCell
+            cell?.circle.isHidden = count == 0
+            cell?.number.text = "\(count)"
         }
     }
     
     override func loadView() {
         super.loadView()
         
-        setView(profileView)
+        view = profileView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTitle("Profile".localized)
-        
         profileView.tableView.delegate = self
         profileView.tableView.dataSource = self
+        profileView.mainScrollView.delegate = self
         
         viewModel.view = view
         
@@ -58,52 +61,39 @@ class ProfileMainViewController: BaseViewController {
     }
 }
 
+extension ProfileMainViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let diff = StaticSize.size(112) - scrollView.contentOffset.y
+        let val = diff >= 0 ? diff : 0
+        profileView.titleLabel.alpha = val / 112
+    }
+}
+
 extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return cellTypes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfileMainCell.reuseIdentifier, for: indexPath) as! ProfileMainCell
-        switch indexPath.row {
-        case 0:
-            cell.type = .observe
-            cell.topLine.isHidden = false
-            cell.circle.isHidden = count == 0
-            cell.number.text = "+\(count)"
-        case 1:
-            cell.type = .observers
-        case 2, 6:
-            cell.type = .empty
-        case 3:
-            cell.type = .language
-        case 4:
-            cell.type = .spheres
-        case 5:
-            cell.type = .premium
-        case 7:
-            cell.type = .notifications
-        case 8:
-            cell.type = .help
-        default:
-            break
-        }
+        cell.type = cellTypes[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! ProfileMainCell
         switch cell.type {
+        case .personalInfo:
+            navigationController?.pushViewController(UpdateProfileViewController(), animated: true)
         case .observe:
             if !ModuleUserDefaults.getIsPremium() {
                 DispatchQueue.main.async {
                     let vc = ProfilePremiumViewController()
                     vc.setOnSuccess(onSuccess: {
-                        vc.dismiss(animated: true, completion: {
-                            self.navigationController?.pushViewController(ObservedViewController(), animated: true)
-                        })
+                        self.navigationController?.popViewController(animated: true)
+                        AppShared.sharedInstance.navigationController?.pushViewController(ObservedViewController(), animated: true)
                     })
-                    self.present(vc, animated: true, completion: nil)
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             } else {
                 navigationController?.pushViewController(ObservedViewController(), animated: true)
@@ -112,37 +102,41 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
             if !ModuleUserDefaults.getIsPremium() {
                 let vc = ProfilePremiumViewController()
                 vc.setOnSuccess(onSuccess: {
-                    vc.dismiss(animated: true, completion: {
-                        self.navigationController?.pushViewController(ObserversViewController(), animated: true)
-                    })
+                    self.navigationController?.popViewController(animated: true)
+                    AppShared.sharedInstance.navigationController?.pushViewController(ObserversViewController(), animated: true)
                 })
-                self.present(vc, animated: true, completion: nil)
+                self.navigationController?.pushViewController(vc, animated: true)
             } else {
-                navigationController?.pushViewController(ObserversViewController(), animated: true)
+                navigationController?.pushViewController(ProfilePremiumViewController(), animated: true)
             }
+        case .following:
+            navigationController?.pushViewController(FollowingViewController(), animated: true)
         case .language:
-            AppShared.sharedInstance.tabBarController.openLanguagesModal()
-        case .spheres:
-            if ModuleUserDefaults.getHasSpheres() {
-                let vc = SpheresListViewController()
-                vc.fromProfile = true
-                present(vc, animated: true, completion: nil)
-            } else {
-                AppShared.sharedInstance.tabBarController.toTab(tab: 0)
-            }
+            navigationController?.pushViewController(LanguagesModalViewController(), animated: true)
         case .premium:
             if ModuleUserDefaults.getIsPremium() {
                 break
             } else {
-                self.present(ProfilePremiumViewController(), animated: true, completion: nil)
+                let vc = ProfilePremiumViewController()
+                vc.setOnSuccess(onSuccess: {
+                    self.reload()
+                })
+                navigationController?.pushViewController(ProfilePremiumViewController(), animated: true)
             }
         case .notifications:
             navigationController?.pushViewController(NotificatonsViewController(), animated: true)
         case .help:
-            present(HelpViewController(), animated: true, completion: nil)
+            navigationController?.pushViewController(HelpViewController(), animated: true)
+        case .about:
+            navigationController?.pushViewController(AboutAppViewController(), animated: true)
+        case .rateApp:
+            AppStoreReviewManager.requestReviewIfAppropriate()
+            if !AppStoreReviewManager.isAppropriate() {
+                cellTypes = Array(ProfileCellType.allCases[0..<ProfileCellType.allCases.count-1])
+                tableView.reloadData()
+            }
         default:
             break
         }
-        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

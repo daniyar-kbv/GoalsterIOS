@@ -20,14 +20,14 @@ class ResultsView: UIView {
     lazy var titleLabel: CustomLabelWithoutPadding = {
         let view = CustomLabelWithoutPadding()
         view.text = "Results title".localized
-        view.font = .gotham(ofSize: StaticSize.size(32), weight: .bold)
-        view.textColor = .customTextDarkPurple
+        view.font = .primary(ofSize: StaticSize.size(32), weight: .bold)
+        view.textColor = .deepBlue
         return view
     }()
     
     lazy var topText: CustomLabelWithoutPadding = {
         let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(14), weight: .book)
+        view.font = .primary(ofSize: StaticSize.size(14), weight: .regular)
         view.textColor = .lightGray
         view.text = "Results top text".localized
         return view
@@ -35,8 +35,8 @@ class ResultsView: UIView {
     
     lazy var topText2: CustomLabelWithoutPadding = {
         let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(13), weight: .light)
-        view.textColor = .customTextDarkPurple
+        view.font = .primary(ofSize: StaticSize.size(13), weight: .light)
+        view.textColor = .deepBlue
         view.text = "Results top text 2".localized
         return view
     }()
@@ -52,8 +52,8 @@ class ResultsView: UIView {
     
     lazy var bottomText: CustomLabelWithoutPadding = {
         let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(16), weight: .book)
-        view.textColor = .customTextDarkPurple
+        view.font = .primary(ofSize: StaticSize.size(16), weight: .regular)
+        view.textColor = .deepBlue
         view.text = "Results bottom text".localized
         return view
     }()

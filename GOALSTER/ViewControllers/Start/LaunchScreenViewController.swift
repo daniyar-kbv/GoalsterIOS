@@ -8,12 +8,16 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 class LaunchScreenViewController: UIViewController {
     lazy var launchView = LaunchScreenView()
+    lazy var premiumViewModel = PremiumViewModel()
+    lazy var disposeBag = DisposeBag()
     var timer: Timer?
-    lazy var initialTimerValue: Int = 1
-    lazy var timerValue: Int = initialTimerValue
+    lazy var initialTimerValue: Double = 0.5
+    lazy var timerValue: Double = initialTimerValue
+    var needProfile = false
     
     override func loadView() {
         super.loadView()
@@ -23,18 +27,20 @@ class LaunchScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        if !ModuleUserDefaults.getIsLoggedIn(){
-            runTimer()
-        } else {
+        
+        runTimer()
+        if ModuleUserDefaults.getIsLoggedIn() {
             APIManager.shared.connect(){ error, response in
                 guard let response = response else { return }
                 AppShared.sharedInstance.auth(response: response)
-                self.toMain()
             }
         }
+        if !ModuleUserDefaults.getIsPurchaseProcessed() {
+            guard let identifier = ModuleUserDefaults.getLastPurchase()?.identifier, let date = ModuleUserDefaults.getLastPurchase()?.date, let productType = ModuleUserDefaults.getLastPurchase()?.productType else { return }
+            premiumViewModel.premium(identifier: identifier, date: date, productType: productType)
+        }
+        
+        bind()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -49,13 +55,22 @@ class LaunchScreenViewController: UIViewController {
         view.addGradientBackground()
     }
     
+    func bind() {
+        AppShared.sharedInstance.profileSubject.subscribe(onNext: { object in
+            DispatchQueue.main.async {
+                self.needProfile = object == nil
+            }
+        }).disposed(by: disposeBag)
+    }
+    
     func runTimer(){
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
             if self.timerValue == 0{
                 self.toMain()
+                self.timer?.invalidate()
                 return
             }
-            self.timerValue -= 1
+            self.timerValue -= 0.5
         }
     }
     
@@ -64,7 +79,12 @@ class LaunchScreenViewController: UIViewController {
         transition.duration = 0.2
         transition.type = .fade
         self.navigationController?.view.layer.add(transition, forKey: nil)
-        let vc = ModuleUserDefaults.getIsInitial() ? AppShared.sharedInstance.tabBarController : StartViewController()
+        var vc: UIViewController
+        if needProfile {
+            vc = NeedProfileViewController()
+        } else {
+            vc = ModuleUserDefaults.getIsInitial() ? AppShared.sharedInstance.tabBarController : StartViewController()
+        }
         if !(self.navigationController?.topViewController?.isKind(of: type(of: vc)) ?? false){
             self.navigationController?.pushViewController(vc, animated: false)
         }

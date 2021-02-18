@@ -13,21 +13,43 @@ extension UIColor {
     
 //  MARK: Colors
     
-    static let customBackPink = UIColor(hex: "#EAE8FC")
-    static let customTextBlack = UIColor(hex: "#0F0F0F")
-    static let customTextDarkPurple = UIColor(hex: "#313476")
+    static let ultraPink = UIColor(hex: "#710FF4")
+    static let ultraGray = UIColor(hex: "#0F0F0F")
+    static let darkBlack = UIColor(hex: "#000000")
+    static let deepBlue = UIColor(hex: "#313476")
+    static let middleBlue = UIColor(hex: "#8E90BD")
+    static let strongGray = UIColor(hex: "#A5A5A6")
+    static let middlePink = UIColor(hex: "#9899BA")
+    static let middleGray = UIColor(hex: "#BFBEC6")
+    static let borderGray = UIColor(hex: "#D1D1D1")
+    static let lightPink = UIColor(hex: "#BDBBC9")
+    static let lightBlue = UIColor(hex: "#7F8297")
+    static let softPink = UIColor(hex: "#D0D0E8")
+    static let buttonPink = UIColor(hex: "#F3F4FF")
+    static let wildGreen = UIColor(hex: "#00B412")
+    static let calmGreen = UIColor(hex: "#67FF64")
+    static let goodYellow = UIColor(hex: "#FFC700")
+    static let greatRed = UIColor(hex: "#FF6464")
+    static let backgroundGray = UIColor(hex: "#F9F9F9")
+    static let arcticWhite = UIColor(hex: "#FFFFFF")
+    static let lightBeige = UIColor(hex: "#FAF8F5")
+    static let strongBeige = UIColor(hex: "#F9F0E3")
+    static let arcticPink = UIColor(hex: "#EAE8FC")
+    static let turnedOffGradientStart = UIColor(hex: "#B1A8D9")
+    static let turnedOffGradientEnd = UIColor(hex: "#9C8CC3")
+    static let buttonGradientStart = UIColor(hex: "#917FE3")
+    static let buttonGradientEnd = UIColor(hex: "#5D3CB0")
+    
     static let customBackDarkPurple = UIColor(hex: "#5333A3")
     static let customBackLightPurple = UIColor(hex: "#7D6CCD")
-    static let customLightGray = UIColor(hex: "#A5A5A6")
     static let customPurple = UIColor(hex: "#5C3FAC")
-    static let customGoalRed = UIColor(hex: "#FF6464")
-    static let customGoalYellow = UIColor(hex: "#FFDD64")
-    static let customGoalGreen = UIColor(hex: "#67FF64")
-    static let customActivePurple = UIColor(hex: "#710FF4")
     static let customCalendarPurple = UIColor(hex: "#D0D0E8")
-    static let customLightRed = UIColor(hex: "#FF6464")
     static let iOSBlue = UIColor(hex: "#147EFB")
     static let iOSLightGray = UIColor(hex: "#ecf0f3")
+    
+    static let pinkGradient: [UIColor] = [.arcticPink, .arcticWhite]
+    static let turnedOffGradient: [UIColor] = [.turnedOffGradientStart, .turnedOffGradientEnd]
+    static let buttonGradient: [UIColor] = [.buttonGradientStart, .buttonGradientEnd]
     
 //  MARK: Methods
     

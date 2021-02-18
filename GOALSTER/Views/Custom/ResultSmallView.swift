@@ -13,7 +13,7 @@ class ResultSmallView: UIView {
     var result: Result? {
         didSet {
             let sphere = Sphere.findByName(name: result?.sphereName ?? "")
-            icon.image = sphere.icon_active.image
+            icon.image = sphere.icon
             name.text = result?.sphereName?.localized
             number.text = "\(result?.number ?? 0)"
         }
@@ -23,11 +23,11 @@ class ResultSmallView: UIView {
         didSet {
             switch index {
             case 0:
-                dot.tintColor = .customGoalRed
+                dot.tintColor = .greatRed
             case 1:
-                dot.tintColor = .customGoalYellow
+                dot.tintColor = .goodYellow
             case 2:
-                dot.tintColor = .customGoalGreen
+                dot.tintColor = .calmGreen
             default:
                 break
             }
@@ -36,14 +36,14 @@ class ResultSmallView: UIView {
     
     lazy var icon: UIImageView = {
         let view = UIImageView()
-        view.tintColor = .customActivePurple
+        view.tintColor = .ultraPink
         return view
     }()
     
     lazy var name: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(24), weight: .medium)
-        label.textColor = .customTextBlack
+        label.font = .primary(ofSize: StaticSize.size(24), weight: .medium)
+        label.textColor = .ultraGray
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -56,8 +56,8 @@ class ResultSmallView: UIView {
     
     lazy var number: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(44), weight: .bold)
-        label.textColor = .customTextDarkPurple
+        label.font = .primary(ofSize: StaticSize.size(44), weight: .bold)
+        label.textColor = .deepBlue
         label.adjustsFontSizeToFitWidth = true
         return label
     }()

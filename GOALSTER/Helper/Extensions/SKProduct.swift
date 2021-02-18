@@ -23,7 +23,12 @@ extension SKProduct {
             let formatter = SKProduct.formatter
             formatter.locale = self.priceLocale
             
-            return "\(self.price.doubleValue.formattedWithSeparator) \(formatter.currencyCode ?? "")"
+            switch formatter.currencyCode {
+            case "KZT":
+                return "\(self.price.doubleValue.formattedWithSeparator)₸"
+            default:
+                return "\(self.price.doubleValue.formattedWithSeparator) \(String(describing: formatter.currencyCode) ?? "")"
+            }
         }
     }
     

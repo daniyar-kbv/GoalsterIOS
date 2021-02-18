@@ -17,7 +17,7 @@ class CalendarCell: JTAppleCell {
         didSet {
             if isIn {
                 circle.tintColor = .customCalendarPurple
-                number.textColor = .customTextDarkPurple
+                number.textColor = .deepBlue
             }
         }
     }
@@ -25,7 +25,7 @@ class CalendarCell: JTAppleCell {
     var isToday = false {
         didSet {
             if isToday {
-                circle.tintColor = .customTextDarkPurple
+                circle.tintColor = .deepBlue
                 number.textColor = .white
             }
         }
@@ -40,7 +40,7 @@ class CalendarCell: JTAppleCell {
     
     lazy var number: UILabel = {
         let view = UILabel()
-        view.font = .gotham(ofSize: StaticSize.size(15), weight: .medium)
+        view.font = .primary(ofSize: StaticSize.size(15), weight: .medium)
         view.textColor = .lightGray
         view.textAlignment = .center
         return view
@@ -49,21 +49,21 @@ class CalendarCell: JTAppleCell {
     lazy var firstDot: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "dot")?.withRenderingMode(.alwaysTemplate)
-        view.tintColor = .customGoalRed
+        view.tintColor = .greatRed
         return view
     }()
     
     lazy var secondDot: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "dot")?.withRenderingMode(.alwaysTemplate)
-        view.tintColor = .customGoalYellow
+        view.tintColor = .goodYellow
         return view
     }()
     
     lazy var thirdDot: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "dot")?.withRenderingMode(.alwaysTemplate)
-        view.tintColor = .customGoalGreen
+        view.tintColor = .calmGreen
         return view
     }()
     

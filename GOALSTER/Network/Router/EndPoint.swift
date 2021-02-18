@@ -18,7 +18,7 @@ enum APIPoint {
     case goals(date: String?, observation: Int?)
     case calendar(observation: Int?)
     case searchObserver(q: String)
-    case addGoal(name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int)
+    case addGoal(name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int, isPublic: Bool)
     case todayGoals
     case doneGoal(id: Int)
     case getEmotions
@@ -38,13 +38,25 @@ enum APIPoint {
     case results
     case temp_auth(email: String)
     case test_time
+    case updateProfile(parameters: [String: Any])
+    case sendCode(email: String)
+    case verifyOTP(email: String, code: String)
+    case register(parameters: [String: Any])
+    case comments(goalId: Int)
+    case leaveComment(goalId: Int, text: String)
+    case updateGoal(goalId: Int, name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int, isPublic: Bool)
+    case feed(type: String, page: Int)
+    case react(userId: Int, reactionId: Int)
+    case feedDetail(userId: Int)
+    case follow(userId: Int)
+    case following
 }
 
 extension APIPoint: EndPointType {
     var path: String {
         switch self {
         case .connect:
-            return "/users/users/connect/"
+            return "/users/users/connect_v2/"
         case .verify:
             return "/users/users/send_activation_email_v4/"
         case .auth(let email):
@@ -94,15 +106,37 @@ extension APIPoint: EndPointType {
         case .temp_auth:
             return "users/users/temp_auth/"
         case .test_time:
-            return "main/spheres/test/"
+            return "/main/spheres/test/"
+        case .updateProfile:
+            return "/users/users/update_profile/"
+        case .sendCode:
+            return "/users/users/login_resend_otp/"
+        case .verifyOTP:
+            return "/users/users/verify_otp/"
+        case .register:
+            return "/users/users/register/"
+        case .comments, .leaveComment:
+            return "/main/comments/"
+        case .updateGoal(let goalId, _, _, _, _, _, _, _):
+            return "/main/goals/\(goalId)/"
+        case .feed:
+            return "users/feed/"
+        case .react(let userId, _):
+            return "/users/feed/\(userId)/react/"
+        case .feedDetail(let userId):
+            return "users/feed/\(userId)/"
+        case .follow(let userId):
+            return "/users/feed/\(userId)/follow/"
+        case .following:
+            return "/users/users/following/"
         }
     }
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .connect, .verify, .chooseSpheres, .addGoal, .doneGoal, .addEmtions, .addVisualization, .acceptObservation, .deleteObservation, .changeNotifications, .changeLanguage, .help, .premium, .temp_auth, .test_time:
+        case .connect, .verify, .chooseSpheres, .addGoal, .doneGoal, .addEmtions, .addVisualization, .acceptObservation, .deleteObservation, .changeNotifications, .changeLanguage, .help, .premium, .temp_auth, .test_time, .sendCode, .verifyOTP, .register, .leaveComment, .react, .follow:
             return .post
-        case .updateSpheres:
+        case .updateSpheres, .updateProfile, .updateGoal:
             return .put
         case .deleteVisualization:
             return .delete
@@ -146,20 +180,21 @@ extension APIPoint: EndPointType {
             return [
                 "q": q
             ]
-        case .addGoal(let name, let date, let time, let isShared, let observer, let sphere):
+        case .addGoal(let name, let date, let time, let isShared, let observer, let sphere, let isPublic):
             return [
                 "name": name,
                 "date": date,
                 "time": time.rawValue,
                 "is_shared": isShared,
                 "observer": observer,
-                "sphere": sphere
+                "sphere": sphere,
+                "is_public": isPublic
             ]
         case .addEmtions(let answers):
             return [
                 "answers": answers
             ]
-        case .addVisualization(let parameters):
+        case .addVisualization(let parameters), .updateProfile(let parameters), .register(let parameters):
             return parameters
         case .acceptObservation(_, let isConfirmed):
             return [
@@ -186,9 +221,42 @@ extension APIPoint: EndPointType {
                 "time_unit": productType.timeUnit.rawValue
             ]
             return parameters
-        case .temp_auth(let email):
+        case .temp_auth(let email), .sendCode(let email):
             return [
                 "email": email
+            ]
+        case .verifyOTP(let email, let code):
+            return [
+                "email": email,
+                "otp": code
+            ]
+        case .comments(let goalId):
+            return [
+                "goal": goalId
+            ]
+        case .leaveComment(let goalId, let text):
+            return [
+                "goal": goalId,
+                "text": text
+            ]
+        case .updateGoal( _, let name, let date, let time, let isShared, let observer, let sphere, let isPublic):
+            return [
+                "name": name,
+                "date": date,
+                "time": time.rawValue,
+                "is_shared": isShared,
+                "observer": observer,
+                "sphere": sphere,
+                "is_public": isPublic
+            ]
+        case .feed(let type, let page):
+            return [
+                "type": type,
+                "page": page
+            ]
+        case .react( _, let reactionId):
+            return [
+                "reaction": reactionId
             ]
         default:
             return nil
@@ -197,7 +265,7 @@ extension APIPoint: EndPointType {
     
     var encoding: Encoder.Encoding {
         switch self {
-        case .goals, .calendar, .searchObserver:
+        case .goals, .calendar, .searchObserver, .comments, .feed:
             return .urlEncoding
         default:
             return .jsonEncoding
@@ -212,19 +280,27 @@ extension APIPoint: EndPointType {
     }
     
     var baseURL: URL {
-        return URL(string: "https://api.24goalsapp.com/api")!
-//        return URL(string: "http://192.168.1.19:8990/api")!
-//        return URL(string: "http://172.20.10.3:8990/api")!
+        return URL(string: "\(APIPoint.startURL)/api")!
     }
     
     var header: HTTPHeaders? {
         switch self {
-        case .auth, .verify, .temp_auth, .test_time:
+        case .auth, .verify, .temp_auth, .test_time, .sendCode, .verifyOTP, .register:
             return [
                 "Accept-Language": ModuleUserDefaults.getLanguage() == .en ? "en-us" : "ru-ru",
                 "Timezone": TimeZone.current.identifier,
                 "FCM": ModuleUserDefaults.getFCMToken() ?? ""
             ]
+        case .feed:
+            var headers: HTTPHeaders = [
+                "Accept-Language": ModuleUserDefaults.getLanguage() == .en ? "en-us" : "ru-ru",
+                "Timezone": TimeZone.current.identifier,
+                "FCM": ModuleUserDefaults.getFCMToken() ?? ""
+            ]
+            if let token = ModuleUserDefaults.getToken() {
+                headers["Authorization"] = "JWT \(token)"
+            }
+            return headers
         default:
             return [
                 "Accept-Language": ModuleUserDefaults.getLanguage() == .en ? "en-us" : "ru-ru",
@@ -234,4 +310,10 @@ extension APIPoint: EndPointType {
             ]
         }
     }
+    
+    static var startURL = "http://161.35.198.233:8000"
+//    static var startURL = "http://192.168.1.19:8990"
+    //        return URL(string: "https://api.24goalsapp.com/api")!
+    //        return URL(string: "http://192.168.1.19:8990/api")!
+    //        return URL(string: "http://172.20.10.3:8990/api")!
 }

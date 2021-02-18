@@ -60,9 +60,9 @@ struct APIManager {
         }
     }
     
-    func addGoal(name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int, completion:@escaping(_ error:String?,_ module: Bool?)->()) {
-        router.request(.addGoal(name: name, date: date, time: time, isShared: isShared, observer: observer, sphere: sphere), returning: Bool?.self, boolResult: true) { error, response in
-            completion(error, response as? Bool)
+    func addGoal(name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int, isPublic: Bool, completion:@escaping(_ error:String?,_ module: Goal?)->()) {
+        router.request(.addGoal(name: name, date: date, time: time, isShared: isShared, observer: observer, sphere: sphere, isPublic: isPublic), returning: Goal?.self) { error, response in
+            completion(error, response as? Goal)
         }
     }
     
@@ -84,9 +84,9 @@ struct APIManager {
         }
     }
     
-    func addEmotions(answers: [[String: Any]], completion:@escaping(_ error:String?,_ module: Bool?)->()) {
-        router.request(.addEmtions(answers: answers), returning: Bool?.self, boolResult: true) { error, response in
-            completion(error, response as? Bool)
+    func addEmotions(answers: [[String: Any]], completion:@escaping(_ error:String?,_ module: EmotionsResponse?)->()) {
+        router.request(.addEmtions(answers: answers), returning: EmotionsResponse?.self) { error, response in
+            completion(error, response as? EmotionsResponse)
         }
     }
     
@@ -96,9 +96,9 @@ struct APIManager {
         }
     }
     
-    func addVisualization(parameters: [String: Any], completion:@escaping(_ error:String?,_ module: Bool?)->()) {
-        router.upload(.addVisualization(parameters: parameters), returning: Bool?.self, boolResult: true) { error, response in
-            completion(error, response as? Bool)
+    func addVisualization(parameters: [String: Any], completion:@escaping(_ error:String?,_ module: SphereVisualization?)->()) {
+        router.upload(.addVisualization(parameters: parameters), returning: SphereVisualization?.self) { error, response in
+            completion(error, response as? SphereVisualization)
         }
     }
     
@@ -177,6 +177,78 @@ struct APIManager {
     func testTime(completion:@escaping(_ error:String?,_ module: GeneralResponse?)->()) {
         router.request(.test_time, returning: GeneralResponse?.self) { error, response in
             completion(error, response as? GeneralResponse)
+        }
+    }
+    
+    func updateProfile(parameters: [String: Any], completion:@escaping(_ error: String?, _ module: UpdateProfileResponse?)->()) {
+        router.upload(.updateProfile(parameters: parameters), returning: UpdateProfileResponse?.self) { error, response in
+            completion(error, response as? UpdateProfileResponse)
+        }
+    }
+    
+    func sendCode(email: String, completion:@escaping(_ error:String?,_ module: SendCodeResponse?)->()) {
+        router.request(.sendCode(email: email), returning: SendCodeResponse?.self) { error, response in
+            completion(error, response as? SendCodeResponse)
+        }
+    }
+    
+    func verifyOTP(email: String, code: String, completion:@escaping(_ error:String?,_ module: AuthResponse?)->()) {
+        router.request(.verifyOTP(email: email, code: code), returning: AuthResponse?.self) { error, response in
+            completion(error, response as? AuthResponse)
+        }
+    }
+    
+    func register(parameters: [String: Any], completion:@escaping(_ error: String?, _ module: RegisterResponse?)->()) {
+        router.upload(.register(parameters: parameters), returning: RegisterResponse?.self) { error, response in
+            completion(error, response as? RegisterResponse)
+        }
+    }
+    
+    func comments(goalId: Int, completion:@escaping(_ error: String?, _ module: [Comment]?)->()) {
+        router.request(.comments(goalId: goalId), returning: [Comment]?.self) { error, response in
+            completion(error, response as? [Comment])
+        }
+    }
+    
+    func leaveComment(goalId: Int, text: String, completion:@escaping(_ error: String?, _ module: CreateCommentResponse?)->()) {
+        router.request(.leaveComment(goalId: goalId, text: text), returning: CreateCommentResponse?.self) { error, response in
+            completion(error, response as? CreateCommentResponse)
+        }
+    }
+    
+    func updateGoal(goalId: Int, name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int, isPublic: Bool, completion: @escaping(_ error: String?,_ module: Goal?)->()) {
+        router.request(.updateGoal(goalId: goalId, name: name, date: date, time: time, isShared: isShared, observer: observer, sphere: sphere, isPublic: isPublic), returning: Goal?.self) { error, response in
+            completion(error, response as? Goal)
+        }
+    }
+    
+    func feed(type: String, page: Int, completion: @escaping(_ error: String?,_ module: FeedResponse?)->()) {
+        router.request(.feed(type: type, page: page), returning: FeedResponse?.self) { error, response in
+            completion(error, response as? FeedResponse)
+        }
+    }
+    
+    func react(userId: Int, reactionId: Int, completion: @escaping(_ error: String?,_ module: Reaction?)->()) {
+        router.request(.react(userId: userId, reactionId: reactionId), returning: Reaction?.self) { error, response in
+            completion(error, response as? Reaction)
+        }
+    }
+    
+    func feedDetail(userId: Int, completion: @escaping(_ error: String?,_ module: FeedUserFull?)->()) {
+        router.request(.feedDetail(userId: userId), returning: FeedUserFull?.self) { error, response in
+            completion(error, response as? FeedUserFull)
+        }
+    }
+    
+    func follow(userId: Int, completion: @escaping(_ error: String?,_ module: FeedUserFull?)->()) {
+        router.request(.follow(userId: userId), returning: FeedUserFull?.self) { error, response in
+            completion(error, response as? FeedUserFull)
+        }
+    }
+    
+    func following(completion: @escaping(_ error: String?,_ module: [FeedUserFull]?)->()) {
+        router.request(.following, returning: [FeedUserFull]?.self) { error, response in
+            completion(error, response as? [FeedUserFull])
         }
     }
 }

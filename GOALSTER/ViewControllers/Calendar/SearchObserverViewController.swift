@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-class SearchObserverViewController: UIViewController {
+class SearchObserverViewController: ChildViewController {
     lazy var searchView = SearchObserverView()
     lazy var viewModel = SearchObserverViewModel()
     lazy var disposeBag = DisposeBag()
@@ -41,7 +41,6 @@ class SearchObserverViewController: UIViewController {
         searchView.tableView.dataSource = self
         
         searchView.searchField.addTarget(self, action: #selector(onFieldChange(_:)), for: .editingChanged)
-        searchView.backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
         searchView.closeButton.addTarget(self, action: #selector(clearField), for: .touchUpInside)
         searchView.addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
@@ -49,9 +48,9 @@ class SearchObserverViewController: UIViewController {
     }
     
     @objc func addButtonTapped() {
-        let vc = ObserverSuccessViewController()
-        vc.user = selectedUser
-        openTop(vc: vc)
+        guard let parentVc = parentVc as? AddGoalViewController else { return }
+        parentVc.selectedObserver = selectedUser
+        backToParent()
     }
     
     func bind() {
@@ -64,10 +63,6 @@ class SearchObserverViewController: UIViewController {
     
     @objc func onFieldChange(_ textField: UITextField) {
         viewModel.searchObserver(q: textField.text ?? "")
-    }
-    
-    @objc func backTapped() {
-        removeTop()
     }
     
     @objc func clearField() {

@@ -20,8 +20,8 @@ class ObserverSuccessView: UIView {
     lazy var titleLabel: CustomLabelWithoutPadding = {
         let view = CustomLabelWithoutPadding()
         view.text = "Observer addition".localized
-        view.font = .gotham(ofSize: StaticSize.size(21), weight: .medium)
-        view.textColor = .customTextDarkPurple
+        view.font = .primary(ofSize: StaticSize.size(21), weight: .medium)
+        view.textColor = .deepBlue
         return view
     }()
     
@@ -33,8 +33,8 @@ class ObserverSuccessView: UIView {
     
     lazy var text: CustomLabelWithoutPadding = {
         let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(15), weight: .book)
-        view.textColor = .customTextDarkPurple
+        view.font = .primary(ofSize: StaticSize.size(15), weight: .regular)
+        view.textColor = .deepBlue
         view.text = "You have made right descision".localized
         view.textAlignment = .center
         return view

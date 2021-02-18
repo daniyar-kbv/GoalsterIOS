@@ -9,14 +9,11 @@
 import Foundation
 import UIKit
 import SnapKit
+import StoreKit
 
 class PremiumView: UIView {
     var onBack: (()->())?
-    
-    lazy var container: UIView = {
-        let view = UIView()
-        return view
-    }()
+    var scrolAdded = false
     
     lazy var innerContainer: UIView = {
         let view = UIView()
@@ -30,6 +27,7 @@ class PremiumView: UIView {
         view.bounces = false
         view.showsVerticalScrollIndicator = false
         view.delaysContentTouches = false
+        view.contentInset = UIEdgeInsets(top: StaticSize.size(50), left: 0, bottom: 0, right: 0)
         return view
     }()
     
@@ -43,40 +41,94 @@ class PremiumView: UIView {
         return view
     }()
     
-    lazy var backButton: BackButton = {
-        let view = BackButton()
-        view.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
-        view.isHidden = true
-        return view
-    }()
-    
     lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "premium")
+        view.snp.makeConstraints({
+            $0.width.equalTo(StaticSize.size(180))
+            $0.height.equalTo(StaticSize.size(102))
+        })
         return view
     }()
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(32), weight: .bold)
-        label.textColor = .customTextDarkPurple
+        label.font = .primary(ofSize: StaticSize.size(20), weight: .semiBold)
+        label.textColor = .deepBlue
         label.text = "Premium version".localized
         label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
-    lazy var topText: CustomLabelWithoutPadding = {
-        let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(16), weight: .book)
-        view.textColor = .customTextBlack
+    lazy var topText: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
+        view.textColor = .ultraGray
         view.text = "Premium top text".localized
         view.textAlignment = .center
+        view.numberOfLines = 0
+        return view
+    }()
+    
+    lazy var buttonsTitleLabel: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
+        view.textColor = .deepBlue
+        view.text = "Premium buttons title".localized
+        view.textAlignment = .center
+        view.numberOfLines = 0
+        view.isHidden = true
         return view
     }()
     
     lazy var buttonsStack: UIStackView = {
         let view = UIStackView()
+        view.axis = .horizontal
+        view.distribution = .fillEqually
+        view.alignment = .fill
+        view.spacing = StaticSize.size(10)
+        return view
+    }()
+    
+    lazy var bottomFirstLabel: UILabel = {
+        let label = UILabel()
+        label.font = .primary(ofSize: StaticSize.size(20), weight: .semiBold)
+        label.textColor = .deepBlue
+        label.text = "Premium functionality".localized
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var bottomSecondLabel: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
+        view.textColor = .ultraGray
+        view.text = "Premium bottom text".localized
+        view.textAlignment = .center
+        view.numberOfLines = 0
+        return view
+    }()
+    
+    lazy var topStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [imageView, titleLabel, topText])
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.alignment = .center
+        view.spacing = StaticSize.size(15)
+        return view
+    }()
+    
+    lazy var middleStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [buttonsTitleLabel, buttonsStack])
+        view.distribution = .equalSpacing
+        view.axis = .vertical
+        view.alignment = .fill
+        view.spacing = StaticSize.size(13)
+        return view
+    }()
+    
+    lazy var bottomStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [bottomFirstLabel, bottomSecondLabel])
         view.axis = .vertical
         view.distribution = .equalSpacing
         view.alignment = .fill
@@ -84,24 +136,135 @@ class PremiumView: UIView {
         return view
     }()
     
-    lazy var bottomFirstLabel: UILabel = {
-        let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(16), weight: .medium)
-        label.textColor = .customTextDarkPurple
-        label.text = "Premium functionality".localized
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
-        return label
+    lazy var mainStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [topStack, middleStack, bottomStack])
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.alignment = .fill
+//        view.spacing = StaticSize.size(45)
+        return view
     }()
     
-    lazy var bottomSecondLabel: CustomLabelWithoutPadding = {
-        let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(12), weight: .book)
-        view.textColor = .customTextBlack
-        view.text = "Premium bottom text".localized
-        view.textAlignment = .center
-        view.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        view.adjustsFontForContentSizeCategory = true
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        backgroundColor = .clear
+        
+        setUp()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if mainStack.frame.height > StaticSize.size(60) && !scrolAdded {
+            setUpWithScroll()
+            scrolAdded = true
+        }
+    }
+    
+    func setUpWithScroll() {
+        addSubViews([mainScrollView])
+
+        mainScrollView.snp.makeConstraints({
+            $0.edges.equalToSuperview()
+        })
+
+        mainScrollView.addSubViews([mainStackView])
+
+        mainStackView.snp.makeConstraints({
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        })
+
+        innerContainer.addSubViews([mainStack])
+
+        mainStack.snp.remakeConstraints({
+            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
+            $0.top.bottom.equalToSuperview()
+        })
+        
+        mainStack.spacing = StaticSize.size(45)
+    }
+    
+    func setUp() {
+        addSubViews([mainStack])
+        
+        mainStack.snp.makeConstraints({
+            $0.top.equalToSuperview().offset(StaticSize.size(60))
+            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
+            $0.bottom.equalToSuperview().offset(-StaticSize.size(32))
+        })
+    }
+    
+    @objc func backTapped() {
+        if let onBack = onBack {
+            onBack()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class PremiumButton: CustomButton {
+    enum Style {
+        case active
+        case inactive
+    }
+    
+    var style: Style = .active {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    var product: SKProduct? {
+        didSet {
+            let titleComponents = product?.localizedTitle.localized.components(separatedBy: " ")
+            numberLabel.text = titleComponents?[0]
+            middleLabel.text = titleComponents?[1]
+            bottomLabel.text = product?.localizedPrice
+        }
+    }
+    
+    lazy var numberLabel: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(27), weight: .bold)
+        view.textColor = .deepBlue
+        return view
+    }()
+    
+    lazy var middleLabel: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(13), weight: .regular)
+        view.textColor = .deepBlue
+        return view
+    }()
+    
+    lazy var bottomLabel: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(12), weight: .medium)
+        view.textColor = .deepBlue
+        return view
+    }()
+    
+    lazy var topStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [numberLabel, middleLabel])
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.alignment = .center
+        view.spacing = 0
+        return view
+    }()
+    
+    lazy var mainStack: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [topStack, bottomLabel])
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.alignment = .center
+        view.spacing = StaticSize.size(14)
+        view.isUserInteractionEnabled = false
         return view
     }()
     
@@ -111,79 +274,45 @@ class PremiumView: UIView {
         setUp()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        switch style {
+        case .active:
+            normal = toNormal
+            backgroundColor = .deepBlue
+            layer.borderWidth = 0
+            isUserInteractionEnabled = true
+            numberLabel.textColor = .arcticWhite
+            middleLabel.textColor = .arcticWhite
+            bottomLabel.textColor = .arcticWhite
+        case .inactive:
+            layer.sublayers?.first(where: { $0 is CAGradientLayer })?.removeFromSuperlayer()
+            layer.borderWidth = StaticSize.size(1)
+            layer.borderColor = UIColor.middlePink.cgColor
+            backgroundColor = .clear
+            isUserInteractionEnabled = false
+            numberLabel.textColor = .deepBlue
+            middleLabel.textColor = .deepBlue
+            bottomLabel.textColor = .deepBlue
+        }
+        
+        snp.remakeConstraints({
+            $0.height.equalTo(frame.width)
+        })
+    }
+    
+    func setUp(){
+        addSubViews([mainStack])
+        
+        mainStack.snp.makeConstraints({
+            $0.top.equalToSuperview().offset(StaticSize.size(20))
+            $0.bottom.equalToSuperview().offset(-StaticSize.size(9))
+            $0.left.right.equalToSuperview()
+        })
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setUp() {
-        addSubViews([container, backButton])
-        
-        backButton.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(StaticSize.size(25))
-            $0.left.equalToSuperview().offset(StaticSize.size(10))
-            $0.size.equalTo(StaticSize.size(30))
-        })
-        
-        container.snp.makeConstraints({
-            $0.top.equalToSuperview()
-            $0.left.right.bottom.equalToSuperview()
-        })
-        
-        container.addSubViews([mainScrollView])
-        
-        mainScrollView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 0).isActive = true;
-        mainScrollView.topAnchor.constraint(equalTo: container.topAnchor, constant: 0).isActive = true;
-        mainScrollView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: 0).isActive = true;
-        mainScrollView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: 0).isActive = true;
-
-        mainScrollView.addSubview(mainStackView)
-
-        mainStackView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true;
-        mainStackView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true;
-        mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor).isActive = true;
-        mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true;
-        mainStackView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true;
-        
-        innerContainer.addSubViews([imageView, titleLabel, topText, buttonsStack, bottomFirstLabel, bottomSecondLabel])
-        
-        imageView.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(StaticSize.size(34))
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(StaticSize.size(100))
-            $0.height.equalTo(StaticSize.size(150))
-        })
-        
-        titleLabel.snp.makeConstraints({
-            $0.top.equalTo(imageView.snp.bottom).offset(StaticSize.size(8))
-            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-        })
-        
-        topText.snp.makeConstraints({
-            $0.top.equalTo(titleLabel.snp.bottom).offset(StaticSize.size(4))
-            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-        })
-        
-        buttonsStack.snp.makeConstraints({
-            $0.top.equalTo(topText.snp.bottom).offset(StaticSize.size(15))
-            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-            $0.height.equalTo(StaticSize.size(159))
-        })
-        
-        bottomFirstLabel.snp.makeConstraints({
-            $0.top.equalTo(buttonsStack.snp.bottom).offset(StaticSize.size(10))
-            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-        })
-        
-        bottomSecondLabel.snp.makeConstraints({
-            $0.top.equalTo(bottomFirstLabel.snp.bottom).offset(StaticSize.size(4))
-            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-            $0.bottom.equalToSuperview()
-        })
-    }
-    
-    @objc func backTapped() {
-        if let onBack = onBack {
-            onBack()
-        }
     }
 }

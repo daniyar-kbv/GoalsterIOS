@@ -13,22 +13,34 @@ import RxSwift
 class GoalsMainViewController: BaseViewController {
     lazy var goalsView = GoalsMainView()
     lazy var disposeBag = DisposeBag()
-    lazy var state: GoalsViewState = .initial
     lazy var viewModel = GoalsMainViewModel()
-    lazy var tableVc = GoalsTableViewController()
-    var response: TodayGoalsResponse? {
+    lazy var didAppear = false
+    lazy var state: GoalsViewState = .initial {
         didSet {
-            goalsView.total = response?.total
+            guard goalsView.state != state else { return }
             goalsView.clean()
-            state = response?.goals?.goals ?? false ? .selected : .notSelected
-            tableVc.dayView = goalsView.tableView
-            tableVc.response = response?.goals
-            tableVc.onReload = onReload
-            add(tableVc)
             goalsView.finishSetUp(state: state)
         }
     }
-    
+    lazy var tableVc: GoalsTableViewController = {
+        let view = GoalsTableViewController()
+        view.dayView = goalsView.tableView
+        view.date = Date()
+        view.onReload = {
+            self.viewModel.todayGoals(withSpinner: false)
+        }
+        add(view)
+        return view
+    }()
+    var response: TodayGoalsResponse? {
+        didSet {
+            state = response?.goals?.goals ?? false ? .selected : .notSelected
+            
+            tableVc.response = response?.goals
+            AppShared.sharedInstance.totalGoals = response?.total
+            ModuleUserDefaults.setGoalsStatus(object: GoalsStatus(date: Date(), goals: response))
+        }
+    }
     
     override func loadView() {
         super.loadView()
@@ -41,7 +53,6 @@ class GoalsMainViewController: BaseViewController {
         
         setTitle("Goals".localized)
         goalsView.button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        NotificationCenter.default.addObserver(self, selector: #selector(onWillEnterForegroundNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
         
         viewModel.view = view
         tableVc.viewModel.view = view
@@ -51,30 +62,32 @@ class GoalsMainViewController: BaseViewController {
         if let url = AppShared.sharedInstance.deeplinkURL {
             SceneDelegate.shareLinkHandling(url)
         }
+        
+        if !ModuleUserDefaults.getIsLoggedIn() || !ModuleUserDefaults.getHasSpheres() {
+            goalsView.finishSetUp(state: .initial)
+        } else if ModuleUserDefaults.getHasSpheres() {
+            if let goalsStatus = AppShared.sharedInstance.goalsStatus {
+                response = goalsStatus.goals
+                viewModel.todayGoals(withSpinner: false)
+            } else {
+                viewModel.todayGoals(withSpinner: true)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if !ModuleUserDefaults.getIsLoggedIn() || !ModuleUserDefaults.getHasSpheres() {
-            goalsView.finishSetUp(state: .initial)
-        } else if ModuleUserDefaults.getHasSpheres() {
-            viewModel.todayGoals()
-        }
-        
-        switch state {
-        case .initial:
-            goalsView.initialAnimationView.play()
-        case .notSelected:
-            goalsView.notSelectedAnimationView.play()
-        default:
-            break
+        if didAppear && ModuleUserDefaults.getIsLoggedIn() && ModuleUserDefaults.getHasSpheres() {
+            viewModel.todayGoals(withSpinner: false)
+        } else if !didAppear {
+            didAppear = true
         }
     }
     
     @objc func buttonTapped() {
         if !ModuleUserDefaults.getIsLoggedIn() {
-            present(AuthViewController(), animated: true, completion: nil)
+            present(FirstAuthViewController(), animated: true, completion: nil)
         } else if !ModuleUserDefaults.getHasSpheres() {
             present(SpheresListViewController(), animated: true, completion: nil)
         } else {
@@ -83,12 +96,23 @@ class GoalsMainViewController: BaseViewController {
     }
     
     func bind() {
+        AppShared.sharedInstance.totalGoalsSubject.subscribe(onNext: { object in
+            DispatchQueue.main.async {
+                self.goalsView.total = object
+            }
+        }).disposed(by: disposeBag)
+        AppShared.sharedInstance.goalsStatusSubject.subscribe(onNext: { object in
+            DispatchQueue.main.async {
+                self.state = object?.goals?.goals?.goals ?? false ? .selected : .notSelected
+                self.tableVc.response = object?.goals?.goals
+            }
+        }).disposed(by: disposeBag)
         AppShared.sharedInstance.hasSpheresSubject.subscribe(onNext: { hasSpheres in
             DispatchQueue.main.async {
-                if hasSpheres{
+                if hasSpheres && self.state == .initial{
                     self.state = .notSelected
-                    self.goalsView.clean()
-                    self.viewWillAppear(true)
+                } else if !hasSpheres && self.state != .initial {
+                    self.state = .initial
                 }
             }
         }).disposed(by: disposeBag)
@@ -99,27 +123,11 @@ class GoalsMainViewController: BaseViewController {
                 self.goalsView.thirdGoalView.name = spheres?[2].sphere?.localized ?? ""
             }
         }).disposed(by: disposeBag)
-        AppShared.sharedInstance.doneGoalResponse.subscribe(onNext: { response in
-            DispatchQueue.main.async {
-                self.viewModel.todayGoals(withSpinner: false)
-            }
-        }).disposed(by: disposeBag)
         viewModel.response.subscribe(onNext: { response in
             DispatchQueue.main.async {
                 self.response = response
             }
         }).disposed(by: disposeBag)
-    }
-    
-    @objc func onWillEnterForegroundNotification(){
-        switch state {
-        case .initial:
-            goalsView.initialAnimationView.play()
-        case .notSelected:
-            goalsView.notSelectedAnimationView.play()
-        default:
-            break
-        }
     }
     
     func onReload() {

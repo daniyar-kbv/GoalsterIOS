@@ -45,16 +45,14 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
         }()
         AF.upload(multipartFormData: { multipartFormData in
             for (key, value) in route.parameters ?? [String: Any]() {
-                if key == "image"{
+                if key == "image" || key == "avatar" || key == "profile.avatar"{
                     if let url = value as? URL{
                         multipartFormData.append(url, withName: key)
                     } else if let data = value as? Data {
                         multipartFormData.append(data, withName: key)
                     }
-                } else if key == "sphere", let id = value as? Int{
-                    multipartFormData.append("\(id)".data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: key)
-                } else if key == "annotation", let annotation = value as? String {
-                    multipartFormData.append(annotation.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName: key)
+                } else if let data = "\(value)".data(using: String.Encoding.utf8, allowLossyConversion: false) {
+                    multipartFormData.append(data, withName: key)
                 }
             }
         }, to: route.baseURL.appendingPathComponent(route.path), usingThreshold: .zero, method: route.httpMethod, headers: headers, interceptor: nil, fileManager: .default).responseData(completionHandler: { response in
@@ -91,7 +89,10 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
             do {
                 let jsonData = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers)
                 print(jsonData)
-                if statusCode != 200{
+                if statusCode == 404 {
+                    completion(nil, nil)
+                    return
+                } else if ![200, 201].contains(statusCode) {
                     do {
                         let apiResponse = try JSONDecoder().decode(ErrorResponse.self, from: responseData)
                         completion(apiResponse.getFirst(), nil)

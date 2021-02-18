@@ -22,9 +22,8 @@ class GoalsMainView: UIView {
     
     lazy var goalsNumberLabel: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(14), weight: .book)
-        label.textColor = .customLightGray
-        label.isHidden = true
+        label.font = .primary(ofSize: StaticSize.size(14), weight: .medium)
+        label.textColor = .strongGray
         label.text = "Number of complete goals".localized
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -32,47 +31,51 @@ class GoalsMainView: UIView {
     
     lazy var firstGoalView: GoalView = {
         let view = GoalView(index: 0)
-        view.color = .customGoalRed
+        view.color = .greatRed
         return view
     }()
     
     lazy var secondGoalView: GoalView = {
         let view = GoalView(index: 1)
-        view.color = .customGoalYellow
+        view.color = .goodYellow
         return view
     }()
     
     lazy var thirdGoalView: GoalView = {
         let view = GoalView(index: 2)
-        view.color = .customGoalGreen
+        view.color = .calmGreen
         return view
     }()
     
     lazy var goalsViewsStack: UIStackView = {
         let view = UIStackView(arrangedSubviews: [firstGoalView, secondGoalView, thirdGoalView])
         view.axis = .horizontal
-        view.distribution = .equalSpacing
+        view.distribution = .fillEqually
         view.alignment = .center
+        view.spacing = StaticSize.size(14)
         return view
     }()
     
     lazy var initialAnimationView: AnimationView = {
         let view = AnimationView(name: "goals_not_selected_animation")
         view.loopMode = .loop
+        view.backgroundBehavior = .pauseAndRestore
         return view
     }()
     
     lazy var notSelectedAnimationView: AnimationView = {
         let view = AnimationView(name: "goals_selected_animation")
         view.loopMode = .loop
+        view.backgroundBehavior = .pauseAndRestore
         return view
     }()
     
-    lazy var bottomTextView: CustomLabelWithoutPadding = {
-        let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(16), weight: .book)
-        view.textColor = .customLightGray
+    lazy var bottomTextView: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
+        view.textColor = .ultraGray
         view.textAlignment = .center
+        view.numberOfLines = 2
         return view
     }()
     
@@ -106,12 +109,12 @@ class GoalsMainView: UIView {
         
         goalsViewsStack.snp.makeConstraints({
             $0.top.equalTo(goalsNumberLabel.snp.bottom).offset(StaticSize.size(8))
-            $0.left.right.equalToSuperview().inset(StaticSize.size(30))
+            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
         })
         
         for view in goalsViewsStack.arrangedSubviews{
             view.snp.makeConstraints({
-                $0.size.equalTo(StaticSize.size(93))
+                $0.height.equalTo(StaticSize.size(93))
             })
         }
     }
@@ -131,12 +134,12 @@ class GoalsMainView: UIView {
             })
             
             bottomTextView.snp.makeConstraints({
-                $0.top.equalTo(initialAnimationView.snp.bottom).offset(-StaticSize.size(40))
+                $0.top.equalTo(initialAnimationView.snp.bottom).offset(-StaticSize.size(70))
                 $0.centerX.equalToSuperview()
             })
             
             button.snp.makeConstraints({
-                $0.top.equalTo(bottomTextView.snp.bottom).offset(StaticSize.size(10))
+                $0.top.equalTo(bottomTextView.snp.bottom).offset(StaticSize.size(24))
                 $0.left.right.equalToSuperview().inset(StaticSize.size(15))
                 $0.height.equalTo(StaticSize.buttonHeight)
             })
@@ -155,19 +158,18 @@ class GoalsMainView: UIView {
             })
             
             bottomTextView.snp.makeConstraints({
-                $0.top.equalTo(notSelectedAnimationView.snp.bottom).offset(-StaticSize.size(40))
+                $0.top.equalTo(notSelectedAnimationView.snp.bottom).offset(-StaticSize.size(70))
                 $0.centerX.equalToSuperview()
             })
             
             button.snp.makeConstraints({
-                $0.top.equalTo(bottomTextView.snp.bottom).offset(StaticSize.size(10))
+                $0.top.equalTo(bottomTextView.snp.bottom).offset(StaticSize.size(24))
                 $0.left.right.equalToSuperview().inset(StaticSize.size(15))
                 $0.height.equalTo(StaticSize.buttonHeight)
             })
             
             button.setTitle("Make a plan".localized, for: .normal)
             bottomTextView.text = "Make a plan\nfor next 30 days".localized
-            goalsNumberLabel.isHidden = false
             notSelectedAnimationView.play()
         case .selected:
             addSubViews([tableView])
@@ -176,8 +178,6 @@ class GoalsMainView: UIView {
                 $0.top.equalTo(goalsViewsStack.snp.bottom).offset(StaticSize.size(8))
                 $0.left.right.bottom.equalToSuperview()
             })
-            
-            goalsNumberLabel.isHidden = false
         }
     }
     

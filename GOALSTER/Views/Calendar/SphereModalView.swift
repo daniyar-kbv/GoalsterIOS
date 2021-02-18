@@ -9,46 +9,41 @@
 import Foundation
 import UIKit
 
-class SphereModalView: UIView{
-    lazy var topTitle: CustomLabelWithoutPadding = {
-        let view = CustomLabelWithoutPadding()
-        view.font = .gotham(ofSize: StaticSize.size(21), weight: .medium)
-        view.textColor = .customTextDarkPurple
-        view.text = "Choose sphere which goal applies to".localized
-        return view
-    }()
+class SphereModalView: View {
     
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.register(SphereCell.self, forCellReuseIdentifier: SphereCell.reuseIdentifier)
         view.delaysContentTouches = false
         view.separatorStyle = .none
-        view.rowHeight = StaticSize.size(36)
+        view.rowHeight = StaticSize.size(44)
         return view
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    required init() {
+        super.init(withBackButton: true)
+        
+        titleLabel.font = .primary(ofSize: StaticSize.size(22), weight: .semiBold)
+        title = "Sphere choice".localized
         
         setUp()
+    }
+    
+    func setUp() {
+        contentView.addSubViews([tableView])
+        
+        tableView.snp.makeConstraints({
+            $0.top.equalToSuperview().offset(StaticSize.size(12))
+            $0.left.right.bottom.equalToSuperview()
+        })
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUp() {
-        addSubViews([topTitle, tableView])
-        
-        topTitle.snp.makeConstraints({
-            $0.top.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-        })
-        
-        tableView.snp.makeConstraints({
-            $0.top.equalTo(topTitle.snp.bottom)
-            $0.left.right.bottom.equalToSuperview()
-        })
+    required init(withBackButton: Bool = false, iconImage: UIImage? = nil) {
+        fatalError("init(withBackButton:iconImage:) has not been implemented")
     }
 }
 

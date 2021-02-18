@@ -10,11 +10,18 @@ import Foundation
 import UIKit
 import RxSwift
 
-class LanguagesModalViewController: CustomModalViewController, UITableViewDelegate, UITableViewDataSource {
+class LanguagesModalViewController: ProfileFirstViewController, UITableViewDelegate, UITableViewDataSource {
     lazy var languagesModalView = LanguagesModalView()
     lazy var viewModel = LanguagesViewModel()
     lazy var disposeBag = DisposeBag()
-    lazy var selectedLanguage: Language = ModuleUserDefaults.getLanguage()
+    var selectedLanguage: Language = ModuleUserDefaults.getLanguage() {
+        didSet {
+            navigationController?.popViewController(animated: true)
+            if selectedLanguage != ModuleUserDefaults.getLanguage() {
+                viewModel.changeLanugage(language: selectedLanguage)
+            }
+        }
+    }
     
     var success: Bool? {
         didSet {
@@ -27,23 +34,21 @@ class LanguagesModalViewController: CustomModalViewController, UITableViewDelega
         }
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        setView(languagesModalView)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        modalView.setView(view: languagesModalView)
+        setTitle("App's language".localized)
         
         languagesModalView.tableView.delegate = self
         languagesModalView.tableView.dataSource = self
         
-        languagesModalView.button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        
         bind()
-    }
-    
-    override func loadView() {
-        super.loadView()
-        
-        view = modalView
     }
     
     func bind() {
@@ -55,22 +60,6 @@ class LanguagesModalViewController: CustomModalViewController, UITableViewDelega
     }
     
     @objc func buttonTapped() {
-        animateDown()
-        if selectedLanguage != ModuleUserDefaults.getLanguage() {
-            viewModel.changeLanugage(language: selectedLanguage)
-        }
-    }
-    
-    override func animateDown(onStart: (() -> ())? = nil) {
-        super.animateDown(onStart: {
-            self.languagesModalView.button.isHidden = true
-        })
-    }
-    
-    override func openContainer(completion: ((Bool) -> Void)? = nil) {
-        super.openContainer(completion: { _ in
-            self.languagesModalView.button.isHidden = false
-        })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

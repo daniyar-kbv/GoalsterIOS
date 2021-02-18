@@ -17,19 +17,24 @@ class CalendarView: UIView {
         view.layer.shadowRadius = StaticSize.size(2.5)
         view.layer.shadowOpacity = 0.1
         view.layer.shadowOffset = CGSize(width: 0, height: 5)
-        view.backgroundColor = .customBackPink
+        view.backgroundColor = .arcticPink
         return view
     }()
     
     lazy var monthButton: UIButton = {
         let view = UIButton()
         view.setTitle("Week".localized, for: .normal)
-        view.titleLabel?.font = .gotham(ofSize: StaticSize.size(14), weight: .book)
-        view.setTitleColor(.customTextDarkPurple, for: .normal)
-        view.setImage(UIImage(named: "arrowDown"), for: .normal)
-        view.imageEdgeInsets = UIEdgeInsets(top: StaticSize.size(3), left: StaticSize.size(5), bottom: 0, right: 0)
-        view.semanticContentAttribute = UIApplication.shared
-        .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
+        view.titleLabel?.font = .primary(ofSize: StaticSize.size(13), weight: .regular)
+        view.setTitleColor(.deepBlue, for: .normal)
+        view.layer.borderWidth = StaticSize.size(1)
+        view.layer.borderColor = UIColor.deepBlue.cgColor
+        view.layer.cornerRadius = StaticSize.size(5)
+        return view
+    }()
+    
+    lazy var addButton: UIButton = {
+        let view = UIButton()
+        view.setBackgroundImage(UIImage(named: "addButton"), for: .normal)
         return view
     }()
     
@@ -72,11 +77,19 @@ class CalendarView: UIView {
             $0.top.right.left.equalToSuperview()
         })
         
-        topView.addSubViews([monthButton, daysStack])
+        topView.addSubViews([monthButton, addButton, daysStack])
         
         monthButton.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(StaticSize.size(4))
+            $0.top.equalToSuperview()
             $0.left.equalToSuperview().offset(StaticSize.size(15))
+            $0.width.equalTo(StaticSize.size(128))
+            $0.height.equalTo(StaticSize.size(28))
+        })
+        
+        addButton.snp.makeConstraints({
+            $0.top.equalToSuperview().offset(-StaticSize.size(2))
+            $0.right.equalToSuperview().offset(-StaticSize.size(15))
+            $0.size.equalTo(StaticSize.size(32))
         })
         
         daysStack.snp.makeConstraints({
@@ -90,7 +103,7 @@ class CalendarView: UIView {
             let view = UIView()
             let label: UILabel = {
                 let label = UILabel()
-                label.font = .gotham(ofSize: StaticSize.size(14), weight: .bold)
+                label.font = .primary(ofSize: StaticSize.size(14), weight: .bold)
                 label.textColor = .lightGray
                 label.adjustsFontSizeToFitWidth = true
                 label.text = DayOfWeek(rawValue: i)?.toStr

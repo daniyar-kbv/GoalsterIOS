@@ -16,8 +16,8 @@ class CustomFieldWithLabel: UIView, UITextViewDelegate {
     
     lazy var label: UILabel = {
         let view = UILabel()
-        view.font = .gotham(ofSize: StaticSize.size(16), weight: .bold)
-        view.textColor = .customTextDarkPurple
+        view.font = .primary(ofSize: StaticSize.size(16), weight: .bold)
+        view.textColor = .deepBlue
         return view
     }()
     
@@ -27,7 +27,7 @@ class CustomFieldWithLabel: UIView, UITextViewDelegate {
         view.layer.borderWidth = 0.5
         view.layer.cornerRadius = StaticSize.size(5)
         view.text = placeholder
-        view.font = .gotham(ofSize: StaticSize.size(16), weight: .book)
+        view.font = .primary(ofSize: StaticSize.size(16), weight: .regular)
         view.textColor = .lightGray
         view.isScrollEnabled = false
         view.delegate_ = self
@@ -64,7 +64,7 @@ class CustomFieldWithLabel: UIView, UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .lightGray {
             textView.text = nil
-            textView.textColor = .customTextBlack
+            textView.textColor = .ultraGray
         }
     }
 

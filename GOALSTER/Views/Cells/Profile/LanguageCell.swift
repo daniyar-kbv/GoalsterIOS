@@ -15,7 +15,7 @@ class LanguageCell: UITableViewCell {
     
     var isActive = false {
         didSet {
-            radio.image = UIImage(named: "radio_purple_\(isActive ? "active" : "inactive")")
+            radio.image = UIImage(named: "radio_purple_\(isActive ? "active" : "inactive")")?.withRenderingMode(.alwaysTemplate)
         }
     }
     
@@ -23,9 +23,9 @@ class LanguageCell: UITableViewCell {
         didSet {
             switch language {
             case .en:
-                title.text = "English"
+                title.text = "English".localized
             case .ru:
-                title.text = "Русский"
+                title.text = "Russian".localized
             default:
                 break
             }
@@ -34,21 +34,23 @@ class LanguageCell: UITableViewCell {
     
     lazy var title: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(16), weight: .medium)
-        label.textColor = .customTextDarkPurple
+        label.font = .primary(ofSize: StaticSize.size(17), weight: .medium)
+        label.textColor = .ultraGray
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     lazy var radio: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "radio_purple_inactive")
+        view.image = UIImage(named: "radio_purple_inactive")?.withRenderingMode(.alwaysTemplate)
+        view.tintColor = .deepBlue
         return view
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
+        backgroundColor = .clear
         
         setUp()
     }

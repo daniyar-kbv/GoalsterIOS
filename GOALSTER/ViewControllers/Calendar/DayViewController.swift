@@ -10,44 +10,67 @@ import Foundation
 import UIKit
 import RxSwift
 
-class DayViewController: BaseViewController {
+class DayViewController: UIViewController {
     lazy var dayView = DayView()
     lazy var viewModel = DayViewModel()
     lazy var disposeBag = DisposeBag()
-    lazy var state: CalendarViewState = .notSelected
-    lazy var selectedDate: Date = Date()
-    lazy var tableVc = GoalsTableViewController()
-    var response: GoalsResponse? {
+    lazy var selectedDate: Date = Date() {
         didSet {
-            if response?.goals ?? false {
-                tableVc.dayView = dayView.tableView
-                tableVc.response = response
-                tableVc.onReload = reload
-                tableVc.viewModel.view = view
-                tableVc.date = selectedDate
-                add(tableVc)
-                state = .goals
-            } else {
-                state = .noGoals
-            }
+            dayView.dateLabel.text = selectedDate.format() == Date().format() ?
+                "Today".localized + " " + "\(selectedDate.format(format: "d MMMM"))" :
+                selectedDate.format(format: "d MMMM")
+        }
+    }
+    lazy var tableVc: GoalsTableViewController = {
+        let view = GoalsTableViewController()
+        view.dayView = dayView.tableView
+        view.onReload = reload
+        view.viewModel.view = self.view
+        add(view)
+        return view
+    }()
+    lazy var state: CalendarViewState = .notSelected {
+        didSet {
             dayView.clean()
             dayView.finishSetUp(state: state)
         }
     }
-    var calendarItems: [CaledarItem]? {
+    var response: GoalsResponse? {
+        didSet {
+            if response?.goals ?? false {
+                tableVc.response = response
+                tableVc.date = selectedDate
+                state = .goals
+            } else {
+                state = .noGoals
+            }
+        }
+    }
+    var calendarItems: [CaledarItem] = (0..<7).map({ CaledarItem(date: Calendar.current.date(byAdding: DateComponents(day: $0), to: Date())?.format(), goals: nil) }) {
         didSet {
             UIView.animate(withDuration: 0, animations: {
                 self.dayView.calendarCollection.reloadData()
             }, completion: { _ in
-                self.dayView.calendarCollection.scrollToItem(at: IndexPath(item: self.calendarItems?.firstIndex(where: { $0.date == self.selectedDate.format() }) ?? 0, section: 0), at: .centeredHorizontally, animated: false)
+//                self.dayView.calendarCollection.scrollToItem(at: IndexPath(item: self.calendarItems.firstIndex(where: { $0.date == self.selectedDate.format() }) ?? 0, section: 0), at: .centeredHorizontally, animated: false)
             })
+            if AppShared.sharedInstance.localCalendar != nil && calendarItems.count > 7 {
+                for i in 0..<(AppShared.sharedInstance.localCalendar ?? []).count {
+                    AppShared.sharedInstance.localCalendar?[i].calendarItem = calendarItems[i]
+                }
+                ModuleUserDefaults.setLocalCalendar(object: AppShared.sharedInstance.localCalendar)
+            } else {
+                AppShared.sharedInstance.localCalendar = calendarItems.map({
+                    LocalCalendarItem(calendarItem: $0, goalsResponse: nil)
+                })
+            }
         }
     }
+    lazy var didAppear = false
     
     override func loadView() {
         super.loadView()
         
-        setView(dayView)
+        view = dayView
     }
     
     override func viewDidLoad() {
@@ -56,10 +79,10 @@ class DayViewController: BaseViewController {
         bind()
         
         viewModel.view = view
+        viewModel.vc = self
         tableVc.viewModel.view = view
         
-        setTitle("Calendar".localized)
-        addAddButton(action: #selector(addTapped))
+        dayView.addButton.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         
         dayView.calendarCollection.delegate = self
         dayView.calendarCollection.dataSource = self
@@ -67,26 +90,34 @@ class DayViewController: BaseViewController {
         dayView.button.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         dayView.monthButton.addTarget(self, action: #selector(openCalendar), for: .touchUpInside)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(onWillEnterForegroundNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
+        if !ModuleUserDefaults.getIsLoggedIn() || !ModuleUserDefaults.getHasSpheres() {
+            state = .notSelected
+        } else if ModuleUserDefaults.getHasSpheres() {
+            if let localCalendar = AppShared.sharedInstance.localCalendar {
+                calendarItems = localCalendar.map({ $0.calendarItem ?? CaledarItem(date: nil, goals: nil) })
+                if let response = localCalendar.first(where: { $0.calendarItem?.date == selectedDate.format() })?.goalsResponse {
+                    self.response = response
+                    viewModel.getGoals(date: selectedDate, withSpinner: false)
+                } else {
+                    viewModel.getGoalsOnly(date: selectedDate, withSpinner: true)
+                }
+            } else {
+                viewModel.getGoals(date: selectedDate, withSpinner: true)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        switch state {
-        case .notSelected, .noGoals:
-            dayView.notSelectedAnimationView.play()
-        default:
-            break
+        if didAppear && ModuleUserDefaults.getIsLoggedIn() {
+            viewModel.getGoals(date: selectedDate, withSpinner: false)
+        } else {
+            didAppear = true
         }
-        reload()
     }
     
     func reload() {
-        if ModuleUserDefaults.getHasSpheres() {
-            viewModel.getGoals(date: selectedDate)
-        } else {
-            dayView.finishSetUp(state: state)
-        }
+        viewModel.getGoals(date: selectedDate, withSpinner: false)
     }
     
     func bind() {
@@ -100,18 +131,38 @@ class DayViewController: BaseViewController {
                 self.calendarItems = items
             }
         }).disposed(by: disposeBag)
-        AppShared.sharedInstance.doneGoalResponse.subscribe(onNext: { response in
+        AppShared.sharedInstance.localCalendarSubject.subscribe(onNext: { object in
             DispatchQueue.main.async {
-                self.viewModel.getGoals(date: self.selectedDate, withSpinner: false)
+                self.calendarItems = object.map({ $0.calendarItem ?? CaledarItem(date: nil, goals: nil) })
+                if let selectedLocalDate = object.first(where: { $0.calendarItem?.date == self.selectedDate.format() })?.calendarItem?.date?.toDate(),
+                   let selectedLocalResponse = object.first(where: { $0.calendarItem?.date == self.selectedDate.format() })?.goalsResponse {
+                    self.setResponse(date: selectedLocalDate, response: selectedLocalResponse)
+                }
+            }
+        }).disposed(by: disposeBag)
+        AppShared.sharedInstance.isLoggedInSubject.subscribe(onNext: { object in
+            DispatchQueue.main.async {
+                self.viewWillAppear(true)
             }
         }).disposed(by: disposeBag)
     }
     
+    func setResponse(date: Date, response: GoalsResponse) {
+        if date.format() == selectedDate.format() {
+            print(response)
+            self.response = response
+        }
+        AppShared.sharedInstance.localCalendar?.first(where: {
+            $0.calendarItem?.date == selectedDate.format()
+        })?.goalsResponse = response
+        ModuleUserDefaults.setLocalCalendar(object: AppShared.sharedInstance.localCalendar)
+    }
+    
     @objc func addTapped() {
         if !ModuleUserDefaults.getIsLoggedIn() {
-            present(AuthViewController(), animated: true, completion: nil)
+            present(FirstAuthViewController(), animated: true, completion: nil)
         } else if !ModuleUserDefaults.getHasSpheres() {
-            AppShared.sharedInstance.tabBarController.toTab(tab: 0)
+            AppShared.sharedInstance.tabBarController.toTab(tab: 1)
         } else if let morning = response?.morning?.count, let day = response?.day?.count, let evening = response?.evening?.count, (morning + day + evening >= 6 && !ModuleUserDefaults.getIsPremium())  {
             self.present(ProfilePremiumViewController(), animated: true, completion: nil)
         } else {
@@ -119,15 +170,6 @@ class DayViewController: BaseViewController {
             vc.superVc = self
             vc.date = selectedDate
             present(vc, animated: true, completion: nil)
-        }
-    }
-    
-    @objc func onWillEnterForegroundNotification(){
-        switch state {
-        case .notSelected, .noGoals:
-            dayView.notSelectedAnimationView.play()
-        default:
-            break
         }
     }
     
@@ -141,21 +183,28 @@ class DayViewController: BaseViewController {
     func chooseDate(date: Date) {
         selectedDate = date
         dayView.calendarCollection.reloadData()
-        dayView.calendarCollection.scrollToItem(at: IndexPath(item: calendarItems?.firstIndex(where: { $0.date == selectedDate.format() }) ?? 0, section: 0), at: .centeredHorizontally, animated: true)
-        viewModel.getGoals(date: date)
+        dayView.calendarCollection.scrollToItem(at: IndexPath(item: calendarItems.firstIndex(where: { $0.date == selectedDate.format() }) ?? 0, section: 0), at: .centeredHorizontally, animated: true)
+        if ModuleUserDefaults.getIsLoggedIn() {
+            if let response = AppShared.sharedInstance.localCalendar?.first(where: { $0.calendarItem?.date == selectedDate.format() })?.goalsResponse {
+                self.response = response
+                viewModel.getGoalsOnly(date: selectedDate, withSpinner: false)
+            } else {
+                viewModel.getGoalsOnly(date: selectedDate)
+            }   
+        }
     }
 }
 
 extension DayViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return calendarItems?.count ?? 0
+        return calendarItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarSmallCell.reuseIdentifier, for: indexPath) as! CalendarSmallCell
         cell.selectedDate = selectedDate
-        cell.date = calendarItems?[indexPath.row].date?.toDate()
-        cell.setDots(calendarItems?[indexPath.row].goals?.first ?? false, calendarItems?[indexPath.row].goals?.second ?? false, calendarItems?[indexPath.row].goals?.third ?? false)
+        cell.date = calendarItems[indexPath.row].date?.toDate()
+        cell.setDots(calendarItems[indexPath.row].goals?.first ?? false, calendarItems[indexPath.row].goals?.second ?? false, calendarItems[indexPath.row].goals?.third ?? false)
         return cell
     }
     

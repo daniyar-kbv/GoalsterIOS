@@ -9,26 +9,9 @@
 import Foundation
 import UIKit
 
-class SpheresDescriptionView: UIView {
-    lazy var topBrush: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
-        view.layer.cornerRadius = 2.5
-        return view
-    }()
-    
-    lazy var backButton: BackButton = {
-        let view = BackButton()
-        return view
-    }()
-    
-    lazy var titleLabel: CustomLabelWithoutPadding = {
-        let view = CustomLabelWithoutPadding()
-        view.text = "Text specifying goals for each sphere".localized
-        view.font = .gotham(ofSize: StaticSize.size(21), weight: .medium)
-        view.textColor = .customTextDarkPurple
-        return view
-    }()
+class SpheresDescriptionView: View {
+    var spheres: [(key: Sphere, value: String)]
+    var fromProfile: Bool
     
     lazy var nextButton: CustomButton = {
         let view = CustomButton()
@@ -51,37 +34,38 @@ class SpheresDescriptionView: UIView {
         return view
     }()
     
-    lazy var firstView: SpheresDescriptionSmallView = {
-        let view = SpheresDescriptionSmallView()
-        view.index = 0
-        return view
-    }()
-    
-    lazy var secondView: SpheresDescriptionSmallView = {
-        let view = SpheresDescriptionSmallView()
-        view.index = 1
-        return view
-    }()
-    
-    lazy var thirdView: SpheresDescriptionSmallView = {
-        let view = SpheresDescriptionSmallView()
-        view.index = 2
-        return view
-    }()
-    
     lazy var mainStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [firstView, secondView, thirdView])
+        let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isLayoutMarginsRelativeArrangement = true
         view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: StaticSize.size(100), trailing: 0)
         view.axis = .vertical
         view.alignment = .fill
+        view.spacing = StaticSize.size(30)
+        for (index, sphere) in spheres.enumerated() {
+            let sphereView = SpheresDescriptionSmallView(sphere: sphere, fromProfile: fromProfile)
+            sphereView.index = index
+            view.addArrangedSubview(sphereView)
+        }
         return view
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    required init(spheres: [(key: Sphere, value: String)], fromProfile: Bool = false) {
+        self.spheres = spheres
+        self.fromProfile = fromProfile
+        
+        super.init(withBackButton: !fromProfile)
         backgroundColor = .white
+        
+        titleLabel.font = .primary(ofSize: StaticSize.size(22), weight: .semiBold)
+        
+        switch fromProfile {
+        case false:
+            title = "Text specifying goals for each sphere".localized
+        case true:
+            title = "Goals done in a month".localized
+            titleLabel.textAlignment = .center
+        }
         
         setUp()
     }
@@ -90,30 +74,19 @@ class SpheresDescriptionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    required init(withBackButton: Bool = false) {
+        fatalError("init(withBackButton:) has not been implemented")
+    }
+    
+    required init(withBackButton: Bool = false, iconImage: UIImage? = nil) {
+        fatalError("init(withBackButton:iconImage:) has not been implemented")
+    }
+    
     func setUp() {
-        addSubViews([topBrush, backButton, titleLabel, container, nextButton])
-        
-        topBrush.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(10)
-            $0.height.equalTo(5)
-            $0.width.equalTo(45)
-            $0.centerX.equalToSuperview()
-        })
-        
-        backButton.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(StaticSize.size(25))
-            $0.left.equalToSuperview().offset(StaticSize.size(15))
-            $0.size.equalTo(StaticSize.size(30))
-        })
-        
-        titleLabel.snp.makeConstraints({
-            $0.left.equalTo(backButton.snp.right).offset(StaticSize.size(15))
-            $0.top.equalToSuperview().offset(StaticSize.size(25))
-            $0.right.equalToSuperview().offset(-StaticSize.size(15))
-        })
+        contentView.addSubViews([container, nextButton])
         
         container.snp.makeConstraints({
-            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.top.equalToSuperview()
             $0.left.right.bottom.equalToSuperview()
         })
         

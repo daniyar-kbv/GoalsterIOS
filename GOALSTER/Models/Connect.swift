@@ -9,14 +9,18 @@
 import Foundation
 
 class ConnectResponse: Codable {
+    var token: String?
     var hasSpheres: Bool?
     var spheres: [SelectedSphere]?
     var email: String?
     var isPremium: Bool?
     var premiumType: String?
     var notConfirmedCount: Int?
+    var premiumEndDate: String?
+    var profile: Profile?
+    var showResults: Bool?
     
     enum CodingKeys: String, CodingKey {
-        case hasSpheres, spheres, email, isPremium, notConfirmedCount, premiumType
+        case token, hasSpheres, spheres, email, isPremium, notConfirmedCount, premiumType, premiumEndDate, profile, showResults
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import JTAppleCalendar
 
-class CalendarViewController: BaseViewController {
+class CalendarViewController: UIViewController {
     lazy var calendarViewController = CalendarBaseViewController()
     var items: [CaledarItem]? {
         didSet {
@@ -23,16 +23,42 @@ class CalendarViewController: BaseViewController {
         super.loadView()
         
         add(calendarViewController)
-        setView(calendarViewController.calendarView)
+        view.addSubview(calendarViewController.calendarView)
+        calendarViewController.calendarView.snp.makeConstraints({
+            $0.top.equalToSuperview().offset(Global.safeAreaTop() + StaticSize.size(4))
+            $0.left.right.bottom.equalToSuperview()
+        })
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTitle("Calendar".localized)
-        
         calendarViewController.onBack = back
         calendarViewController.onTap = onTap(_:)
+        calendarViewController.calendarView.addButton.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        view.addGradientBackground()
+    }
+    
+    @objc func addTapped() {
+        if !ModuleUserDefaults.getIsLoggedIn() {
+            navigationController?.popViewController(animated: true)
+            present(FirstAuthViewController(), animated: true, completion: nil)
+        } else if !ModuleUserDefaults.getHasSpheres() {
+            navigationController?.popViewController(animated: true)
+            AppShared.sharedInstance.tabBarController.toTab(tab: 1)
+        } else if let morning = AppShared.sharedInstance.localCalendar?.first(where: { $0.calendarItem?.date == Date().format() })?.goalsResponse?.morning?.count, let day = AppShared.sharedInstance.localCalendar?.first(where: { $0.calendarItem?.date == Date().format() })?.goalsResponse?.day?.count, let evening = AppShared.sharedInstance.localCalendar?.first(where: { $0.calendarItem?.date == Date().format() })?.goalsResponse?.evening?.count, (morning + day + evening >= 6 && !ModuleUserDefaults.getIsPremium())  {
+            self.present(ProfilePremiumViewController(), animated: true, completion: nil)
+        } else {
+            let vc = AddGoalViewController()
+            vc.superVc = self
+            vc.date = Date()
+            present(vc, animated: true, completion: nil)
+        }
     }
     
     func back() {

@@ -62,27 +62,42 @@ class SpinnerView: UIView {
         } else if let vc = UIApplication.topViewController() {
             vc.view.showSpinnerViewFull()
         }
-        isLoading = true
-        runTimer()
+//        isLoading = true
+//        runTimer()
     }
     
     static func removeSpinnerView(){
-        dataGot = true
+//        dataGot = true
         remove()
     }
     
+    static func removeSpinnerViewBottom() {
+        if SpinnerView.view.superview != nil {
+            SpinnerView.view.snp.updateConstraints({
+                $0.bottom.equalToSuperview().offset(StaticSize.size(60))
+            })
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                SpinnerView.view.superview?.layoutIfNeeded()
+            }, completion: { finished in
+                if finished {
+                    SpinnerView.view.removeFromSuperview()
+                    SpinnerView.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+                }
+            })
+        }
+    }
+    
     private static func remove() {
-        if secondPassed ?? false && dataGot ?? false {
+//        if secondPassed ?? false && dataGot ?? false {
             UIView.animate(withDuration: 0.1, animations: {
                 SpinnerView.view.removeFromSuperview()
                 SpinnerView.circleView.removeFromSuperview()
             }, completion: { _ in
-                if let completion = completion {
-                    completion()
-                    SpinnerView.completion = nil
-                }
+                completion?()
+                SpinnerView.completion = nil
             })
-        }
+//        }
     }
     
     static func runTimer(){

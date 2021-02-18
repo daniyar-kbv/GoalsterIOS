@@ -20,8 +20,8 @@ class BaseView: UIView {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .gotham(ofSize: StaticSize.size(32), weight: .bold)
-        label.textColor = .customTextDarkPurple
+        label.font = .primary(ofSize: StaticSize.size(32), weight: .black)
+        label.textColor = .deepBlue
         label.adjustsFontSizeToFitWidth = true
         return label
     }()

@@ -22,8 +22,6 @@ class ProfileBaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        baseView.backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -38,10 +36,6 @@ class ProfileBaseViewController: UIViewController {
     
     func setTitle(_ title: String){
         baseView.titleLabel.text = title
-    }
-    
-    @objc func backTapped() {
-        navigationController?.popViewController(animated: true)
     }
     
     func setView(_ view: UIView) {

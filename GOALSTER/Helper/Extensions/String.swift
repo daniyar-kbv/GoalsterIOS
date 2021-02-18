@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 extension String {
+    static let lastReviewRequestAppVersion = "LastReviewRequestAppVersion"
+    static let reviewWorthyActionCount = "ReviewWorthyActionCount"
+    
     internal func format(mask: String = "+X XXX XXX XX XX") -> String {
         let cleanPhoneNumber = self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         var result = ""
@@ -90,6 +93,7 @@ extension String {
     
     func toDate(format: String = "dd-MM-yyyy") -> Date?{
         let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
         dateFormatter.dateFormat = format
         let date = dateFormatter.date(from: self)
         return date
@@ -100,5 +104,12 @@ extension String {
         let attributedString = NSMutableAttributedString(string: self)
         attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSNumber(value: 1), range: range)
         return attributedString
+    }
+    
+    func nsRange(from range: Range<String.Index>) -> NSRange {
+        let from = range.lowerBound.samePosition(in: utf16)
+        let to = range.upperBound.samePosition(in: utf16)!
+        return NSRange(location: utf16.distance(from: utf16.startIndex, to: from!),
+                       length: utf16.distance(from: from!, to: to))
     }
 }
