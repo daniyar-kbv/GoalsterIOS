@@ -72,7 +72,7 @@ extension APIPoint: EndPointType {
         case .searchObserver:
             return "/users/users/search/"
         case .addGoal:
-            return "/main/goals/add_v4/"
+            return "/main/goals/add_v5/"
         case .todayGoals:
             return "/main/goals/today/"
         case .doneGoal(let id):
@@ -100,7 +100,7 @@ extension APIPoint: EndPointType {
         case .help:
             return "/main/help/"
         case .premium:
-            return "/users/users/premium/"
+            return "/users/users/premium_v2/"
         case .results:
             return "/users/users/results/"
         case .temp_auth:

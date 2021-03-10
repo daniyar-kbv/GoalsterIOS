@@ -29,7 +29,6 @@ class FeedDetailViewController: UIViewController {
     var user: FeedUserFull? {
         didSet {
             mainView.user = user
-            tableVc.response = user?.goals
             mainView.titleLabel.text = user?.profile?.name
         }
     }
@@ -60,6 +59,12 @@ class FeedDetailViewController: UIViewController {
         bind()
         
         viewModel.getUser(userId: userId)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        tableVc.response = user?.goals
     }
     
     func bind() {

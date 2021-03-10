@@ -63,6 +63,16 @@ class FeedCell: UITableViewCell {
         return view
     }()
     
+    lazy var lines: [UIView] = {
+        var views = [UIView]()
+        for i in 0..<2 {
+            let view = UIView()
+            view.backgroundColor = .borderGray
+            views.append(view)
+        }
+        return views
+    }()
+    
     lazy var spheresCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -122,6 +132,17 @@ class FeedCell: UITableViewCell {
             $0.left.right.equalToSuperview().inset(StaticSize.size(18))
             $0.height.equalTo(StaticSize.size(54))
         })
+        
+        spheresCollection.addSubViews(lines)
+        
+        for (index, line) in lines.enumerated() {
+            line.snp.makeConstraints({
+                $0.centerY.equalToSuperview()
+                $0.width.equalTo(StaticSize.size(1))
+                $0.height.equalTo(StaticSize.size(32))
+                $0.left.equalToSuperview().offset(CGFloat(index + 1) * ((ScreenSize.SCREEN_WIDTH - StaticSize.size(90)) / 3))
+            })
+        }
         
         titleStack.snp.makeConstraints({
             $0.bottom.equalTo(spheresCollection.snp.top).offset(-StaticSize.size(11))
@@ -398,7 +419,7 @@ class InstagramButton: UIButton {
     }
     
     @objc func openInstagram() {
-        guard let instagram = instagram, let url = URL(string: "instagram://user?username=\(instagram)") else { return }
+        guard let instagram = instagram?.replacingOccurrences(of: "@", with: ""), let url = URL(string: "instagram://user?username=\(instagram)") else { return }
         UIApplication.shared.open(url)
     }
 }

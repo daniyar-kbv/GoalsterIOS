@@ -22,8 +22,7 @@
 "6 Month" = "6 месяцев";
 "1 Year" = "1 год";
 "Premium functionality" = "Премиум функции";
-"Premium bottom text" = "• Добавление до 30 целей в день\n• Личный наставник для контроля
-твоих целей\n• PDF-книга с советами для визуализаций\n• Чек-лист для эффективного мышления";
+"Premium bottom text" = "• Увеличенное добавление целей - до 30 в день\n• Режим наблюдатель с постоянной поддержкой\n• Советы по оформлению доски визуализации в виде PDF-файла\n• Чек-лист по эффективному мышлению\n• Самые мотивирующие Push-уведомления";
 "On boarding top text 1" = "Стань мастером достижения целей";
 "On boarding top text 2" = "Покажи другим из чего состоит твой день";
 "On boarding top text 3" = "Разгони мотивацию до скорости света";
@@ -95,11 +94,11 @@
 "Time of the day" = "Время дня";
 "Choose sphere which goal applies to" = "Выбери сферу для цели";
 "Sphere" = "Сфера";
-"Enter your goal" = "Впиши свою цель";
-"Share goal with observer" = "Делиться целью с наставником";
+"Enter your goal" = "Впиши свою задачу";
+"Share goal with observer" = "Делиться задачей с наставником";
 "Choose sphere" = "Выбери сферу";
-"Enter goal" = "Впишите цель";
-"Goal" = "Цель";
+"Enter goal" = "Впишите задачу";
+"Goal" = "Задача";
 "Choose your observer" = "Выберите Вашего наблюдателя";
 "Choose observer" = "Выбери наставника";
 "Observer addition" = "Добавление наблюдателя";
@@ -243,7 +242,7 @@
 
 "Add emotions" = "Добавить эмоции";
 
-"Public goal" = "Публичная цель";
+"Public goal" = "Публичная задача";
 
 "Sphere choice" = "Выбор сферы";
 
@@ -263,7 +262,7 @@
 "Add visualization" = "Добавить визуализацию";
 "Confirmation" = "Подтверждение";
 
-"Text about the 24Goals app and about Erkezhan. Description, goal, mission for example. Possibly long text" = "Текст о приложении 24Goals и о Еркежан. Описание, цель, миссия к пример. Возможно длинный текст";
+"The mission of the project is to inspire and draw inspiration from other users, learn the best habits of other people, help and motivate each other, improve yourself together, be a part of the same community, find like-minded people and go towards your goals together. Our app will help you achieve the best results and the best life." = "Миссия проекта заключается в том, чтобы вдохновлять и вдохновляться другими пользователями. Перенимать лучшие привычки других людей, помогать и мотивировать друг друга. Совершенствоваться вместе, находясь в одном коммьюнити. Находить единомышленников и вместе идти к своим целям. Достигать лучших результатов и самой лучшей жизни.";
 
 "Purchase the premium version" = "Покупка премиум версии";
 
@@ -281,3 +280,9 @@
 "Invite a friend or become an observer" = "Пригласи друга или стань наблюдателем";
 "You haven't opened the 24Goals app in 3 days." = "You haven't opened the 24Goals app in 3 days.";
 "Click here and I'll show you what you started it all for." = "Click here and I'll show you what you started it all for.";
+
+"Premium successfully purchased" = "Премиум успешно приобретен";
+"You're not following anyone" = "Подписок нет";
+"The recommendation list is empty" = "Список рекомендации пуст";
+
+"Goal edit" = "Редактирование цели";

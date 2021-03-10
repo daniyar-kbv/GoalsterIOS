@@ -17,6 +17,7 @@ class FollowingViewController: ProfileFirstViewController {
     var users: [FeedUserFull] = [] {
         didSet {
             mainView.tableView.reloadData()
+            mainView.noFollowingLabel.isHidden = !users.isEmpty
         }
     }
     

@@ -207,6 +207,13 @@ class AddGoalViewController: UIViewController {
         
         addView.onFieldChange = onFieldChange
         
+        switch type {
+        case .add:
+            addView.title = "Goal addition".localized
+        case .update:
+            addView.title = "Goal edit".localized
+        }
+        
         bind()
     }
     
@@ -291,9 +298,7 @@ class AddGoalViewController: UIViewController {
     
     @objc func openSearch() {
         let vc = SearchObserverViewController(parentVc: self)
-        dismiss(animated: true, completion: {
-            UIApplication.topViewController()?.present(vc, animated: true)
-        })
+        openTop(vc: vc)
     }
     
     func check() {

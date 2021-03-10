@@ -11,7 +11,7 @@ import UIKit
 import RxSwift
 
 class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource {
-    lazy var mainView = FeedView()
+    lazy var mainView = FeedView(type: type)
     lazy var viewModel = FeedViewModel(vc: self)
     lazy var disposeBag = DisposeBag()
     lazy var refreshControl = UIRefreshControl()

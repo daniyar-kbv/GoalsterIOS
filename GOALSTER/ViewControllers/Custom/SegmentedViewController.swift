@@ -38,6 +38,7 @@ class SegmentedViewController: UIViewController, UIPageViewControllerDelegate, U
         
         pageViewController.dataSource = self
         pageViewController.delegate = self
+        (pageViewController.view.subviews.first(where: { $0 is UIScrollView }) as? UIScrollView)?.delaysContentTouches = false
         
         add(pageViewController, onView: mainView.contentView)
         pageViewController.view.snp.makeConstraints({

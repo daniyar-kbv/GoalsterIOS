@@ -26,11 +26,7 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var response: GoalsResponse? {
         didSet {
-            UIView.animate(withDuration: 0, animations: {
-                self.dayView.tableView.reloadData()
-            }, completion: {_ in
-                self.viewDidLayoutSubviews()
-            })
+            self.dayView.tableView.reloadData()
             
             if let goalId = openGoal,
                let section = (0..<dayView.tableView.numberOfSections).first(where: { section in
@@ -74,14 +70,12 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        line?.removeFromSuperlayer()
-        
         let dayView = view as! GoalsTableView
         if response?.goals ?? false{
             var minY: CGFloat = 0
             var totalHeight = dayView.tableView.frame.origin.y
             for i in 0..<dayView.tableView.numberOfSections{
-                for j in 0..<dayView.tableView.numberOfRows(inSection: 0){
+                for j in 0..<dayView.tableView.numberOfRows(inSection: i){
                     let cell = dayView.tableView.cellForRow(at: IndexPath(row: j, section: i))
                     if !(cell is GoalsReactionsCell) {
                         if i == 0 && j == 0, let y = cell?.frame.minY {
@@ -92,9 +86,9 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
                     }
                 }
             }
-            
+
             let path = CGMutablePath()
-            
+
             let  p0 = CGPoint(x: StaticSize.size(16), y: minY)
             path.move(to: p0)
 
@@ -109,6 +103,8 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             path.addLines(between: [p0, p1])
             shapeLayer.path = path
             shapeLayer.zPosition = -1
+            print(totalHeight)
+            line?.removeFromSuperlayer()
             dayView.layer.addSublayer(shapeLayer)
             line = shapeLayer
         }

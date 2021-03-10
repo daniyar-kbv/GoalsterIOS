@@ -181,10 +181,10 @@ class ProfileUpdateView: UIStackView {
                 }
             }
         case .update:
-            if  let name = views?.first(where: { [.nameUpdate, .nameRegistration].contains($0.viewType) })?.textField.text,
-                let specialization = views?.first(where: { [.specializationUpdate, .specializationRegistration].contains($0.viewType) })?.textField.text,
-                let email = views?.first(where: { [.emailUpdate, .emailRegistration].contains($0.viewType) })?.textField.text,
-                let instagramUsername = views?.first(where: { [.instagramUpdate, .instagramRegistration].contains($0.viewType) })?.textField.text
+            if  let name = views?.first(where: { $0.viewType == .nameUpdate })?.textField.text,
+                let specialization = views?.first(where: { $0.viewType == .specializationUpdate })?.textField.text,
+                let email = views?.first(where: { $0.viewType == .emailUpdate })?.textField.text,
+                let instagramUsername = views?.first(where: { $0.viewType == .instagramUpdate })?.textField.text
             {
                 var imageUrl: URL? = nil
                 if let url = views?.first(where: { $0.inputType == .image })?.imageInput.selectedImage?[.imageURL] as? URL {

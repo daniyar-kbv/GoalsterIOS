@@ -68,7 +68,7 @@ class DayView: UIView {
     lazy var bottomTextView: UILabel = {
         let view = UILabel()
         view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
-        view.textColor = .ultraGray
+        view.textColor = .deepBlue
         view.textAlignment = .center
         view.text = "You had not add goals\nfor this day".localized
         view.numberOfLines = 0

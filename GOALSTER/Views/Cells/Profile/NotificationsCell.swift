@@ -44,7 +44,6 @@ class NotificationCell: UITableViewCell {
     }
     
     @objc func onSwitch(_ sender: UISwitch) {
-        print("asd")
         if let onChange = onChange {
             onChange(sender)
         }

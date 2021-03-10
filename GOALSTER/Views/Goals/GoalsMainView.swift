@@ -73,7 +73,7 @@ class GoalsMainView: UIView {
     lazy var bottomTextView: UILabel = {
         let view = UILabel()
         view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
-        view.textColor = .ultraGray
+        view.textColor = .deepBlue
         view.textAlignment = .center
         view.numberOfLines = 2
         return view

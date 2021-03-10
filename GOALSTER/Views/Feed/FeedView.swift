@@ -11,6 +11,7 @@ import UIKit
 import SnapKit
 
 class FeedView: UIView {
+    var type: FeedViewController.VCType
     var isEmpty: Bool? {
         didSet {
             isEmpty ?? true ? setEmpty() : setUp()
@@ -19,6 +20,14 @@ class FeedView: UIView {
     
     lazy var contentView: UIView = {
         let view = UIView()
+        return view
+    }()
+    
+    lazy var noRecommendationsLabel: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(17), weight: .medium)
+        view.textColor = .strongGray
+        view.text = "The recommendation list is empty".localized
         return view
     }()
     
@@ -46,7 +55,7 @@ class FeedView: UIView {
     lazy var emptyLabel: UILabel = {
         let view = UILabel()
         view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
-        view.textColor = .ultraGray
+        view.textColor = .deepBlue
         view.textAlignment = .center
         view.numberOfLines = 0
         view.text = "Empty feed text".localized
@@ -75,8 +84,10 @@ class FeedView: UIView {
         return view
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    required init(type: FeedViewController.VCType) {
+        self.type = type
+        
+        super.init(frame: .zero)
         
         addSubViews([contentView])
         
@@ -99,13 +110,22 @@ class FeedView: UIView {
     
     func setEmpty() {
         _ = contentView.subviews.map({ $0.removeFromSuperview() })
-        
-        contentView.addSubViews([emptyStack])
-        
-        emptyStack.snp.makeConstraints({
-            $0.left.right.equalToSuperview()
-            $0.centerY.equalToSuperview()
-        })
+        switch type {
+        case .following:
+            contentView.addSubViews([emptyStack])
+            
+            emptyStack.snp.makeConstraints({
+                $0.left.right.equalToSuperview()
+                $0.centerY.equalToSuperview()
+            })
+        case .recommendations:
+            contentView.addSubViews([noRecommendationsLabel])
+            
+            noRecommendationsLabel.snp.makeConstraints({
+                $0.top.equalToSuperview().offset(StaticSize.size(100))
+                $0.centerX.equalToSuperview()
+            })
+        }
     }
     
     required init?(coder: NSCoder) {

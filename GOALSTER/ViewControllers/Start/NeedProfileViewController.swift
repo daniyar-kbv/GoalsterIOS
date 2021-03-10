@@ -23,6 +23,12 @@ class NeedProfileViewController: UIViewController {
         
         hideKeyboardWhenTappedAround()
         
+        let emailInput = (mainView.updateProfileView.arrangedSubviews as? [InputView])?.first(where: { $0.viewType == .emailUpdate })
+        emailInput?.textField.isUserInteractionEnabled = false
+        emailInput?.textField.text = ModuleUserDefaults.getEmail()
+        emailInput?.textField.isEmpty = false
+        emailInput?.textField.textColor = .gray
+        
         mainView.updateProfileView.onSuccess = {
             let transition = CATransition()
             transition.duration = 0.2

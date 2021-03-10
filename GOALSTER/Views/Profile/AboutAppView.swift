@@ -11,6 +11,22 @@ import UIKit
 import SnapKit
 
 class AboutAppView: UIView {
+    lazy var contentView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        return view
+    }()
+    
+    lazy var stackView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [contentView])
+        view.axis = .vertical
+        return view
+    }()
+    
     lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "about")
@@ -22,7 +38,7 @@ class AboutAppView: UIView {
         view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
         view.textColor = .ultraGray
         view.numberOfLines = 0
-        view.text = "Text about the 24Goals app and about Erkezhan. Description, goal, mission for example. Possibly long text".localized
+        view.text = "The mission of the project is to inspire and draw inspiration from other users, learn the best habits of other people, help and motivate each other, improve yourself together, be a part of the same community, find like-minded people and go towards your goals together. Our app will help you achieve the best results and the best life.".localized
         view.textAlignment = .center
         return view
     }()
@@ -40,9 +56,9 @@ class AboutAppView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        if tableView.frame.height < (CGFloat(tableView.numberOfRows(inSection: 0)) * tableView.rowHeight) {
-            tableView.isScrollEnabled = true
-        }
+        tableView.snp.updateConstraints({
+            $0.height.equalTo(CGFloat(tableView.numberOfRows(inSection: 0)) * tableView.rowHeight)
+        })
     }
     
     override init(frame: CGRect) {
@@ -52,7 +68,20 @@ class AboutAppView: UIView {
     }
     
     func setUp() {
-        addSubViews([imageView, titleLabel, tableView])
+        addSubViews([scrollView])
+        
+        scrollView.snp.makeConstraints({
+            $0.edges.equalToSuperview()
+        })
+        
+        scrollView.addSubViews([stackView])
+        
+        stackView.snp.makeConstraints({
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        })
+        
+        contentView.addSubViews([imageView, titleLabel, tableView])
         
         imageView.snp.makeConstraints({
             $0.top.equalToSuperview().offset(StaticSize.size(25))
@@ -67,6 +96,7 @@ class AboutAppView: UIView {
         
         tableView.snp.makeConstraints({
             $0.top.equalTo(titleLabel.snp.bottom).offset(StaticSize.size(26))
+            $0.height.equalTo(CGFloat(tableView.numberOfRows(inSection: 0)) * tableView.rowHeight)
             $0.left.right.bottom.equalToSuperview()
         })
     }

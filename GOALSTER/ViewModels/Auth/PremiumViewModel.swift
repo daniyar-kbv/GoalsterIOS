@@ -23,6 +23,7 @@ class PremiumViewModel {
                     self.premium(identifier: identifier, date: date, productType: productType)
                     return
                 }
+                ModuleUserDefaults.setIsPremium(true)
                 ModuleUserDefaults.setIsPurchaseProcessed(true)
                 self.success.onNext(response)
             }

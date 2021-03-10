@@ -13,7 +13,7 @@ import SnapKit
 class ModalPremiumViewController: ChildViewController, PremiumVC {
     lazy var mainView = ModalPremiumView()
     lazy var premiumVc = PremiumViewController()
-    var type: PremiumVCType = .dismiss
+    var type: PremiumVCType = .removeTop
     var onSuccess: (() -> ())?
     var onBack: (() -> ())?
     

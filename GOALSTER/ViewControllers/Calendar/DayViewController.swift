@@ -149,7 +149,6 @@ class DayViewController: UIViewController {
     
     func setResponse(date: Date, response: GoalsResponse) {
         if date.format() == selectedDate.format() {
-            print(response)
             self.response = response
         }
         AppShared.sharedInstance.localCalendar?.first(where: {
@@ -164,7 +163,7 @@ class DayViewController: UIViewController {
         } else if !ModuleUserDefaults.getHasSpheres() {
             AppShared.sharedInstance.tabBarController.toTab(tab: 1)
         } else if let morning = response?.morning?.count, let day = response?.day?.count, let evening = response?.evening?.count, (morning + day + evening >= 6 && !ModuleUserDefaults.getIsPremium())  {
-            self.present(ProfilePremiumViewController(), animated: true, completion: nil)
+            navigationController?.pushViewController(ProfilePremiumViewController(), animated: true)
         } else {
             let vc = AddGoalViewController()
             vc.superVc = self

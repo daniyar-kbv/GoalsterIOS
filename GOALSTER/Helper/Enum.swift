@@ -34,6 +34,15 @@ enum Language: String {
             return 2
         }
     }
+    
+    var localeIdentifier: String {
+        switch self {
+        case .ru:
+            return "ru_RU"
+        case .en:
+            return "en_US_POSIX"
+        }
+    }
 }
 
 enum GoalsViewState {

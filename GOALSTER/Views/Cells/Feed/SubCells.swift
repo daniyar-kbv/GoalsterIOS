@@ -104,17 +104,10 @@ class FeedSphereCell: UICollectionViewCell {
         
         switch type {
         case .feed:
-            contentView.addSubViews([stackView, line])
+            contentView.addSubViews([stackView])
             
             stackView.snp.makeConstraints({
                 $0.center.equalToSuperview()
-            })
-            
-            line.snp.makeConstraints({
-                $0.left.equalToSuperview()
-                $0.width.equalTo(StaticSize.size(1))
-                $0.centerY.equalToSuperview()
-                $0.height.equalTo(StaticSize.size(32))
             })
         case .detail:
             contentView.addSubViews([line, stackView])

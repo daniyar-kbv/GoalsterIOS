@@ -160,7 +160,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     //Present in app
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let content = notification.request.content
-        print(content.userInfo)
+//        print(content.userInfo)
         let vc = UIApplication.topViewController()
         vc?.showAlertOk(title: content.title, messsage: content.body, okCompletion: { _ in
             AppShared.sharedInstance.notification = content
@@ -170,7 +170,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     //On tap
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let content = response.notification.request.content
-        print(content.userInfo)
+//        print(content.userInfo)
         AppShared.sharedInstance.notification = content
         completionHandler()
     }

@@ -27,7 +27,7 @@ class VisualizationCell: UICollectionViewCell {
             default:
                 break
             }
-            title.text = sphere?.name ?? ""
+            title.text = sphere?.name?.localized
             collection.reloadData()
         }
     }

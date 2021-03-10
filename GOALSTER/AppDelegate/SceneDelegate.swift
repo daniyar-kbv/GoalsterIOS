@@ -111,11 +111,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     DispatchQueue.main.async {
                         let vc = ProfilePremiumViewController()
                         vc.setOnSuccess(onSuccess: {
-                            vc.dismiss(animated: true, completion: {
-                                AppShared.sharedInstance.navigationController.pushViewController(ObservedViewController(), animated: true)
-                            })
+                            AppShared.sharedInstance.navigationController.popViewController(animated: true)
+                            AppShared.sharedInstance.navigationController.pushViewController(ObservedViewController(), animated: true)
                         })
-                        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                        UIApplication.topViewController()?.navigationController?.pushViewController(vc, animated: true)
                     }
                 } else {
                     AppShared.sharedInstance.navigationController.pushViewController(ObservedViewController(), animated: true)

@@ -6,7 +6,7 @@
   Copyright © 2020 MTI. All rights reserved.
 */
 
-"Some text on start page" = "I will help you obtain the skill to achieve all your bright goals, while maintaining life balance and motivation";
+"Some text on start page" = "24Goals App helps to develop skills aimed at achieving goals, maintaining life balance, mental state and motivation";
 "Choose language" = "Choose language";
 "Next" = "Next";
 "Premium version" = "Premium version";
@@ -22,13 +22,13 @@
 "1 Year" = "1 year";
 "Premium buttons title" = "Premium buttons title";
 "Premium functionality" = "Premium features";
-"Premium bottom text" = "Increased number of added goals - up to 30 per day\n• Tips for making a visualization board as a pdf-file\n• to-do-list for effective thinking\n• The most motivating push-notifications";
+"Premium bottom text" = "Increased number of added goals - up to 30 per day\n• Personal mentor who can help you seize your biggest goals\n• Share your goals with friends or follow others with the help\n• Use messenger function and communicate within the app\n• PDF guide with tips for making a visualization board\n• PDF guide for effective thinking";
 "On boarding top text 1" = "Become a master of achieving goals";
-"On boarding top text 2" = "Keep the balance";
+"On boarding top text 2" = "Show your daily schedules for other users ";
 "On boarding top text 3" = "Drive motivation to the speed of light";
 "On boarding top text 4" = "Get the maximum benefit";
 "On boarding bottom text 1" = "By choosing only 3 areas for 30 days, you can achieve, without loss of energy, what others achieve in a YEAR";
-"On boarding bottom text 2" = "Every evening fill out the section with emotions that will help you free your head from unnecessary thoughts and make sensible decisions";
+"On boarding bottom text 2" = "Inspire and draw inspiration from others, set reactions, subscribe, follow like-minded people and develop networking";
 "On boarding bottom text 3" = "Create your own effective visualization board and capture your goals with pictures";
 "On boarding bottom text 4" = "If you need constant support or control, then you can share goals with friends or be an observer";
 "Ok_" = "Ok";
@@ -41,7 +41,7 @@
 "Goals" = "Goals";
 "Choose" = "Choose";
 "Choose spheres" = "Choose spheres";
-"Enter your email, we will send application login link on it" = "Enter your email, we will send there a link to enter the application";
+"Enter your email, we will send application login link on it" = "Enter Your Email. We will send you a 4-digit code to access your account";
 "Sign in" = "Sign in";
 "Check Your Email" = "Welcome to 24Goals!\nYou have taken a big step towards your goal. Tune in to positive results and use the app daily. We've sent email to the specified address, follow the link from the email to complete the registration.";
 "Health" = "Health";
@@ -88,8 +88,8 @@
 "Добавить свой вариант" = "Add new option";
 "It might be changed in settings" = "This can be changed in the settings";
 "Text about more detailed shpere's goal description" = "A more detailed description of the goal for this area";
-"Enter description here" = "Enter a description here";
-"Text specifying goals for each sphere" = "Description of your goal for each area";
+"Enter description here" = "Add goal or desired metrics";
+"Text specifying goals for each sphere" = "Set specific goals or desired metrics for each area";
 "Save" = "Save";
 "Make a plan" = "Make a plan";
 "Make a plan\nfor next 30 days" = "Make a plan\nfor the next 30 days";
@@ -155,10 +155,10 @@
 "What will I can do better tomorrow" = "What can I do for a better tomorrow?";
 "Enter what will you can do better tomorrow" = "Enter what will you can do better tomorrow";
 
-"Insight" = "Insight";
+"Insight" = "Insight of the Day";
 "Enter here your insight" = "Write down your insight here";
 
-"Ideas (thai came during the day)" = "Ideas (which came up during the day)";
+"Ideas (thai came during the day)" = "Ideas, which came up during the day";
 "Enter here your idea" = "Write down your idea here";
 
 
@@ -168,7 +168,7 @@
 "Идеи, которые пришли в течение дня" = "Ideas (which came up during the day)";
 
 
-"Visualizations top text" = "By capturing your goals with images, our brain is 110 times more successful in picturing the result and actions that help increase motivation and productivity";
+"Visualizations top text" = "Visual representation of the goals can help to our brain  110 times more successful in picturing the results and actions";
 "You have not added visalizations yet" = "You have not added visualizations yet";
 "Visualization" = "Visualization";
 "Visualization addition" = "Visualization adding";
@@ -237,37 +237,37 @@
 "Specify your Instagram account" = "Specify your Instagram account";
 "Avatar" = "Avatar";
 "Add your own avatar" = "Add your own avatar";
-"Specialization placeholder" = "Specialization placeholder";
-"Avatar placeholder" = "Avatar placeholder";
+"Specialization placeholder" = "e.g. chef, blogger, student";
+"Avatar placeholder" = "Select an image";
 "You must fill in the data" = "You must fill in the data";
 "E-mail is invalid" = "E-mail is invalid";
-"Ask notification title" = "Ask notification title";
-"Ask notification text" = "Ask notification text";
+"Ask notification title" = "24Goals Would like to Send You Notifications";
+"Ask notification text" = "Notifications will remind you of your Goals and new comments from your mentors";
 
-"Auth text" = "Auth text";
+"Auth text" = "24Goals App helps to develop skills aimed at achieving goals, maintaining life balance, mental state and motivation";
 "Sign up" = "Sign up";
 "Already have an account?" = "Already have an account?";
 "Sign in" = "Sign in";
 
-"Policy start" = "Policy start ";
-"user agreement" = "user agreement";
+"Policy start" = "By logging in you agree to our ";
+"user agreement" = "Terms of Use";
 "and" = " and ";
-"privacy policy" = "privacy policy";
+"privacy policy" = "Privacy Policy";
 
-"Enter code" = "Enter code";
+"Enter code" = "Enter a code that you get from your email";
 "Resend code within" = "Resend code within";
 "Resend code" = "Resend code";
 
 "Registration" = "Registration";
-"Sign up subtitle" = "Sign up subtitle";
+"Sign up subtitle" = "You need to provide information about yourself. We will send a verification code to your email";
 
-"Goals done in a month" = "Goals done in a month";
+"Goals done in a month" = "Number of completed monthly goals";
 "Edit" = "Edit";
 
 "Emotions" = "Emotions";
 "Visualizations" = "Visualizations";
 "Following" = "Following";
-"Reccondations" = "Reccondations";
+"Reccondations" = "Suggested for you";
 
 "Add emotions" = "Add emotions";
 
@@ -290,14 +290,14 @@
 
 "Purchase the premium version" = "Purchase the premium version";
 
-"Text about the 24Goals app and about Erkezhan. Description, goal, mission for example. Possibly long text" = "Text about the 24Goals app and about Erkezhan. Description, goal, mission for example. Possibly long text";
+"The mission of the project is to inspire and draw inspiration from other users, learn the best habits of other people, help and motivate each other, improve yourself together, be a part of the same community, find like-minded people and go towards your goals together. Our app will help you achieve the best results and the best life." = "The mission of the project is to inspire and draw inspiration from other users, learn the best habits of other people, help and motivate each other, improve yourself together, be a part of the same community, find like-minded people and go towards your goals together. Our app will help you achieve the best results and the best life.";
 
 "Application site" = "Application site";
 "Instagram application page" = "Instagram application page";
 "Instagram founder page" = "Instagram founder page";
 
-"Empty feed text" = "Empty feed text";
-"To recommendations" = "To recommendations";
+"Empty feed text" = "Here will be the schedules\nof the people you follow";
+"To recommendations" = "Suggested for you";
 
 "Follow" = "Follow";
 "Unfollow" = "Unfollow";
@@ -306,3 +306,9 @@
 "Invite a friend or become an observer" = "Invite a friend or become an observer";
 "You haven't opened the 24Goals app in 3 days." = "Ты 3 дня не заходил в приложение 24Goals.";
 "Click here and I'll show you what you started it all for." = "Кликни сюда и я покажу тебе то, для чего ты все начал.";
+
+"Premium successfully purchased" = "Premium successfully purchased";
+"You're not following anyone" = "You're not following anyone";
+"The recommendation list is empty" = "Suggestion list is empty";
+
+"Goal edit" = "Edit";

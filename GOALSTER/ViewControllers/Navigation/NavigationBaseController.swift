@@ -37,6 +37,14 @@ class NavigationMenuBaseController: UITabBarController {
                 self.openNotification(notification: type)
             }
         }).disposed(by: disposeBag)
+        AppShared.sharedInstance.profileSubject.subscribe(onNext: { object in
+            DispatchQueue.main.async {
+                if object == nil {
+                    self.navigationController?.popViewController(animated: true)
+                    AppShared.sharedInstance.navigationController?.pushViewController(NeedProfileViewController(), animated: true)
+                }
+            }
+        }).disposed(by: disposeBag)
     }
     
     private func loadTabBar() {

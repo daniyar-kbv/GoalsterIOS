@@ -62,8 +62,8 @@ class AppShared {
     lazy var profileSubject = PublishSubject<Profile?>()
     var profile: Profile? = ModuleUserDefaults.getProfile() {
         didSet {
-            guard let profile = profile else { return }
             profileSubject.onNext(profile)
+            guard let profile = profile else { return }
             ModuleUserDefaults.setProfile(object: profile)
         }
     }

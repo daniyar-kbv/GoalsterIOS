@@ -12,7 +12,7 @@ import UIKit
 class ProfilePremiumViewController: ProfileFirstViewController, PremiumVC {
     lazy var premiumVc = PremiumViewController()
     var onSuccess: (()->())?
-    var type: PremiumVCType = .dismiss
+    var type: PremiumVCType = .pop
     
     override func loadView() {
         super.loadView()
@@ -39,9 +39,12 @@ protocol PremiumVC {
     
     func setOnSuccess(onSuccess: (()->())?)
     func showBackButton(onBack: (()->())?)
+    func removeTop()
+    func showAlertOk(title: String?, messsage: String?, okCompletion: ((UIAlertAction) -> Void)?)
 }
 
 enum PremiumVCType {
     case dismiss
     case pop
+    case removeTop
 }

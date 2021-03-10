@@ -107,7 +107,7 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
                 })
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
-                navigationController?.pushViewController(ProfilePremiumViewController(), animated: true)
+                navigationController?.pushViewController(ObserversViewController(), animated: true)
             }
         case .following:
             navigationController?.pushViewController(FollowingViewController(), animated: true)

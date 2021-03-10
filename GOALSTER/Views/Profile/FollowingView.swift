@@ -11,6 +11,15 @@ import UIKit
 import SnapKit
 
 class FollowingView: UIView {
+    lazy var noFollowingLabel: UILabel = {
+        let view = UILabel()
+        view.font = .primary(ofSize: StaticSize.size(17), weight: .medium)
+        view.textColor = .strongGray
+        view.text = "You're not following anyone".localized
+        view.isHidden = true
+        return view
+    }()
+    
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.rowHeight = StaticSize.size(67)
@@ -28,7 +37,12 @@ class FollowingView: UIView {
     }
     
     func setUp() {
-        addSubViews([tableView])
+        addSubViews([noFollowingLabel, tableView])
+        
+        noFollowingLabel.snp.makeConstraints({
+            $0.top.equalToSuperview().offset(StaticSize.size(110))
+            $0.centerX.equalToSuperview()
+        })
         
         tableView.snp.makeConstraints({
             $0.top.bottom.equalToSuperview()

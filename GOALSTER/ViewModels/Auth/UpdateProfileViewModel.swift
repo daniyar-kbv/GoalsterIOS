@@ -18,7 +18,7 @@ class UpdateProfileViewModel {
         var parameters = [
             "name": name,
             "specialization": specialization,
-            "user.email": email,
+            "email": email,
             "instagram_username": instagramUsername
         ] as [String : Any]
         if let url = avatarUrl {

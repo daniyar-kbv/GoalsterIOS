@@ -23,8 +23,8 @@ class AboutCell: UITableViewCell {
     lazy var shadowContainer: UIView = {
         let view = UIView()
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: StaticSize.size(5))
-        view.layer.shadowRadius = StaticSize.size(10)
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = StaticSize.size(4)
         view.layer.shadowOpacity = 0.07
         return view
     }()

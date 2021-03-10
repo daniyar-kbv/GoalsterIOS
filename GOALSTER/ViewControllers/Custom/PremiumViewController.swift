@@ -22,15 +22,20 @@ class PremiumViewController: UIViewController, SKProductsRequestDelegate, SKPaym
     var success: Bool? {
         didSet {
             guard let parent = parent as? PremiumVC else { return }
-            switch parent.type {
-            case .pop:
-                AppShared.sharedInstance.navigationController.popViewController(animated: true)
-                parent.onSuccess?()
-            case .dismiss:
-                self.parent?.dismiss(animated: true, completion: {
+            parent.showAlertOk(title: "Premium successfully purchased".localized, messsage: nil, okCompletion: { _ in
+                switch parent.type {
+                case .pop:
+                    AppShared.sharedInstance.navigationController.popViewController(animated: true)
                     parent.onSuccess?()
-                })
-            }
+                case .dismiss:
+                    self.parent?.dismiss(animated: true, completion: {
+                        parent.onSuccess?()
+                    })
+                case .removeTop:
+                    parent.removeTop()
+                    parent.onSuccess?()
+                }
+            })
         }
     }
     

@@ -46,7 +46,7 @@ class VisualizationsMainView: UIView {
     lazy var bottomTextView: UILabel = {
         let view = UILabel()
         view.font = .primary(ofSize: StaticSize.size(17), weight: .regular)
-        view.textColor = .ultraGray
+        view.textColor = .deepBlue
         view.textAlignment = .center
         view.numberOfLines = 0
         view.text = "You have not added visalizations yet".localized
@@ -92,22 +92,22 @@ class VisualizationsMainView: UIView {
                 $0.left.right.equalToSuperview().inset(StaticSize.size(15))
             })
             
-            animationView.snp.makeConstraints({
-                $0.centerX.equalToSuperview()
-                $0.top.equalToSuperview().offset(StaticSize.size(150))
-                $0.width.equalTo(StaticSize.size(250))
-                $0.height.equalTo(StaticSize.size(250))
+            button.snp.makeConstraints({
+                $0.centerY.equalToSuperview().offset(StaticSize.size(70))
+                $0.left.right.equalToSuperview().inset(StaticSize.size(15))
+                $0.height.equalTo(StaticSize.buttonHeight)
             })
             
             bottomTextView.snp.makeConstraints({
-                $0.top.equalTo(animationView.snp.bottom)
+                $0.bottom.equalTo(button.snp.top).offset(-StaticSize.size(24))
                 $0.centerX.equalToSuperview()
             })
             
-            button.snp.makeConstraints({
-                $0.top.equalTo(bottomTextView.snp.bottom).offset(StaticSize.size(24))
-                $0.left.right.equalToSuperview().inset(StaticSize.size(15))
-                $0.height.equalTo(StaticSize.buttonHeight)
+            animationView.snp.makeConstraints({
+                $0.bottom.equalTo(bottomTextView.snp.top).offset(StaticSize.size(30))
+                $0.centerX.equalToSuperview()
+                $0.width.equalTo(StaticSize.size(250))
+                $0.height.equalTo(StaticSize.size(250))
             })
             
             animationView.play()
