@@ -2,6 +2,12 @@ PODS:
   - Alamofire (5.2.1)
   - AlamofireEasyLogger (1.4.0):
     - Alamofire (>= 5.0)
+  - FBSDKCoreKit (9.1.0):
+    - FBSDKCoreKit/Basics (= 9.1.0)
+    - FBSDKCoreKit/Core (= 9.1.0)
+  - FBSDKCoreKit/Basics (9.1.0)
+  - FBSDKCoreKit/Core (9.1.0):
+    - FBSDKCoreKit/Basics
   - Firebase/Analytics (6.34.0):
     - Firebase/Core
   - Firebase/Core (6.34.0):
@@ -113,6 +119,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - AlamofireEasyLogger
+  - FBSDKCoreKit
   - Firebase/Analytics
   - Firebase/Crashlytics
   - Firebase/DynamicLinks
@@ -129,6 +136,7 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - AlamofireEasyLogger
+    - FBSDKCoreKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -156,6 +164,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
   AlamofireEasyLogger: fa67d9063e16b1f20993f4d802226ca6e3d54f6b
+  FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
   Firebase: c23a36d9e4cdf7877dfcba8dd0c58add66358999
   FirebaseAnalytics: 3bb096873ee0d7fa4b6c70f5e9166b6da413cc7f
   FirebaseCore: d3a978a3cfa3240bf7e4ba7d137fdf5b22b628ec
@@ -180,6 +189,6 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 4aac1611586bbefbc9efaf071154f090a6651da8
+PODFILE CHECKSUM: fda536282ade5c2fc130000c77630b0db9826978
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

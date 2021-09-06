@@ -65,6 +65,7 @@ class SpheresListViewController: UIViewController {
             cell.sphere = spheres[i]
             cell.isActive = selected.contains(where: { $0.value == cell.sphere?.rawValue.en || $0.value == cell.sphere?.rawValue.ru }) || (cell.sphere == .addOwnOption && selected.contains(where: { $0.value == ownOption }) && !ownOption.isEmpty)
             if spheres[i] == .addOwnOption {
+                cell.nameField.additionalLift = StaticSize.size(100)
                 if !ownOption.isEmpty {
                     cell.nameField.text = ownOption
                 }
@@ -82,6 +83,7 @@ class SpheresListViewController: UIViewController {
     }
     
     @objc func nextTapped() {
+        spheresView.endEditing(true)
         let vc = SpheresDescriptionViewController(spheres: selected)
         vc.fromProfile = fromProfile
         openTop(vc: vc)

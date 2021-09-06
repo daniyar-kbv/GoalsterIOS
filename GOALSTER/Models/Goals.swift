@@ -24,7 +24,7 @@ class Goal: NSObject, Codable, NSCoding {
         case name
         case time
         case isDone = "is_done"
-        case observer
+        case observer = "observer_data"
         case sphere
         case isConfirmed = "is_confirmed"
         case isPublic = "is_public"

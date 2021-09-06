@@ -20,9 +20,9 @@
 "3 Month" = "3 month";
 "6 Month" = "6 month";
 "1 Year" = "1 year";
-"Premium buttons title" = "Premium buttons title";
+"Premium buttons title" = "Choose a tariff plan";
 "Premium functionality" = "Premium features";
-"Premium bottom text" = "Increased number of added goals - up to 30 per day\n• Personal mentor who can help you seize your biggest goals\n• Share your goals with friends or follow others with the help\n• Use messenger function and communicate within the app\n• PDF guide with tips for making a visualization board\n• PDF guide for effective thinking";
+"Premium bottom text" = "Increased number of added tasks - up to 30 per day\n• Personal mentor who can help you seize your biggest goals\n• Share your goals with friends or follow others with the help\n• Use messenger function and communicate within the app\n• PDF guide with tips for making a visualization board\n• PDF guide for effective thinking";
 "On boarding top text 1" = "Become a master of achieving goals";
 "On boarding top text 2" = "Show your daily schedules for other users ";
 "On boarding top text 3" = "Drive motivation to the speed of light";
@@ -36,14 +36,15 @@
 "No signal\nCheck internet connection" = "No connection, check your internet";
 "Try again" = "Try again";
 "Error uccured, please try egain" = "Error occurred,\nplease try again";
-"Number of complete goals" = "Number of completed goals";
+"Number of complete goals" = "Number of completed tasks";
 "Choose 3 spheres\nfor next 30 days" = "Choose 3 areas\nfor the next 30 days";
-"Goals" = "Goals";
+"Goals" = "Tasks";
 "Choose" = "Choose";
 "Choose spheres" = "Choose spheres";
 "Enter your email, we will send application login link on it" = "Enter Your Email. We will send you a 4-digit code to access your account";
 "Sign in" = "Sign in";
 "Check Your Email" = "Welcome to 24Goals!\nYou have taken a big step towards your goal. Tune in to positive results and use the app daily. We've sent email to the specified address, follow the link from the email to complete the registration.";
+
 "Health" = "Health";
 "Education" = "Education";
 "Finances" = "Finance";
@@ -65,6 +66,7 @@
 "Hobby" = "Hobbies";
 "Travel" = "Travelling";
 "Add own option" = "Add new option";
+
 "Здоровье" = "Health";
 "Образование" = "Education";
 "Финансы" = "Finance";
@@ -77,6 +79,7 @@
 "Семья" = "Family";
 "Окружение" = "Environment";
 "Самосовершенствование" = "Self improvement";
+"Продвижение" = "Self improvement";
 "Увлечения" = "Interests";
 "Интеллект" = "Intelligence";
 "Спорт" = "Sports";
@@ -86,6 +89,7 @@
 "Хобби" = "Hobbies";
 "Путешествия" = "Travelling";
 "Добавить свой вариант" = "Add new option";
+
 "It might be changed in settings" = "This can be changed in the settings";
 "Text about more detailed shpere's goal description" = "A more detailed description of the goal for this area";
 "Enter description here" = "Add goal or desired metrics";
@@ -93,7 +97,7 @@
 "Save" = "Save";
 "Make a plan" = "Make a plan";
 "Make a plan\nfor next 30 days" = "Make a plan\nfor the next 30 days";
-"You had not add goals\nfor this day" = "you have not added goals\nfor this day";
+"You had not add goals\nfor this day" = "you have not added tasks\nfor this day";
 "Add" = "Add";
 "Calendar" = "Calendar";
 "Month" = "Month";
@@ -111,22 +115,22 @@
 "Done" = "In process";
 "Today" = "Today is";
 "Choose time of day" = "Select the time of day";
-"Goal addition" = "Goal adding";
+"Goal addition" = "Task adding";
 "Choose time of day" = "Select the time of day";
 "Time of the day" = "Time of the day";
-"Choose sphere which goal applies to" = "Select the area to which the goal belongs";
+"Choose sphere which goal applies to" = "Select the area to which the task belongs";
 "Sphere" = "Sphere";
-"Enter your goal" = "Write down your goal";
-"Goal" = "Goal";
-"Share goal with observer" = "Share a goal with an observer";
+"Enter your goal" = "Write down your task";
+"Goal" = "Task";
+"Share goal with observer" = "Share a task with an observer";
 "Choose sphere" = "Choose sphere";
-"Enter goal" = "Enter goal";
+"Enter goal" = "Enter task";
 "Choose your observer" = "Choose your observer";
 "Choose observer" = "Select an observer";
 "Observer addition" = "Observer adding";
 "Enter observer's E-mail" = "Enter observer's E-mail";
-"You have made right descision" = "You’ve made the right decision. The invitation has already been sent, and as soon as your observer confirms his participation, he will be able to view your goals";
-"Back to goal" = "Back to Goal adding";
+"You have made right descision" = "You’ve made the right decision. The invitation has already been sent, and as soon as your observer confirms his participation, he will be able to view your tasks";
+"Back to goal" = "Back to Task adding";
 "Waiting observer's confirmation" = "Waiting for confirmation from the observer";
 "January" = "January";
 "February" = "February";
@@ -204,7 +208,7 @@
 "Shreres changed successfully" = "Your areas have been successfully saved";
 "Back to profile" = "Back to profile";
 "Save changes" = "Save changes";
-"Shere changes alert text" = "By changing the areas, all previously filled goals and observers in them will be deleted. The 30 days will start over, continue?";
+"Shere changes alert text" = "By changing the areas, all previously filled tasks and observers in them will be deleted. The 30 days will start over, continue?";
 "Purchase" = "Purchase";
 "Notifications" = "Notifications";
 "Push-notifications" = "Push-notifications";
@@ -227,7 +231,7 @@
 "End notification message" = "Click here to wrap-up.";
 "Allow push-notifications in settings" = "Allow push-notifications in settings";
 "You're already logged in" = "You're already logged in";
-"Goal description" = "Goal description";
+"Goal description" = "Task description";
 "Enter your E-mail" = "Enter your E-mail";
 "Name" = "Name";
 "Enter your name" = "Enter your name";
@@ -261,7 +265,7 @@
 "Registration" = "Registration";
 "Sign up subtitle" = "You need to provide information about yourself. We will send a verification code to your email";
 
-"Goals done in a month" = "Number of completed monthly goals";
+"Goals done in a month" = "Number of completed monthly tasks";
 "Edit" = "Edit";
 
 "Emotions" = "Emotions";
@@ -271,7 +275,7 @@
 
 "Add emotions" = "Add emotions";
 
-"Public goal" = "Public goal";
+"Public goal" = "Public task";
 
 "Sphere choice" = "Sphere choice";
 
@@ -301,14 +305,21 @@
 
 "Follow" = "Follow";
 "Unfollow" = "Unfollow";
-"Goals for" = "Goals for";
+"Goals for" = "Tasks for";
 
-"Invite a friend or become an observer" = "Invite a friend or become an observer";
-"You haven't opened the 24Goals app in 3 days." = "Ты 3 дня не заходил в приложение 24Goals.";
-"Click here and I'll show you what you started it all for." = "Кликни сюда и я покажу тебе то, для чего ты все начал.";
+"Invite a friend or become an observer" = "You can share your daily schedules and follow like-minded people.";
+"You haven't opened the 24Goals app in 3 days." = "You haven't opened the 24Goals app in 3 days.";
+"Click here and I'll show you what you started it all for." = "Click here and I'll show you what you started it all for.";
+
+"Everyday morning push" = "Hey, have a productive day with 24Goals app!";
 
 "Premium successfully purchased" = "Premium successfully purchased";
 "You're not following anyone" = "You're not following anyone";
 "The recommendation list is empty" = "Suggestion list is empty";
 
-"Goal edit" = "Edit";
+"Task edit" = "Edit";
+
+"Photo access not granted title" = "You did not grant access to the photo library";
+"Photo access not granted message" = "You can grant access in app's settings";
+"To settings" = "To settings";
+"Cancel" = "Cencel";

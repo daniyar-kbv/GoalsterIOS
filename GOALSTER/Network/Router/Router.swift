@@ -131,7 +131,7 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
 
     enum NetworkResponse:String {
         case success
-        case authenticationError = "Вы не авторизованы"
+        case authenticationError = "Ты не авторизован"
         case badRequest = "Bad request"
         case outdated = "The url you requested is outdated."
         case failed = "Error uccured, please try egain"

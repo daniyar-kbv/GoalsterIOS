@@ -64,6 +64,7 @@ class FeedDetailViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        tableVc.user = user
         tableVc.response = user?.goals
     }
     

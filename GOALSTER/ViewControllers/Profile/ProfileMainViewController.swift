@@ -54,6 +54,12 @@ class ProfileMainViewController: UIViewController {
                 self.count = count
             }
         }).disposed(by: disposeBag)
+        AppShared.sharedInstance.profileSubject.subscribe(onNext: { object in
+            DispatchQueue.main.async {
+                self.profileView.avatarView.kf.setImage(with: URL(string: object?.avatar ?? ""))
+                self.profileView.nameLabel.text = object?.name
+            }
+        }).disposed(by: disposeBag)
     }
     
     func reload() {

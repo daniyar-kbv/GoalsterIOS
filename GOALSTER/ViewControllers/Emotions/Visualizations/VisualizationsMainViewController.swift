@@ -119,7 +119,7 @@ class VisualizationsMainViewcontroller: SegmentVc {
         if !ModuleUserDefaults.getIsLoggedIn() {
             present(FirstAuthViewController(), animated: true, completion: nil)
         } else if !ModuleUserDefaults.getHasSpheres() {
-            AppShared.sharedInstance.tabBarController.toTab(tab: 0)
+            AppShared.sharedInstance.tabBarController.toTab(tab: 1)
         } else {
             let vc = AddVisualizationViewController()
             vc.spheres = spheres
@@ -153,7 +153,7 @@ extension VisualizationsMainViewcontroller: UICollectionViewDelegate, UICollecti
 
 extension VisualizationsMainViewcontroller: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ScreenSize.SCREEN_WIDTH, height: StaticSize.size(210))
+        return CGSize(width: ScreenSize.SCREEN_WIDTH, height: StaticSize.size(230))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

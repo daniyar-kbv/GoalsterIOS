@@ -271,61 +271,75 @@ class ReactionCollectionViewDelegate: UIViewController, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let userId = userId, let reactionId = reactions[indexPath.item].id else { return }
-        if ModuleUserDefaults.getIsLoggedIn() {
-            reactions[indexPath.item].reacted?.toggle()
-            if reactions[indexPath.item].reacted ?? false {
-                animateReactions(view: collectionView.viewContainingController()?.view, emoji: reactions[indexPath.item].emoji)
-            }
-            viewModel.react(userId: userId, reactionId: reactionId)
-            for (index, reaction) in reactions.enumerated() {
-                if index == indexPath.item {
-                    reactions[index].count = reactions[index].reacted ?? false ?
-                        (reactions[index].count ?? 0) + 1 :
-                        (reactions[index].count ?? 0) - 1
-                } else if reactions[indexPath.item].reacted ?? false && reaction.reacted ?? false {
-                    reactions[index].reacted = false
-                    reactions[index].count = (reactions[index].count ?? 0) - 1
-                }
-            }
-            
-            if let vc = collectionView.viewContainingController()?.parent as? FeedDetailViewController, let index = vc.superVc.users.firstIndex(where: { $0.id == userId }), let delegate = (vc.superVc.mainView.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? FeedCell)?.reactionsDelegate {
-                for (index, reaction) in delegate.reactions.enumerated() {
-                    if index == indexPath.item {
-                        delegate.reactions[index].reacted?.toggle()
-                        delegate.reactions[index].count = delegate.reactions[index].reacted ?? false ?
-                            (delegate.reactions[index].count ?? 0) + 1 :
-                            (delegate.reactions[index].count ?? 0) - 1
-                    } else if delegate.reactions[indexPath.item].reacted ?? false && reaction.reacted ?? false {
-                        delegate.reactions[index].reacted = false
-                        delegate.reactions[index].count = (delegate.reactions[index].count ?? 0) - 1
-                    }
-                }
-                delegate.collectionView?.reloadData()
-            }
-            collectionView.reloadData()
-//            AppShared.sharedInstance.reaction.onNext((userId, reactions[indexPath.item]))
-        } else {
-            present(FirstAuthViewController(), animated: true)
+        guard let userId = userId, let reactionId = reactions[indexPath.item].id, ModuleUserDefaults.getIsLoggedIn() else { return }
+        reactions[indexPath.item].reacted?.toggle()
+        if reactions[indexPath.item].reacted ?? false {
+            animateReactions(view: collectionView.viewContainingController()?.view, reaction: reactions[indexPath.item])
         }
+        viewModel.react(userId: userId, reactionId: reactionId)
+        for (index, reaction) in reactions.enumerated() {
+            print("reactions before: ")
+            print(reactions.map({ ($0.count, $0.reacted) }))
+            print("\n")
+            print(index)
+            print(reaction.count)
+            print(reaction.reacted)
+            print("\n")
+            if index == indexPath.item {
+                reactions[index].count = reactions[index].reacted ?? false ?
+                    (reactions[index].count ?? 0) + 1 :
+                    (reactions[index].count ?? 0) - 1
+            } else if reactions[indexPath.item].reacted ?? false && reaction.reacted ?? false {
+                reactions[index].reacted = false
+                reactions[index].count = (reactions[index].count ?? 0) - 1
+            }
+            print("reactions after: ")
+            print(reactions.map({ ($0.count, $0.reacted) }))
+            print("\n")
+            print(index)
+            print(reaction.count)
+            print(reaction.reacted)
+            print("\n")
+        }
+        
+        if let vc = collectionView.viewContainingController()?.parent as? FeedDetailViewController, let index = vc.superVc.users.firstIndex(where: { $0.id == userId }), let delegate = (vc.superVc.mainView.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? FeedCell)?.reactionsDelegate {
+            for (index, reaction) in delegate.reactions.enumerated() {
+                if index == indexPath.item {
+                    delegate.reactions[index].reacted?.toggle()
+                    delegate.reactions[index].count = delegate.reactions[index].reacted ?? false ?
+                        (delegate.reactions[index].count ?? 0) + 1 :
+                        (delegate.reactions[index].count ?? 0) - 1
+                } else if delegate.reactions[indexPath.item].reacted ?? false && reaction.reacted ?? false {
+                    delegate.reactions[index].reacted = false
+                    delegate.reactions[index].count = (delegate.reactions[index].count ?? 0) - 1
+                }
+            }
+            delegate.collectionView?.reloadData()
+        }
+        collectionView.reloadData()
+//            AppShared.sharedInstance.reaction.onNext((userId, reactions[indexPath.item]))
     }
     
-    func animateReactions(view: UIView?, emoji: String?) {
-        var emojiViews: [UILabel] = []
+    func animateReactions(view: UIView?, reaction: Reaction?) {
+        var emojiViews: [UIImageView] = []
         let numberOfIterations = 3
         let numberOfEmojis = 5
         let delay = 0.3
         let emojiSize = StaticSize.size(50)
         for _ in 0..<numberOfIterations * numberOfEmojis {
-            let emojiLabel: UILabel = {
-                let view = UILabel()
-                view.font = .primary(ofSize: emojiSize, weight: .regular)
-                view.text = emoji
+            let emojiView: UIImageView = {
+                let view = UIImageView()
+                var image = UIImage(named: "reaction \(reaction?.id ?? 1)")
+                image?.imageRendererFormat
+                view.image = UIImage(named: "reaction \(reaction?.id ?? 1)")
+                view.snp.makeConstraints({
+                    $0.size.equalTo(emojiSize)
+                })
                 return view
             }()
-            emojiViews.append(emojiLabel)
-            view?.addSubview(emojiLabel)
-            emojiLabel.snp.makeConstraints({
+            emojiViews.append(emojiView)
+            view?.addSubview(emojiView)
+            emojiView.snp.makeConstraints({
                 $0.bottom.equalToSuperview().offset(emojiSize)
                 $0.left.equalToSuperview().offset((ScreenSize.SCREEN_WIDTH - StaticSize.size(30)) * CGFloat.random(in: 0...1))
             })
@@ -334,8 +348,8 @@ class ReactionCollectionViewDelegate: UIViewController, UICollectionViewDelegate
         view?.layoutIfNeeded()
         
         for i in 0..<numberOfIterations {
-            for label in emojiViews[i * numberOfEmojis..<(i * numberOfEmojis) + numberOfEmojis] {
-                label.snp.updateConstraints({
+            for view in emojiViews[i * numberOfEmojis..<(i * numberOfEmojis) + numberOfEmojis] {
+                view.snp.updateConstraints({
                     $0.bottom.equalToSuperview().offset(-((ScreenSize.SCREEN_HEIGHT * 0.5) * CGFloat.random(in: 0.2...1)))
                 })
             }
@@ -345,13 +359,13 @@ class ReactionCollectionViewDelegate: UIViewController, UICollectionViewDelegate
             })
             
             UIView.animate(withDuration: 0.5, delay: 1 + (Double(i) * delay), options: .curveEaseOut, animations: {
-                for label in emojiViews[i * numberOfEmojis..<(i * numberOfEmojis) + numberOfEmojis] {
-                    label.alpha = 0
+                for view in emojiViews[i * numberOfEmojis..<(i * numberOfEmojis) + numberOfEmojis] {
+                    view.alpha = 0
                 }
             }, completion: {
                 if $0 {
-                    for label in emojiViews[i * numberOfEmojis..<(i * numberOfEmojis) + numberOfEmojis] {
-                        label.removeFromSuperview()
+                    for view in emojiViews[i * numberOfEmojis..<(i * numberOfEmojis) + numberOfEmojis] {
+                        view.removeFromSuperview()
                     }
                 }
             })

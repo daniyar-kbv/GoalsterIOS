@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  GOALSTER
+
+  Created by Dan on 3/18/21.
+  Copyright © 2021 MTI. All rights reserved.
+*/
+
+"NSPhotoLibraryUsageDescription" = "24 goals требуется доступ к библиотеке фотографий для загрузки изображений для визуализации и аватара.";
+"NSUserTrackingUsageDescription" = "Этот идентификатор будет использоваться для показа вам персонализированной рекламы.";

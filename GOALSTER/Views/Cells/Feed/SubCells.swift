@@ -143,14 +143,17 @@ class ReactionCell: UICollectionViewCell {
     var index: Int?
     var reaction: Reaction? {
         didSet {
-            emojiLabel.text = reaction?.emoji
-            countLabel.text = String(reaction?.count ?? 0)
+            guard let count  = reaction?.count, let id = reaction?.id else { return }
+            emojiImage.image = UIImage(named: "reaction \(id)")
+            countLabel.text = String(count)
         }
     }
     
-    lazy var emojiLabel: UILabel = {
-        let view = UILabel()
-        view.font = .primary(ofSize: StaticSize.size(30), weight: .regular)
+    lazy var emojiImage: UIImageView = {
+        let view = UIImageView()
+        view.snp.makeConstraints({
+            $0.size.equalTo(StaticSize.size(30))
+        })
         return view
     }()
     
@@ -162,11 +165,11 @@ class ReactionCell: UICollectionViewCell {
     }()
     
     lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [emojiLabel, countLabel])
+        let view = UIStackView(arrangedSubviews: [emojiImage, countLabel])
         view.axis = .vertical
         view.distribution = .equalSpacing
         view.alignment = .center
-        view.spacing = 0
+        view.spacing = StaticSize.size(5)
         return view
     }()
     

@@ -19,8 +19,7 @@ class AppStoreReviewManager {
         var actionCount = defaults.integer(forKey: .reviewWorthyActionCount)
         actionCount += 1
         
-        let bundleVersionKey = kCFBundleVersionKey as String
-        let currentVersion = bundle.object(forInfoDictionaryKey: bundleVersionKey) as? String
+        let currentVersion = bundle.infoDictionary?["CFBundleShortVersionString"] as? String
         let lastVersion = defaults.string(forKey: .lastReviewRequestAppVersion)
         
         return (defaults, actionCount, currentVersion, lastVersion)

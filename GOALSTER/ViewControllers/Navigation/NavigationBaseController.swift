@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import RxSwift
+import AppTrackingTransparency
+import FBSDKCoreKit
 
 class NavigationMenuBaseController: UITabBarController {
     lazy var disposeBag = DisposeBag()
@@ -29,6 +31,9 @@ class NavigationMenuBaseController: UITabBarController {
         
         AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = false
         ModuleUserDefaults.setIsInitial(true)
+        
+        TrackerManager.setAdvertiserTracking()
+        TrackerManager.setAdvancedMatching()
     }
     
     func bind() {

@@ -99,7 +99,7 @@ class AddVisualizationViewController: UIViewController {
                 let data = try Data(contentsOf: url)
                 let image = UIImage(data: data)
                 let fileName = url.lastPathComponent
-                image?.jpeg(.medium)?.saveToFile(name: fileName)
+                image?.jpeg(.lowest)?.saveToFile(name: fileName)
                 let imageUrl = getDocumentsDirectory().appendingPathComponent(fileName)
                 uploadedFile = imageUrl
                 if let sphereIndex = selectedSphere?.1, let sphereId = spheres?[sphereIndex].id {

@@ -146,23 +146,24 @@ class AddGoalViewController: UIViewController {
     
     var selectedTime: TimeOfTheDay? {
         didSet {
-            addView.setTime(time: selectedTime!)
+            guard let selectedTime = selectedTime else { return }
+            addView.setTime(time: selectedTime)
             check()
         }
     }
     var selectedSphere: (SelectedSphere, Int)? {
         didSet {
-            addView.setSphere(sphere: (selectedSphere?.0)!, index: (selectedSphere?.1)!)
+            guard let selectedSphere = selectedSphere else { return }
+            addView.setSphere(sphere: selectedSphere.0, index: selectedSphere.1)
             check()
         }
     }
     
     var selectedObserver: User? {
         didSet {
-            if let email = selectedObserver?.email {
-                addView.observationInput.buttonInput.setText(text: email)
-                check()
-            }
+            guard let email = selectedObserver?.email else { return }
+            addView.observationInput.buttonInput.setText(text: email)
+            check()
         }
     }
     

@@ -304,6 +304,24 @@ struct ModuleUserDefaults {
         }
     }
     
+    static func setIsNotificationsEnabled(_ value: Bool){
+        defaults.setValue(value, forKey: "IsNotificationsEnabled")
+    }
+    
+    static func getIsNotificationsEnabled() -> Bool? {
+        guard let value = defaults.value(forKey: "IsNotificationsEnabled") as? Int else { return nil }
+        return value == 1
+    }
+    
+    static func setIsCleaned(_ value: Bool) {
+        defaults.setValue(value, forKey: "isCleaned")
+    }
+    
+    static func getIsCleaned() -> Bool {
+        guard let value = defaults.value(forKey: "isCleaned") as? Int else { return false }
+        return value == 1
+    }
+    
     static func clear(){
         let domain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: domain)

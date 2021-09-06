@@ -28,6 +28,8 @@ target 'GOALSTER' do
 
   pod 'JTAppleCalendar', '~> 7.1'
 
+  pod 'FBSDKCoreKit'
+
   target 'GOALSTERTests' do
     inherit! :search_paths
     # Pods for testing

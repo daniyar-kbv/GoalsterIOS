@@ -77,7 +77,12 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
     func bind() {
         AppShared.sharedInstance.isLoggedInSubject.subscribe(onNext: { object in
             DispatchQueue.main.async {
-                self.viewWillAppear(true)
+                switch self.type {
+                case .following:
+                    self.viewWillAppear(true)
+                case .recommendations:
+                    self.onRefresh()
+                }
             }
         }).disposed(by: disposeBag)
     }

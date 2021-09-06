@@ -354,6 +354,7 @@ class BaseTextField: UITextField, UITextFieldDelegate {
     
     var textFieldshouldChangeCharactersIn: ((_ textField: UITextField, _ range: NSRange, _ string: String)->Bool)?
     var shouldReturnBase: ((_ textField: UITextField)->())?
+    var additionalLift: CGFloat = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -378,7 +379,7 @@ class BaseTextField: UITextField, UITextFieldDelegate {
         guard let window: UIWindow = Global.keyWindow, let superviewFrame = viewContainingController()?.view.frame, let gloabalFrame = superview?.convert(frame, to: viewContainingController()?.view), let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         let diff = (superviewFrame.height - gloabalFrame.maxY) - keyboardSize.height - StaticSize.size(15)
         if diff < 0 {
-            window.frame.origin.y = diff
+            window.frame.origin.y = diff - additionalLift
         }
     }
     
@@ -522,8 +523,12 @@ class ImageInput: UIView, UINavigationControllerDelegate, UIImagePickerControlle
     }
     
     @objc func selectImage() {
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
-            viewContainingController()?.present(self.imagePicker, animated: true, completion: nil)
+        PhotoLibraryPermissionManager.isPermitted() {
+            if $0 && UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+                DispatchQueue.main.async {
+                    self.viewContainingController()?.present(self.imagePicker, animated: true, completion: nil)
+                }
+            }
         }
     }
     

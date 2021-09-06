@@ -311,9 +311,7 @@ extension APIPoint: EndPointType {
         }
     }
     
-    static var startURL = "http://161.35.198.233:8000"
+//    static var startURL = "http://161.35.198.233:8000"
 //    static var startURL = "http://192.168.1.19:8990"
-    //        return URL(string: "https://api.24goalsapp.com/api")!
-    //        return URL(string: "http://192.168.1.19:8990/api")!
-    //        return URL(string: "http://172.20.10.3:8990/api")!
+//    static var startURL = "https://api.24goalsapp.com"
 }

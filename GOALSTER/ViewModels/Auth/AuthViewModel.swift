@@ -67,4 +67,19 @@ class AuthViewModel {
             SpinnerView.removeSpinnerView()
         }
     }
+    
+    func tempAuth(email: String) {
+        SpinnerView.showSpinnerView()
+        APIManager.shared.verify(email: email){ error, response in
+            SpinnerView.completion = {
+                guard let response = response else {
+                    ErrorView.addToView(view: self.errorView, text: error ?? "", withName: false, disableScroll: false)
+                    return
+                }
+                AppShared.sharedInstance.auth(response: response)
+                self.authResponse.onNext(response)
+            }
+            SpinnerView.removeSpinnerView()
+        }
+    }
 }

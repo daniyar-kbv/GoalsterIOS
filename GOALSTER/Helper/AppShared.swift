@@ -180,5 +180,6 @@ class AppShared {
             notification = content
         }
         profile = response.profile
+        TrackerManager.setAdvancedMatching()
     }
 }

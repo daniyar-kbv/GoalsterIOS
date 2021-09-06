@@ -103,7 +103,6 @@ class GoalsTableViewController: UIViewController, UITableViewDelegate, UITableVi
             path.addLines(between: [p0, p1])
             shapeLayer.path = path
             shapeLayer.zPosition = -1
-            print(totalHeight)
             line?.removeFromSuperlayer()
             dayView.layer.addSublayer(shapeLayer)
             line = shapeLayer

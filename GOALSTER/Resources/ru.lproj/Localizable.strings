@@ -7,7 +7,7 @@
 */
 
 "Some text on start page" = "Я помогу тебе обрести навык эффективного достижения всех твоих ярких целей, сохраняя жизненный баланс и мотивацию";
-"Choose language" = "Выберите язык";
+"Choose language" = "Выбери язык";
 "Next" = "Далее";
 "Premium version" = "Премиум версия";
 "Premium version 2" = "Premium версия";
@@ -22,7 +22,7 @@
 "6 Month" = "6 месяцев";
 "1 Year" = "1 год";
 "Premium functionality" = "Премиум функции";
-"Premium bottom text" = "• Увеличенное добавление целей - до 30 в день\n• Режим наблюдатель с постоянной поддержкой\n• Советы по оформлению доски визуализации в виде PDF-файла\n• Чек-лист по эффективному мышлению\n• Самые мотивирующие Push-уведомления";
+"Premium bottom text" = "• Увеличенное добавление задач - до 30 в день\n• Режим наблюдатель с постоянной поддержкой\n• Советы по оформлению доски визуализации в виде PDF-файла\n• Чек-лист по эффективному мышлению\n• Самые мотивирующие Push-уведомления";
 "On boarding top text 1" = "Стань мастером достижения целей";
 "On boarding top text 2" = "Покажи другим из чего состоит твой день";
 "On boarding top text 3" = "Разгони мотивацию до скорости света";
@@ -33,49 +33,62 @@
 "On boarding bottom text 4" = "Если тебе нужна постоянная поддержка или контроль, то ты сможешь делиться целями с наставником и друзьями или самому стать наблюдателем";
 "Ok_" = "Понятно";
 "On boarding shared goals text" = "Получай пользу по максимуму\n\nЕсли тебе нужна постоянная поддержка или контроль, то ты сможешь делиться целями или быть наблюдателем";
-"No signal\nCheck internet connection" = "Нет связи\nПроверьте интернет соединение";
+"No signal\nCheck internet connection" = "Нет связи\nПроверь интернет соединение";
 "Try again" = "Повторить";
-"Error uccured, please try egain" = "Произошла ошибка,\nПопробуйте еще раз";
-"Number of complete goals" = "Количество выполненных целей за месяц";
-"Choose 3 spheres\nfor next 30 days" = "Выберите 3 сферы\nна ближайшие 30 дней";
-"Goals" = "Цели";
+"Error uccured, please try egain" = "Произошла ошибка,\nПопробуй еще раз";
+"Number of complete goals" = "Количество выполненных задач за месяц";
+"Choose 3 spheres\nfor next 30 days" = "Выбери 3 сферы\nна ближайшие 30 дней";
+"Goals" = "Задачи";
 "Choose" = "Выбрать";
 "Choose spheres" = "Выбрать сферы";
 "Enter your email, we will send application login link on it" = "Напиши свой E-mail, который ты указывал при регистрации, мы отправим туда код для входа в приложение";
 "Sign in" = "Войти";
-"Check Your Email" = "Добро пожаловать в 24Goals! Вы сделали большой шаг на пути к своей цели. Настройтесь на позитивные результаты и используйте приложение ежедневно. На указанный Вами E-mail мы отправили письмо, перейдите по ссылке из письма для завершения регистрации.";
+"Check Your Email" = "Добро пожаловать в 24Goals! Ты сделал большой шаг на пути к своей цели. Настройся на позитивные результаты и используй приложение ежедневно. На указанный Тобой E-mail мы отправили письмо, перейдите по ссылке из письма для завершения регистрации.";
+
 "Health" = "Здоровье";
 "Education" = "Образование";
 "Finances" = "Финансы";
+"Finance" = "Финансы";
 "Relationships" = "Отношения";
 "Career/business" = "Карьера/бизнес";
 "Spirituality" = "Духовность";
 "Creation" = "Творчество";
+"Creativity" = "Творчество";
 "Personal growth" = "Личностный рост";
 "Life brightness" = "Яркость жизни";
+"Brightness of life" = "Яркость жизни";
 "Family" = "Семья";
 "Encirclement" = "Окружение";
-"Self cultivation" = "Самосовершенствование";
+"Environment" = "Окружение";
+"Self cultivation" = "Продвижение";
+"Self improvement" = "Продвижение";
 "Interests" = "Увлечения";
 "Intellect" = "Интеллект";
+"Intelligence" = "Интеллект";
 "Sport" = "Спорт";
+"Sports" = "Спорт";
 "Leisure" = "Досуг";
 "Income" = "Доход";
 "Recreation" = "Отдых";
+"Relaxation" = "Отдых";
 "Hobby" = "Хобби";
+"Hobbies" = "Хобби";
 "Travel" = "Путешествия";
+"Travelling" = "Путешествия";
 "Add own option" = "Добавить свой вариант";
+"Add new option" = "Добавить свой вариант";
+
 "It might be changed in settings" = "Позднее в настройках можно будет выбрать другие ";
 "Text about more detailed shpere's goal description" = "Текст о более детальном описании цели сферы";
 "Enter description here" = "Впиши цели или показатели";
 "Text specifying goals for each sphere" = "Поставь конкретные цели или желаемые показатели по каждой сфере";
 "Save" = "Сохранить";
 "Make a plan" = "Составить план";
-"Make a plan\nfor next 30 days" = "Составьте план\nна ближайшие 30 дней";
-"You had not add goals\nfor this day" = "На этот день целей\nпока еще нет";
+"Make a plan\nfor next 30 days" = "Составь план\nна ближайшие 30 дней";
+"You had not add goals\nfor this day" = "На этот день задач\nпока еще нет";
 "Add" = "Добавить";
 "Calendar" = "Календарь";
-"Month" = "Вид месяцем";
+"Month" = "Месяц";
 "Mo" = "Пн";
 "Tu" = "Вт";
 "We" = "Ср";
@@ -89,22 +102,22 @@
 "In process" = "В процессе";
 "Done" = "Выполнено";
 "Today" = "Сегодня";
-"Goal addition" = "Добавление цели";
+"Goal addition" = "Добавление задачи";
 "Choose time of day" = "Выбери время дня";
 "Time of the day" = "Время дня";
-"Choose sphere which goal applies to" = "Выбери сферу для цели";
+"Choose sphere which goal applies to" = "Выбери сферу для задачи";
 "Sphere" = "Сфера";
 "Enter your goal" = "Впиши свою задачу";
 "Share goal with observer" = "Делиться задачей с наставником";
 "Choose sphere" = "Выбери сферу";
-"Enter goal" = "Впишите задачу";
+"Enter goal" = "Впиши задачу";
 "Goal" = "Задача";
-"Choose your observer" = "Выберите Вашего наблюдателя";
+"Choose your observer" = "Выбери своего наблюдателя";
 "Choose observer" = "Выбери наставника";
 "Observer addition" = "Добавление наблюдателя";
 "Enter observer's E-mail" = "E-mail наставника";
-"You have made right descision" = "Вы сделали верное решение. Приглашение уже отправлено, и как только Ваш наблюдатель подтвердит свое участие, он сможет просматривать Ваши цели.";
-"Back to goal" = "Назад к добавлению цели";
+"You have made right descision" = "Ты сделал верное решение. Приглашение уже отправлено, и как только Твой наблюдатель подтвердит свое участие, он сможет просматривать Твои задачи.";
+"Back to goal" = "Назад к добавлению задачи";
 "Waiting observer's confirmation" = "Ожидаем подтверждения наблюдателя";
 "January" = "Январь";
 "February" = "Февраль";
@@ -119,11 +132,11 @@
 "November" = "Ноябрь";
 "December" = "Декабрь";
 "Week" = "Вид Неделей";
-"Emotions long text" = "Ежедневно фиксируйте свое состояние и записывайте идеи. Это поможет эмоционально обновляться перед каждым новым днем и помнить все самые важные моменты.";
-"You have not added emotions today" = "Сегодня Вы еще не добавляли эмоций";
+"Emotions long text" = "Ежедневно фиксируй свое состояние и записывай идеи. Это поможет эмоционально обновляться перед каждым новым днем и помнить все самые важные моменты.";
+"You have not added emotions today" = "Сегодня Ты еще не добавлял эмоций";
 "Emotions of the day" = "Эмоции дня";
 "Ideas" = "Идеи (которые пришли в течении дня)";
-"Emotions top text" = "Ваши эмоции никто не увидит, они автоматически исчезнут через 24 часа";
+"Emotions top text" = "Твои эмоции никто не увидит, они автоматически исчезнут через 24 часа";
 "Emotion addition" = "Добавление эмоций";
 
 "How do I feel?" = "Как я себя чувствую?";
@@ -167,25 +180,25 @@
 
 
 "Profile" = "Профиль";
-"Do you really want to delete selected observer?" = "Вы действительно хотите удалить выбранного наблюдателя?";
+"Do you really want to delete selected observer?" = "Ты действительно хочешь удалить выбранного наблюдателя?";
 "Observer removed" = "Наблюдатель удален";
 "Yes" = "Да";
 "No" = "Нет";
-"Shreres changed successfully" = "Ваши сферы упешно сохранены";
+"Shreres changed successfully" = "Твои сферы упешно сохранены";
 "Back to profile" = "Вернуться в профиль";
 "Save changes" = "Сохранить изменения";
-"Shere changes alert text" = "При изменении сфер все заполненные ранее Цели и наблюдатели в них будут удалены. Отсчет 30-ти дней начнется заново, Продолжить?";
+"Shere changes alert text" = "При изменении сфер все заполненные ранее задачи и наблюдатели в них будут удалены. Отсчет 30-ти дней начнется заново, Продолжить?";
 "Purchase" = "Оформить";
 "Notifications" = "Уведомления";
 "Push-notifications" = "Push-уведомления";
-"Help top text" = "Если у Вас позникли вопросы, жалобы или пожелания напишите нам";
+"Help top text" = "Если у Тебя позникли вопросы, жалобы или пожелания напиши нам";
 "Sent successfully!" = "Успешно отправлено";
-"Enter text" = "Введите текст";
+"Enter text" = "Введи текст";
 "Send" = "Отправить";
 "Done" = "Готово";
-"Results title" = "Вы справились!";
-"Results top text" = "Ваш 30-ти дневный период успешно окончен!";
-"Results top text 2" = "Количество выполненных заданий каждой сферы";
+"Results title" = "Ты справился!";
+"Results top text" = "Твой 30-ти дневный период успешно окончен!";
+"Results top text 2" = "Количество выполненных задач каждой сферы";
 "Results bottom text" = "Поздравляем!\nСамое время выбрать следующие 3 жизненные сферы и заняться планированием месяца";
 "Start new period" = "Начать новый период";
 "Ok" = "Ок";
@@ -195,15 +208,15 @@
 "Before end notification message" = "Ты готов?";
 "End notification title" = "30 дневный период подходит к концу уже сегодня!";
 "End notification message" = "Кликни ок и подведи итоги.";
-"Allow push-notifications in settings" = "Разрешите пуш-уведомления в настройках";
-"You're already logged in" = "Вы уже авторизованы";
-"Goal description" = "Описание цели";
+"Allow push-notifications in settings" = "Разреши пуш-уведомления в настройках";
+"You're already logged in" = "Ты уже авторизован";
+"Goal description" = "Описание задачи";
 
 "Enter your E-mail" = "Введи свой E-mail";
 "Name" = "Имя";
 "Enter your name" = "Введи свое имя";
-"Specialization" = "Специализация";
-"Enter your specialization" = "Введи свою специализацию";
+"Specialization" = "Деятельность";
+"Enter your specialization" = "Введи свою деятельность";
 "Instagram account" = "Аккаунт в Instagram";
 "Specify your Instagram account" = "Укажи свой аккаунт в Instagram";
 "Avatar" = "Аватар";
@@ -232,7 +245,7 @@
 "Registration" = "Регистрация";
 "Sign up subtitle" = "Нужно заполнить данные о себе, а на указанный E-mail мы отправим код для входа в приложение";
 
-"Goals done in a month" = "Выполнено целей за месяц";
+"Goals done in a month" = "Выполнено задач за месяц";
 "Edit" = "Редактировать";
 
 "Emotions" = "Эмоции";
@@ -275,14 +288,21 @@
 
 "Follow" = "Подписаться";
 "Unfollow" = "Отписаться";
-"Goals for" = "Цели на";
+"Goals for" = "Задачи на";
 
-"Invite a friend or become an observer" = "Пригласи друга или стань наблюдателем";
-"You haven't opened the 24Goals app in 3 days." = "You haven't opened the 24Goals app in 3 days.";
-"Click here and I'll show you what you started it all for." = "Click here and I'll show you what you started it all for.";
+"Invite a friend or become an observer" = "Делись своим расписанием дня и находи единомышленников.";
+"You haven't opened the 24Goals app in 3 days." = "Ты 3 дня не заходил в приложение 24Goals.";
+"Click here and I'll show you what you started it all for." = "Кликни сюда и я покажу тебе то, для чего ты все начал.";
+
+"Everyday morning push" = "Друг, начни свой день правильно! Заходи в 24Goals.";
 
 "Premium successfully purchased" = "Премиум успешно приобретен";
 "You're not following anyone" = "Подписок нет";
 "The recommendation list is empty" = "Список рекомендации пуст";
 
-"Goal edit" = "Редактирование цели";
+"Goal edit" = "Редактирование задачи";
+
+"Photo access not granted title" = "Ты не предоставил доступ к библиотеке фотографий";
+"Photo access not granted message" = "Ты можешь предоставить доступ в настройках приложения";
+"To settings" = "В настройки";
+"Cancel" = "Отменить";

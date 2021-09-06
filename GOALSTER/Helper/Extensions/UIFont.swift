@@ -11,10 +11,12 @@ import UIKit
 
 extension UIFont {
     class func primary(ofSize: CGFloat, weight: FontStyles) -> UIFont {
-        return UIFont(name: weight.rawValue, size: ofSize)!
+        guard let font = UIFont(name: weight.rawValue, size: ofSize) else { return .systemFont(ofSize: ofSize) }
+        return font
     }
     
     class func secondary(ofSize: CGFloat, weight: SecondaryFontStyles) -> UIFont {
-        return UIFont(name: weight.rawValue, size: ofSize)!
+        guard let font = UIFont(name: weight.rawValue, size: ofSize) else { return .systemFont(ofSize: ofSize) }
+        return font
     }
 }

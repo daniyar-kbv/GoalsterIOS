@@ -11,6 +11,7 @@ import AlamofireEasyLogger
 import Firebase
 import FirebaseMessaging
 import FirebaseDynamicLinks
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     )
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        if !ModuleUserDefaults.getIsCleaned() {
+            ModuleUserDefaults.clear()
+            ModuleUserDefaults.setIsCleaned(true)
+        }
+        
         FirebaseApp.configure()
     
         UNUserNotificationCenter.current().delegate = self
@@ -41,8 +48,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DynamicLinks.performDiagnostics(completion: nil)
         
+        ApplicationDelegate.shared.application(
+            application,
+            didFinishLaunchingWithOptions:
+            launchOptions
+        )
+        
         configData()
-        configNotifications()
+        PushNotificationsManager.shared.onAppStart()
         
         return true
     }
@@ -65,60 +78,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppShared.sharedInstance.selectedSpheres = ModuleUserDefaults.getSpheres()
         UIApplication.setNotificationBadge(count: 0)
     }
-    
-    func configNotifications() {
-        let notificationCenter = UNUserNotificationCenter.current()
-        let calendar = Calendar.current
-        notificationCenter.removeAllPendingNotificationRequests()
-        
-        let inviteContent = UNMutableNotificationContent()
-        inviteContent.title = "Invite a friend or become an observer".localized
-        
-        for weekday in [1, 4] {
-            var dateComponents = DateComponents()
-            dateComponents.calendar = calendar
-            dateComponents.weekday = weekday
-            dateComponents.hour = 12
-            dateComponents.minute = 0
-    
-            let trigger = UNCalendarNotificationTrigger(
-                     dateMatching: dateComponents, repeats: true)
-            let uuidString = UUID().uuidString
-            let request = UNNotificationRequest(identifier: uuidString,
-                        content: inviteContent, trigger: trigger)
-            
-            notificationCenter.add(request) { (error) in
-                if error != nil {
-                    print(error as Any)
-                }
-            }
-        }
-        
-        if ModuleUserDefaults.getIsLoggedIn() {
-            let threeDaysContent = UNMutableNotificationContent()
-            threeDaysContent.title = "You haven't opened the 24Goals app in 3 days.".localized
-            threeDaysContent.body = "Click here and I'll show you what you started it all for.".localized
-            threeDaysContent.userInfo = [
-                "type": String(NotificationType.threeDays.rawValue)
-            ]
-            
-            var dateComponents = DateComponents()
-            dateComponents.day = 3
-//            dateComponents.second = 5
-
-            let trigger = UNCalendarNotificationTrigger(
-                     dateMatching: dateComponents, repeats: false)
-            let uuidString = UUID().uuidString
-            let request = UNNotificationRequest(identifier: uuidString,
-                        content: threeDaysContent, trigger: trigger)
-
-            notificationCenter.add(request) { (error) in
-                if error != nil {
-                    print(error as Any)
-                }
-            }
-        }
-    }
 }
 
 extension AppDelegate {
@@ -133,19 +92,12 @@ extension AppDelegate {
     
     @available(iOS 9.0, *)
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-      return application(app, open: url,
-                         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-                         annotation: "")
-    }
-
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-      if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
-        // Handle the deep link. For example, show the deep-linked content or
-        // apply a promotional offer to the user's account.
-        // ...
-        return true
-      }
-      return false
+        DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url)
+        return ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            options: options
+        )
     }
 }
 

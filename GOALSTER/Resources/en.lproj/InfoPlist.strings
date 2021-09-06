@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  GOALSTER
+
+  Created by Dan on 3/18/21.
+  Copyright © 2021 MTI. All rights reserved.
+*/
+
+"NSPhotoLibraryUsageDescription" = "MentalMind requires access to the photo library in order to upload avatar.";
+"NSUserTrackingUsageDescription" = "This identifier will be used to deliver personalized ads to you.";

@@ -22,6 +22,7 @@ class AskNotificationsView: UIView {
         view.textColor = .deepBlue
         view.text = "Ask notification title".localized
         view.textAlignment = .center
+        view.numberOfLines = 0
         return view
     }()
     
