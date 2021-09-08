@@ -289,32 +289,7 @@ enum NotificationType: Int {
     case beforeEnd = 2
     case end = 3
     case comment = 4
-    
-    var title: String?{
-        switch self {
-        case .threeDays:
-            return "Three days notification title".localized
-        case .beforeEnd:
-            return "Before end notification title".localized
-        case .end:
-            return "End notification title".localized
-        case .comment:
-            return "New comment".localized
-        }
-    }
-    
-    var message: String?{
-        switch self {
-        case .threeDays:
-            return "Three days notification message".localized
-        case .beforeEnd:
-            return "Before end notification message".localized
-        case .end:
-            return "End notification message".localized
-        case .comment:
-            return ""
-        }
-    }
+    case completeGoals = 7
 }
 
 enum ProductType: String {

@@ -38,9 +38,9 @@ class StartViewController: UIViewController {
     @objc func selectLanguage(_ sender: UIButton) {
         switch sender {
         case startView.russianButton:
-            ModuleUserDefaults.setLanguage(.ru)
+            AppShared.sharedInstance.language = .ru
         case startView.englishButton:
-            ModuleUserDefaults.setLanguage(.en)
+            AppShared.sharedInstance.language = .en
         default:
             break
         }

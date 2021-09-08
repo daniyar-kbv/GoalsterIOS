@@ -29,6 +29,14 @@ class AppShared {
     }
     var keyboardInitialSize: CGRect?
     
+    var languageSubject = PublishSubject<Language>()
+    var language = ModuleUserDefaults.getLanguage() {
+        didSet {
+            ModuleUserDefaults.setLanguage(language)
+            languageSubject.onNext(language)
+        }
+    }
+    
     var notificationSubject = PublishSubject<UNNotificationContent>()
     var notification: UNNotificationContent? {
         didSet {
@@ -181,5 +189,7 @@ class AppShared {
         }
         profile = response.profile
         TrackerManager.setAdvancedMatching()
+        let notifications: [InternalNotificationType] = response.nonCustomizableNotifications + response.periodicNotifications
+        PushNotificationsManager.shared.set(notifications: notifications)
     }
 }

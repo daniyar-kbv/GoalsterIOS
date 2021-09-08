@@ -38,7 +38,7 @@ class GoalsMainViewController: BaseViewController {
             
             tableVc.response = response?.goals
             AppShared.sharedInstance.totalGoals = response?.total
-            ModuleUserDefaults.setGoalsStatus(object: GoalsStatus(date: Date(), goals: response))
+            AppShared.sharedInstance.goalsStatus = GoalsStatus(date: Date(), goals: response)
         }
     }
     

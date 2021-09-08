@@ -22,7 +22,7 @@ class NotificatonsViewController: ProfileBaseViewController, UIGestureRecognizer
         }
     }
     
-    var isOn: Bool? {
+    var isOn = false {
         didSet {
             notificationsView.tableView.reloadData()
             PushNotificationsManager.shared.isNotificationsAllowed = isOn

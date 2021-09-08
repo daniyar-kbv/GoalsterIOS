@@ -308,8 +308,8 @@ struct ModuleUserDefaults {
         defaults.setValue(value, forKey: "IsNotificationsEnabled")
     }
     
-    static func getIsNotificationsEnabled() -> Bool? {
-        guard let value = defaults.value(forKey: "IsNotificationsEnabled") as? Int else { return nil }
+    static func getIsNotificationsEnabled() -> Bool {
+        guard let value = defaults.value(forKey: "IsNotificationsEnabled") as? Int else { return false }
         return value == 1
     }
     

@@ -7,33 +7,55 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 import UIKit
 
 class PushNotificationsManager {
+    private let disposeBag = DisposeBag()
     static let shared = PushNotificationsManager()
     
     private init() {
         getNotificationsAllowed() { self.isNotificationsAllowed = $0 }
+        
+        bindAppShared()
     }
     
     let notificationCenter = UNUserNotificationCenter.current()
+    private var notificationTypes: [InternalNotificationType]?
     
-    var isNotificationsAllowed: Bool? = ModuleUserDefaults.getIsNotificationsEnabled() {
+    var isNotificationsAllowed: Bool = ModuleUserDefaults.getIsNotificationsEnabled() {
         didSet {
             switch isNotificationsAllowed {
             case false:
                 notificationCenter.removeAllPendingNotificationRequests()
             case true:
-                PushType.enableAll()
-            default:
-                getNotificationsAllowed() { self.isNotificationsAllowed = $0 }
+                reload()
             }
-            guard let enabled = isNotificationsAllowed else { return }
-            ModuleUserDefaults.setIsNotificationsEnabled(enabled)
+            ModuleUserDefaults.setIsNotificationsEnabled(isNotificationsAllowed)
         }
     }
     
-    func getNotificationsAllowed(_ completion: @escaping (Bool?)->()){
+    private func bindAppShared() {
+        AppShared.sharedInstance.goalsStatusSubject
+            .subscribe(onNext: { [weak self] _ in
+                self?.reload()
+            })
+            .disposed(by: disposeBag)
+        
+        AppShared.sharedInstance.languageSubject
+            .subscribe(onNext: { [weak self] _ in
+                self?.reload()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func reload() {
+        guard let notificationTypes = notificationTypes else { return }
+        set(notifications: notificationTypes)
+    }
+    
+    func getNotificationsAllowed(_ completion: @escaping (Bool)->()){
         UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { settings in
             switch settings.authorizationStatus {
             case .authorized, .provisional:
@@ -42,7 +64,7 @@ class PushNotificationsManager {
                     return
                 }
                 APIManager.shared.getNotifications() { error, response in
-                    completion(response?.enabled)
+                    completion(response?.enabled ?? false)
                 }
             default:
                 completion(false)
@@ -50,79 +72,85 @@ class PushNotificationsManager {
         })
     }
     
-    func onAppStart() {
-        PushType.enableAll()
-    }
-    
-    enum PushType: CaseIterable {
-        case threeDays
-        case regular
-        case everyday
+    func set(notifications: [InternalNotificationType]) {
+        guard isNotificationsAllowed else { return }
         
-        var components: DateComponents {
-            var dateComponents = DateComponents()
-            switch self {
-            case .threeDays:
-                dateComponents.day = 3
-            case .regular:
-                dateComponents.day = 2
-                dateComponents.hour = 12
-            case .everyday:
-                dateComponents.hour = 9
-            }
-            return dateComponents
-        }
+        notificationCenter.removeAllPendingNotificationRequests()
+        notificationTypes = notifications
         
-        var repeats: Bool {
-            return [.regular, .everyday].contains(self)
-        }
-        
-        var content: UNMutableNotificationContent {
+        notifications.forEach { notification in
             let content = UNMutableNotificationContent()
-            switch self {
-            case .threeDays:
-                content.title = "You haven't opened the 24Goals app in 3 days.".localized
-                content.body = "Click here and I'll show you what you started it all for.".localized
-                content.userInfo = [
-                    "type": String(NotificationType.threeDays.rawValue)
-                ]
-            case .regular:
-                content.body = "Invite a friend or become an observer".localized
-            case .everyday:
-                content.body = "Everyday morning push".localized
+            var dateComponents = [DateComponents]()
+            var repeats = false
+            
+            switch AppShared.sharedInstance.language {
+            case .en:
+                content.title = notification.titleEN
+                content.body = notification.bodyEN ?? ""
+            case .ru:
+                content.title = notification.titleRU
+                content.body = notification.bodyRU ?? ""
             }
-            return content
-        }
-        
-        var canBeEnabled: Bool {
-            guard PushNotificationsManager.shared.isNotificationsAllowed == true else { return false}
-            switch self {
-            case .threeDays:
-                return ModuleUserDefaults.getIsLoggedIn()
+            
+            switch notification {
+            case is PeriodicNotification:
+                guard let notification = notification as? PeriodicNotification,
+                      let date = notification.time.toDate(format: "HH:mm:ss") else { return }
+                
+                dateComponents = notification.weekdays.map { weekday -> DateComponents in
+                    var components = DateComponents(calendar: .init(identifier: .gregorian))
+                    components.weekday = weekday != 6 ? weekday + 2 : 1
+                    components.hour = Calendar.current.component(.hour, from: date)
+                    components.minute = Calendar.current.component(.minute, from: date)
+                    return components
+                }
+                
+                repeats = true
+            case is NonCustomizableNotification:
+                guard let notification = notification as? NonCustomizableNotification else { return }
+                
+                var components = DateComponents()
+                
+                switch notification.type {
+                case .threeDays:
+                    guard ModuleUserDefaults.getIsLoggedIn() else { return }
+                    components.day = 3
+                    content.userInfo = [
+                        "type": String(NotificationType.threeDays.rawValue)
+                    ]
+                case .completeGoals:
+                    guard ModuleUserDefaults.getIsLoggedIn(),
+                          AppShared.sharedInstance.goalsStatus?.goals?.goals?.hasIncompleteGoals() ?? true
+                    else { return }
+                    components.hour = 21
+                    content.userInfo = [
+                        "type": String(NotificationType.completeGoals.rawValue)
+                    ]
+                default:
+                    break
+                }
+                
+                dateComponents = [components]
             default:
-                return true
+                break
             }
-        }
-        
-        func enable() {
-            guard self.canBeEnabled else { return }
+            
             let notificationCenter = UNUserNotificationCenter.current()
             let uuidString = UUID().uuidString
-            let trigger = UNCalendarNotificationTrigger(
-                dateMatching: self.components, repeats: self.repeats)
-            let request = UNNotificationRequest(identifier: uuidString, content: self.content, trigger: trigger)
-            notificationCenter.add(request) { (error) in
-                if error != nil {
-                    print(error as Any)
+            
+            dateComponents.forEach { components in
+                let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: repeats)
+                let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+                notificationCenter.add(request) { (error) in
+                    if error != nil {
+                        print(error as Any)
+                    }
                 }
             }
         }
         
-        static func enableAll() {
-            PushNotificationsManager.shared.notificationCenter.removeAllPendingNotificationRequests()
-            for push in allCases {
-                push.enable()
-            }
-        }
+        notificationCenter.getPendingNotificationRequests(completionHandler: { requests in
+            print(requests.map({ $0.content.title }))
+        })
     }
 }

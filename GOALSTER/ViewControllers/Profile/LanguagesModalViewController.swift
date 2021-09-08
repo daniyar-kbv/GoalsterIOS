@@ -14,23 +14,26 @@ class LanguagesModalViewController: ProfileFirstViewController, UITableViewDeleg
     lazy var languagesModalView = LanguagesModalView()
     lazy var viewModel = LanguagesViewModel()
     lazy var disposeBag = DisposeBag()
-    var selectedLanguage: Language = ModuleUserDefaults.getLanguage() {
+    
+    var onSuccess: (() -> Void)?
+    
+    var selectedLanguage: Language = AppShared.sharedInstance.language {
         didSet {
-            navigationController?.popViewController(animated: true)
-            if selectedLanguage != ModuleUserDefaults.getLanguage() {
-                viewModel.changeLanugage(language: selectedLanguage)
+            guard selectedLanguage != AppShared.sharedInstance.language else {
+                navigationController?.popViewController(animated: true)
+                return
             }
+            
+            viewModel.changeLanugage(language: selectedLanguage)
         }
     }
     
     var success: Bool? {
         didSet {
-            ModuleUserDefaults.setLanguage(selectedLanguage)
-            if let vc = UIApplication.topViewController() as? ProfileMainViewController {
-                vc.viewDidLoad()
-                vc.profileView.tableView.reloadData()
-                AppShared.sharedInstance.tabBarController.reloadOnLanguageChange()
-            }
+            AppShared.sharedInstance.language = selectedLanguage
+            AppShared.sharedInstance.tabBarController.reloadOnLanguageChange()
+            onSuccess?()
+            navigationController?.popViewController(animated: true)
         }
     }
     

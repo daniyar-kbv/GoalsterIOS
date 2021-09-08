@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AuthResponse: Codable {
+struct AuthResponse: Codable {
     var token: String?
     var hasSpheres: Bool?
     var spheres: [SelectedSphere]?
@@ -20,9 +20,13 @@ class AuthResponse: Codable {
     var notConfirmedCount: Int?
     var emailed: Bool?
     var showResults: Bool?
+    var periodicNotifications: [PeriodicNotification]
+    var nonCustomizableNotifications: [NonCustomizableNotification]
     
     enum CodingKeys: String, CodingKey {
         case token, hasSpheres, spheres, email, profile, isPremium, notConfirmedCount, premiumType, premiumEndDate, emailed, showResults
+        case periodicNotifications = "periodic_notifications"
+        case nonCustomizableNotifications = "non_customizable_notifications"
     }
 }
 

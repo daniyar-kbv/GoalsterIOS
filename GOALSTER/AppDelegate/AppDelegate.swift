@@ -55,7 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
         
         configData()
-        PushNotificationsManager.shared.onAppStart()
         
         return true
     }

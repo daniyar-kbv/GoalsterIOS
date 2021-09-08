@@ -65,6 +65,14 @@ class ProfileMainViewController: UIViewController {
     func reload() {
         viewModel.connect()
     }
+    
+    func requestRate() {
+        AppStoreReviewManager.requestReviewIfAppropriate()
+        if !AppStoreReviewManager.isAppropriate() {
+            cellTypes = Array(ProfileCellType.allCases[0..<ProfileCellType.allCases.count-1])
+            profileView.tableView.reloadData()
+        }
+    }
 }
 
 extension ProfileMainViewController: UIScrollViewDelegate {
@@ -118,7 +126,12 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
         case .following:
             navigationController?.pushViewController(FollowingViewController(), animated: true)
         case .language:
-            navigationController?.pushViewController(LanguagesModalViewController(), animated: true)
+            let vc = LanguagesModalViewController()
+            vc.onSuccess = {
+                self.viewDidLoad()
+                self.profileView.tableView.reloadData()
+            }
+            navigationController?.pushViewController(vc, animated: true)
         case .premium:
             if ModuleUserDefaults.getIsPremium() {
                 break
@@ -136,11 +149,7 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
         case .about:
             navigationController?.pushViewController(AboutAppViewController(), animated: true)
         case .rateApp:
-            AppStoreReviewManager.requestReviewIfAppropriate()
-            if !AppStoreReviewManager.isAppropriate() {
-                cellTypes = Array(ProfileCellType.allCases[0..<ProfileCellType.allCases.count-1])
-                tableView.reloadData()
-            }
+            requestRate()
         default:
             break
         }

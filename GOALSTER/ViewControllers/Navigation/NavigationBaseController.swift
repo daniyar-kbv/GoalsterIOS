@@ -120,6 +120,11 @@ class NavigationMenuBaseController: UITabBarController {
                 vc.tableVc.openGoal = goalId
                 vc.chooseDate(date: date)
             })
+        case .completeGoals:
+            toTab(tab: 4, completion: { _ in
+                guard let vc = UIApplication.topViewController() as? ProfileMainViewController else { return }
+                vc.requestRate()
+            })
         }
         UIApplication.setNotificationBadge(count: 0)
     }

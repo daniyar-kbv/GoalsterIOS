@@ -100,6 +100,12 @@ class GoalsResponse: NSObject, Codable, NSCoding {
         aCoder.encode(day, forKey: "day")
         aCoder.encode(evening, forKey: "evening")
     }
+    
+    func hasIncompleteGoals() -> Bool {
+        return morning?.map({ $0.isDone ?? false }).contains(false) ?? true ||
+            day?.map({ $0.isDone ?? false }).contains(false) ?? true ||
+            evening?.map({ $0.isDone ?? false }).contains(false) ?? true
+    }
 }
 
 class CalendarGoals: NSObject, Codable, NSCoding {
