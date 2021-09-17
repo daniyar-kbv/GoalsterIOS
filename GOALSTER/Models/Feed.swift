@@ -34,9 +34,11 @@ struct FeedUser: Codable {
     var profile: Profile?
     var selected: [FeedUserSphere]?
     var reactions: [Reaction]?
+    var isCelebrity: Bool?
     
     enum CodingKeys: String, CodingKey {
         case id, profile, selected, reactions
+        case isCelebrity = "is_celebrity"
     }
 }
 
@@ -48,10 +50,12 @@ class FeedUserFull: Codable {
     var reactions: [Reaction]?
     var isFollowing: Bool?
     var goals: GoalsResponse?
+    var isCelebrity: Bool
     
     enum CodingKeys: String, CodingKey {
         case id, profile, selected, reactions, email, goals
         case isFollowing = "is_following"
+        case isCelebrity = "is_celebrity"
     }
 }
 

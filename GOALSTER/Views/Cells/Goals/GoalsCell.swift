@@ -26,9 +26,11 @@ class GoalsCell: UITableViewCell {
             default:
                 break
             }
+            statusLabel.isHidden = goal?.isDone == nil
             statusLabel.text = goal?.isDone ?? false ? "Done".localized : "In process".localized
             statusLabel.textColor = goal?.isDone ?? false ? .wildGreen : .darkBlack
             radio.setBackgroundImage(goal?.isDone ?? false ? UIImage(named: "radio_active") : UIImage(named: "radio_inactive"), for: .normal)
+            radio.isHidden = goal?.isDone == nil
             textView.text = goal?.name
             if ([nil, true].contains(goal?.isConfirmed) && goal?.observer != nil) || goal?.isPublic ?? false || goal?.newComment ?? false {
                 observationView.isHidden = false

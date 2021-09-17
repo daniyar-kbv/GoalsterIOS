@@ -114,8 +114,13 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let userId = users[indexPath.row].id else { return }
+        guard let userId = users[indexPath.row].id,
+              let isCelebrity = users[indexPath.row].isCelebrity else { return }
         if ModuleUserDefaults.getIsLoggedIn() {
+            if isCelebrity && !ModuleUserDefaults.getIsPremium() {
+                present(PresentablePremiumViewController(), animated: true)
+                return
+            }
             navigationController?.pushViewController(FeedDetailViewController(userId: userId, superVc: self), animated: true)
         } else {
             present(FirstAuthViewController(), animated: true)

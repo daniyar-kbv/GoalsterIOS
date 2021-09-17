@@ -120,13 +120,13 @@ extension APIPoint: EndPointType {
         case .updateGoal(let goalId, _, _, _, _, _, _, _):
             return "/main/goals/\(goalId)/"
         case .feed:
-            return "users/feed/"
+            return "users/feed_v2/"
         case .react(let userId, _):
-            return "/users/feed/\(userId)/react/"
+            return "/users/feed_v2/\(userId)/react/"
         case .feedDetail(let userId):
-            return "users/feed/\(userId)/"
+            return "users/feed_v2/\(userId)/"
         case .follow(let userId):
-            return "/users/feed/\(userId)/follow/"
+            return "/users/feed_v2/\(userId)/follow/"
         case .following:
             return "/users/users/following/"
         }
@@ -311,7 +311,7 @@ extension APIPoint: EndPointType {
         }
     }
     
-//    static var startURL = "http://161.35.198.233:8000"
-    static var startURL = "http://192.168.0.119:8990"
+    static var startURL = "http://161.35.198.233:8000"
+//    static var startURL = "http://192.168.0.119:8990"
 //    static var startURL = "https://api.24goalsapp.com"
 }

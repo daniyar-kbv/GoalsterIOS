@@ -19,6 +19,7 @@ class FeedDetailView: UIView {
             followButton.user = user
             instagramButton.instagram = user?.profile?.instagramUsername
             dateLabel.text = "\("Goals for".localized) \(Date().format(format: "d MMMM, EEEE"))"
+            dateLabel.isHidden = user?.isCelebrity ?? false
             spheresCollection.reloadData()
             setUp()
         }
@@ -153,15 +154,18 @@ class FeedDetailView: UIView {
         })
         
         topStack.snp.makeConstraints({
-            $0.top.bottom.equalTo(avatarView)
+            $0.top.equalTo(avatarView)
             $0.left.equalTo(avatarView.snp.right).offset(StaticSize.size(13))
             $0.right.equalToSuperview().offset(-StaticSize.size(15))
+            _ = user?.isCelebrity ?? false ?
+                $0.height.equalTo(StaticSize.size(70)) :
+                $0.bottom.equalTo(avatarView)
         })
         
         spheresCollection.snp.makeConstraints({
             $0.top.equalTo(avatarView.snp.bottom).offset(10)
             $0.left.right.equalToSuperview().inset(StaticSize.size(5))
-            $0.height.equalTo(StaticSize.size(46))
+            $0.height.equalTo(StaticSize.size(user?.isCelebrity ?? false ? 33.5 : 46))
             $0.bottom.equalToSuperview().offset(-StaticSize.size(12))
         })
 

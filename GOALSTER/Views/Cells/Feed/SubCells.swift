@@ -20,6 +20,7 @@ class FeedSphereCell: UICollectionViewCell {
     }
     var sphere: FeedUserSphere? {
         didSet {
+            countLabel.isHidden = sphere?.count == nil
             countLabel.text = String(sphere?.count ?? 0)
             titleLabel.text = sphere?.name?.localized
         }
