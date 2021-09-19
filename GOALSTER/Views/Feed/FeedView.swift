@@ -34,11 +34,13 @@ class FeedView: UIView {
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseIdentifier)
+        view.register(FeedPremiumCell.self, forCellReuseIdentifier: FeedPremiumCell.reuseIdentifier)
         view.backgroundColor = .clear
-        view.rowHeight = StaticSize.size(450)
         view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: StaticSize.size(100), right: 0)
         view.showsVerticalScrollIndicator = false
         view.separatorStyle = .none
+        view.estimatedRowHeight = UITableView.automaticDimension
+        view.delaysContentTouches = false
         return view
     }()
     

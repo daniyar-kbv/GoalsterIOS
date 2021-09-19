@@ -51,6 +51,8 @@
 		1454FBBF25D7DE5C00B395C3 /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1454FBBE25D7DE5C00B395C3 /* UpdateProfileViewController.swift */; };
 		1454FBC425D7DEAE00B395C3 /* ProfileFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1454FBC325D7DEAE00B395C3 /* ProfileFirstViewController.swift */; };
 		1454FBC925D7DF1700B395C3 /* UpdateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1454FBC825D7DF1700B395C3 /* UpdateProfileView.swift */; };
+		1459D34A26F60F63003A92A1 /* FeedPremiumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1459D34926F60F63003A92A1 /* FeedPremiumCell.swift */; };
+		1459D34F26F61079003A92A1 /* UnlockPremiumButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1459D34E26F61079003A92A1 /* UnlockPremiumButton.swift */; };
 		146A157A25DBC1EB004D6F0F /* SubCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146A157925DBC1EB004D6F0F /* SubCells.swift */; };
 		146A158025DBD197004D6F0F /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146A157F25DBD197004D6F0F /* FeedView.swift */; };
 		146A158C25DBD7E4004D6F0F /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146A158B25DBD7E4004D6F0F /* FeedViewModel.swift */; };
@@ -326,6 +328,8 @@
 		1454FBBE25D7DE5C00B395C3 /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
 		1454FBC325D7DEAE00B395C3 /* ProfileFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFirstViewController.swift; sourceTree = "<group>"; };
 		1454FBC825D7DF1700B395C3 /* UpdateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileView.swift; sourceTree = "<group>"; };
+		1459D34926F60F63003A92A1 /* FeedPremiumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPremiumCell.swift; sourceTree = "<group>"; };
+		1459D34E26F61079003A92A1 /* UnlockPremiumButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockPremiumButton.swift; sourceTree = "<group>"; };
 		146A157925DBC1EB004D6F0F /* SubCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCells.swift; sourceTree = "<group>"; };
 		146A157F25DBD197004D6F0F /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		146A158B25DBD7E4004D6F0F /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
@@ -600,6 +604,7 @@
 			children = (
 				141CEEB925DAE5C7007AA8E2 /* FeedCell.swift */,
 				146A157925DBC1EB004D6F0F /* SubCells.swift */,
+				1459D34926F60F63003A92A1 /* FeedPremiumCell.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -1140,6 +1145,7 @@
 				14805CD825C80896004793B3 /* ProfileUpdateView.swift */,
 				1400B7F625CABDCB00FE451F /* View.swift */,
 				147F5F2725D14B1200C8C895 /* SegmentedView.swift */,
+				1459D34E26F61079003A92A1 /* UnlockPremiumButton.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1580,6 +1586,7 @@
 				15EB1A8224E1374500202917 /* UIApplication.swift in Sources */,
 				1564D4F324EBF50200885E9A /* Emotions.swift in Sources */,
 				146A158C25DBD7E4004D6F0F /* FeedViewModel.swift in Sources */,
+				1459D34F26F61079003A92A1 /* UnlockPremiumButton.swift in Sources */,
 				153BAA3624E296D1007A92BB /* TabNavigationMenu.swift in Sources */,
 				15398F3825064EAB00E481AD /* PremiumViewModel.swift in Sources */,
 				157552AF24ED31770092111C /* AddVisualizationViewModel.swift in Sources */,
@@ -1642,6 +1649,7 @@
 				15F5787A24EA949C005447F4 /* CalendarView.swift in Sources */,
 				15F5785824E9856F005447F4 /* TimeCell.swift in Sources */,
 				15EB1A7324E1374400202917 /* UIStackView.swift in Sources */,
+				1459D34A26F60F63003A92A1 /* FeedPremiumCell.swift in Sources */,
 				1538D87C24ED27A300DB873E /* AddVisualizationViewController.swift in Sources */,
 				153BAA5924E3E618007A92BB /* Auth.swift in Sources */,
 				15B4755424EE8C2C0025EC31 /* ObservedCell.swift in Sources */,

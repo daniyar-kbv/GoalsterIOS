@@ -317,3 +317,5 @@
 "Photo access not granted message" = "You can grant access in app's settings";
 "To settings" = "To settings";
 "Cancel" = "Cencel";
+
+"Premium.Button.unlock" = "Разблокировать все функции";

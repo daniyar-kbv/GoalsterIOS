@@ -22,11 +22,23 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
             if (users.count == 0) != mainView.isEmpty {
                 mainView.isEmpty = users.count == 0
             }
-            mainView.tableView.reloadData()
             if users.count == 0 {
                 viewModel.currentPage -= 1
             }
             mainView.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: viewModel.currentPage == viewModel.totalPages ? StaticSize.size(15) : StaticSize.size(100), right: 0)
+            
+            cells.removeAll()
+            users.enumerated().forEach({ index, user in
+                cells.append(.user(user))
+                if (index + 1) % 6 == 0 && !ModuleUserDefaults.getIsPremium() {
+                    cells.append(.premiumButton)
+                }
+            })
+        }
+    }
+    var cells = [FeedCellType]() {
+        didSet {
+            mainView.tableView.reloadData()
         }
     }
     
@@ -99,13 +111,20 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        users.count
+        cells.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as! FeedCell
-        cell.user = users[indexPath.row]
-        return cell
+        switch cells[indexPath.row] {
+        case let .user(user):
+            let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as! FeedCell
+            cell.user = user
+            return cell
+        case .premiumButton:
+            let cell = tableView.dequeueReusableCell(withIdentifier: FeedPremiumCell.reuseIdentifier, for: indexPath) as! FeedPremiumCell
+            cell.delegate = self
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -114,16 +133,21 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let userId = users[indexPath.row].id,
-              let isCelebrity = users[indexPath.row].isCelebrity else { return }
-        if ModuleUserDefaults.getIsLoggedIn() {
-            if isCelebrity && !ModuleUserDefaults.getIsPremium() {
-                present(PresentablePremiumViewController(), animated: true)
-                return
+        switch cells[indexPath.row] {
+        case let .user(user):
+            guard let userId = user.id,
+                  let isCelebrity = user.isCelebrity else { return }
+            if ModuleUserDefaults.getIsLoggedIn() {
+                if isCelebrity && !ModuleUserDefaults.getIsPremium() {
+                    present(PresentablePremiumViewController(), animated: true)
+                    return
+                }
+                navigationController?.pushViewController(FeedDetailViewController(userId: userId, superVc: self), animated: true)
+            } else {
+                present(FirstAuthViewController(), animated: true)
             }
-            navigationController?.pushViewController(FeedDetailViewController(userId: userId, superVc: self), animated: true)
-        } else {
-            present(FirstAuthViewController(), animated: true)
+        case .premiumButton:
+            break
         }
     }
     
@@ -139,4 +163,15 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
         case following
         case recommendations
     }
+}
+
+extension FeedViewController: FeedPremiumCellDelegate {
+    func buttonTapped() {
+        present(PresentablePremiumViewController(), animated: true)
+    }
+}
+
+enum FeedCellType {
+    case premiumButton
+    case user(FeedUser)
 }

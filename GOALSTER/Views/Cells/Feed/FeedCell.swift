@@ -157,6 +157,7 @@ class FeedCell: UITableViewCell {
         reactionsCollection.snp.makeConstraints({
             $0.top.equalTo(instagramButton.snp.bottom).offset(StaticSize.size(5))
             $0.left.right.equalToSuperview()
+            $0.height.equalTo(StaticSize.size(47))
             $0.bottom.equalToSuperview().offset(-StaticSize.size(25))
         })
     }
