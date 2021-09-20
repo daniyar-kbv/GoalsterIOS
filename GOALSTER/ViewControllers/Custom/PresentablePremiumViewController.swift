@@ -32,7 +32,6 @@ class PresentablePremiumViewController: UIViewController, PremiumVC {
         })
         
         mainView.backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
-        
         mainView.backgroundColor = .arcticWhite
     }
     

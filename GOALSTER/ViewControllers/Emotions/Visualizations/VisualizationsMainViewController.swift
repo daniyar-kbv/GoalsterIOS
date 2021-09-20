@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-class VisualizationsMainViewcontroller: SegmentVc {
+class VisualizationsMainViewcontroller: ProfileFirstViewController {
     lazy var mainView = VisualizationsMainView()
     lazy var viewModel = VisulizationsMainViewModel()
     lazy var disposeBag = DisposeBag()
@@ -53,11 +53,16 @@ class VisualizationsMainViewcontroller: SegmentVc {
     override func loadView() {
         super.loadView()
         
-        view = mainView
+        setView(mainView)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setTitle("Visualizations".localized)
+        baseView.titleLabel.textColor = .deepBlue
+        
+        showGradient = true
         
         mainView.collection.delegate = self
         mainView.collection.dataSource = self

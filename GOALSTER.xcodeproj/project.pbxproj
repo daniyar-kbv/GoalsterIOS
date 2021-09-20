@@ -71,6 +71,8 @@
 		14F0F72225D579C100C2C7F8 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0F72125D579C100C2C7F8 /* Comment.swift */; };
 		14F0F72825D5A7DD00C2C7F8 /* GoalDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0F72725D5A7DD00C2C7F8 /* GoalDetailViewModel.swift */; };
 		14F9772525CBEA0C004AA3FB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F9772425CBEA0C004AA3FB /* RegisterViewController.swift */; };
+		14FE99A426F74EF700D6E3D4 /* BlockedBoardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FE99A326F74EF700D6E3D4 /* BlockedBoardsView.swift */; };
+		14FE99A926F753D800D6E3D4 /* BlockedBoardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FE99A826F753D800D6E3D4 /* BlockedBoardsViewController.swift */; };
 		14FF219E2605FDA300D85600 /* TrackerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FF219D2605FDA300D85600 /* TrackerManager.swift */; };
 		1515DA1724F3BB4F00E98C28 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1515DA1624F3BB4F00E98C28 /* Notifications.swift */; };
 		1515DA1924F3BF3C00E98C28 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1515DA1824F3BF3C00E98C28 /* HelpView.swift */; };
@@ -350,6 +352,8 @@
 		14F0F72725D5A7DD00C2C7F8 /* GoalDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailViewModel.swift; sourceTree = "<group>"; };
 		14F22D17260DC7A000D7CC8C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14F9772425CBEA0C004AA3FB /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		14FE99A326F74EF700D6E3D4 /* BlockedBoardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedBoardsView.swift; sourceTree = "<group>"; };
+		14FE99A826F753D800D6E3D4 /* BlockedBoardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedBoardsViewController.swift; sourceTree = "<group>"; };
 		14FF219D2605FDA300D85600 /* TrackerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerManager.swift; sourceTree = "<group>"; };
 		1515DA1624F3BB4F00E98C28 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		1515DA1824F3BF3C00E98C28 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
@@ -656,6 +660,22 @@
 			path = Emotions;
 			sourceTree = "<group>";
 		};
+		14FE99A126F74EB700D6E3D4 /* Blocked */ = {
+			isa = PBXGroup;
+			children = (
+				14FE99A826F753D800D6E3D4 /* BlockedBoardsViewController.swift */,
+			);
+			path = Blocked;
+			sourceTree = "<group>";
+		};
+		14FE99A226F74ED800D6E3D4 /* Blocked */ = {
+			isa = PBXGroup;
+			children = (
+				14FE99A326F74EF700D6E3D4 /* BlockedBoardsView.swift */,
+			);
+			path = Blocked;
+			sourceTree = "<group>";
+		};
 		1538D86E24ED168D00DB873E /* Visualizations */ = {
 			isa = PBXGroup;
 			children = (
@@ -792,6 +812,7 @@
 		1564D4EC24EBE5B400885E9A /* Emotions */ = {
 			isa = PBXGroup;
 			children = (
+				14FE99A226F74ED800D6E3D4 /* Blocked */,
 				147F5F2125D14ABC00C8C895 /* Emotions */,
 				1538D86E24ED168D00DB873E /* Visualizations */,
 			);
@@ -801,6 +822,7 @@
 		1564D4EF24EBEC3600885E9A /* Emotions */ = {
 			isa = PBXGroup;
 			children = (
+				14FE99A126F74EB700D6E3D4 /* Blocked */,
 				147F5F6E25D1620100C8C895 /* Emotions */,
 				1538D87124ED1C9C00DB873E /* Visualizations */,
 			);
@@ -1659,6 +1681,7 @@
 				15EB1ADF24E1583B00202917 /* StartViewController.swift in Sources */,
 				1419EDAF25DD526500B72A6D /* FollowingViewController.swift in Sources */,
 				146A159125DBF5FA004D6F0F /* ReactionViewModel.swift in Sources */,
+				14FE99A426F74EF700D6E3D4 /* BlockedBoardsView.swift in Sources */,
 				15EB1A9F24E1394000202917 /* NoInternetView.swift in Sources */,
 				15EB1A7724E1374400202917 /* UICollectionView.swift in Sources */,
 				153BAA5424E301A1007A92BB /* AuthView.swift in Sources */,
@@ -1726,6 +1749,7 @@
 				1419EDA425DD4E1600B72A6D /* FollowingCell.swift in Sources */,
 				15EB1A8724E1374500202917 /* APIManager.swift in Sources */,
 				15F5787024EA71CD005447F4 /* ObserverSuccessView.swift in Sources */,
+				14FE99A926F753D800D6E3D4 /* BlockedBoardsViewController.swift in Sources */,
 				15F98E3124EEC6FE005EA63A /* ObservedCalendarViewController.swift in Sources */,
 				1538D87A24ED260C00DB873E /* AddVisualizationsView.swift in Sources */,
 				153BAA5B24E3E745007A92BB /* General.swift in Sources */,

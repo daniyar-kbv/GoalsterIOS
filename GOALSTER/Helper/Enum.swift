@@ -233,6 +233,8 @@ enum ProfileCellType: CaseIterable {
     case observe
     case observers
     case following
+    case emotions
+    case visualizations
     case language
     case premium
     case notifications
@@ -250,6 +252,10 @@ enum ProfileCellType: CaseIterable {
             return "My observers".localized
         case .following:
             return "Following".localized
+        case .emotions:
+            return "Emotions".localized
+        case .visualizations:
+            return "Visualizations".localized
         case .language:
             return "Change app's language".localized
         case .premium:
@@ -330,17 +336,11 @@ enum DeepLinkType: Int {
 }
 
 enum SegmentType: CaseIterable {
-    case emotions
-    case visualizations
     case following
     case recommendations
     
     var name: String {
         switch self {
-        case .emotions:
-            return "Emotions".localized
-        case .visualizations:
-            return "Visualizations".localized
         case .following:
             return "Following".localized
         case .recommendations:
@@ -350,14 +350,50 @@ enum SegmentType: CaseIterable {
     
     var viewController: SegmentVc {
         switch self {
-        case .emotions:
-            return EmotionsMainViewController(id: self.name)
-        case .visualizations:
-            return VisualizationsMainViewcontroller(id: self.name)
         case .following:
             return FeedViewController(type: .following, id: self.name)
         case .recommendations:
             return FeedViewController(type: .recommendations, id: self.name)
+        }
+    }
+}
+
+enum BlockedBoardType {
+    case emotions
+    case visualizations
+    
+    var title: String {
+        switch self {
+        case .emotions: return "Emotions".localized
+        case .visualizations: return "Visualizations".localized
+        }
+    }
+    
+    var topText: String {
+        switch self {
+        case .emotions: return "Blocked.Emotions.topText".localized
+        case .visualizations: return "Blocked.Visualizations.topText".localized
+        }
+    }
+    
+    var bottomText: String {
+        switch self {
+        case .emotions: return "Blocked.Emotions.bottomText".localized
+        case .visualizations: return "Blocked.Visualizations.bottomText".localized
+        }
+    }
+    
+    var buttonText: String {
+        switch self {
+        case .emotions: return "Blocked.Emotions.buttonText".localized
+        case .visualizations: return "Blocked.Visualizations.buttonText".localized
+        }
+    }
+    
+    var image: UIImage {
+        switch self {
+        case .emotions: return UIImage(named: "emotions_blocked")!
+        case .visualizations: return UIImage(named: "visualizations_blocked")!
         }
     }
 }
