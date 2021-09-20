@@ -12,7 +12,6 @@ import UIKit
 enum TabItem: String, CaseIterable {
     case feed = "feed"
     case goals = "goals"
-    case emotions = "emotions"
     case calendar = "calendar"
     case profile = "profile"
     
@@ -22,8 +21,6 @@ enum TabItem: String, CaseIterable {
             return SegmentedViewController(segments: [.following, .recommendations])
         case .goals:
             return GoalsMainViewController()
-        case .emotions:
-            return SegmentedViewController(segments: [.emotions, .visualizations])
         case .calendar:
             return DayViewController()
         case .profile:

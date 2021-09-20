@@ -125,6 +125,10 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
             }
         case .following:
             navigationController?.pushViewController(FollowingViewController(), animated: true)
+        case .emotions:
+            processBoards(type: .emotions)
+        case .visualizations:
+            processBoards(type: .visualizations)
         case .language:
             let vc = LanguagesModalViewController()
             vc.onSuccess = {
@@ -152,6 +156,25 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
             requestRate()
         default:
             break
+        }
+    }
+    
+    private func processBoards(type: BlockedBoardType) {
+        guard ModuleUserDefaults.getIsPremium() else {
+            let blockedVC = BlockedBoardsViewController(type: type)
+            blockedVC.onSuccess = { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+                self?.processBoards(type: type)
+            }
+            navigationController?.pushViewController(blockedVC, animated: true)
+            return
+        }
+        
+        switch type {
+        case .emotions:
+            navigationController?.pushViewController(EmotionsMainViewController(), animated: true)
+        case .visualizations:
+            navigationController?.pushViewController(VisualizationsMainViewcontroller(), animated: true)
         }
     }
 }

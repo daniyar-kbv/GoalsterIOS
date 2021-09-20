@@ -279,13 +279,6 @@ class ReactionCollectionViewDelegate: UIViewController, UICollectionViewDelegate
         }
         viewModel.react(userId: userId, reactionId: reactionId)
         for (index, reaction) in reactions.enumerated() {
-            print("reactions before: ")
-            print(reactions.map({ ($0.count, $0.reacted) }))
-            print("\n")
-            print(index)
-            print(reaction.count)
-            print(reaction.reacted)
-            print("\n")
             if index == indexPath.item {
                 reactions[index].count = reactions[index].reacted ?? false ?
                     (reactions[index].count ?? 0) + 1 :
@@ -294,13 +287,6 @@ class ReactionCollectionViewDelegate: UIViewController, UICollectionViewDelegate
                 reactions[index].reacted = false
                 reactions[index].count = (reactions[index].count ?? 0) - 1
             }
-            print("reactions after: ")
-            print(reactions.map({ ($0.count, $0.reacted) }))
-            print("\n")
-            print(index)
-            print(reaction.count)
-            print(reaction.reacted)
-            print("\n")
         }
         
         if let vc = collectionView.viewContainingController()?.parent as? FeedDetailViewController, let index = vc.superVc.users.firstIndex(where: { $0.id == userId }), let delegate = (vc.superVc.mainView.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? FeedCell)?.reactionsDelegate {

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-class EmotionsMainViewController: SegmentVc {
+class EmotionsMainViewController: ProfileFirstViewController {
     lazy var emotionsView = EmotionsMainView()
     lazy var state: EmotionsState = .notAdded {
         didSet {
@@ -40,11 +40,15 @@ class EmotionsMainViewController: SegmentVc {
     override func loadView() {
         super.loadView()
         
-        view = emotionsView
+        setView(emotionsView)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setTitle("Emotions".localized)
+        showGradient = true
+        baseView.titleLabel.textColor = .deepBlue
         
         viewModel.view = view
         

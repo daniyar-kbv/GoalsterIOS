@@ -14,7 +14,7 @@ import FBSDKCoreKit
 
 class NavigationMenuBaseController: UITabBarController {
     lazy var disposeBag = DisposeBag()
-    lazy var tabItems: [TabItem] = [.feed, .goals, .calendar, .emotions, .profile]
+    lazy var tabItems: [TabItem] = [.feed, .goals, .calendar, .profile]
     
     var customTabBar: TabNavigationMenu!
     
@@ -100,8 +100,14 @@ class NavigationMenuBaseController: UITabBarController {
         guard let typeInt = Int(notification.userInfo["type"] as? String ?? ""), let type = NotificationType(rawValue: typeInt) else { return }
         switch type {
         case .threeDays:
-            toTab(tab: 3, completion: { _ in
-                (self.viewControllers?[3] as? SegmentedViewController)?.mainView.segmentControll.buttonTapped(SegmentButton(segment: .visualizations))
+            toTab(tab: 4, completion: { _ in
+                let profileVC = (self.viewControllers?[4] as? ProfileMainViewController)
+                
+                guard let visualizationsIndex = profileVC?.cellTypes.firstIndex(of: .visualizations),
+                      let tableView = profileVC?.profileView.tableView
+                else { return }
+                
+                profileVC?.tableView(tableView, didSelectRowAt: .init(row: visualizationsIndex, section: 0))
             })
         case .beforeEnd:
             toTab(tab: 2, completion: { _ in
