@@ -311,3 +311,6 @@
 результат и действия.";
 "Blocked.Visualizations.bottomText" = "Подключите премиум-аккаунт\nи добавляйте визуализации";
 "Blocked.Visualizations.buttonText" = "Разблокировать Визуализации";
+
+"Knowledge.title" = "Знания";
+"Story.Button.title" = "Подробнее";

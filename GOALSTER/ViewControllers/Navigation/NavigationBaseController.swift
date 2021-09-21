@@ -14,7 +14,7 @@ import FBSDKCoreKit
 
 class NavigationMenuBaseController: UITabBarController {
     lazy var disposeBag = DisposeBag()
-    lazy var tabItems: [TabItem] = [.feed, .goals, .calendar, .profile]
+    lazy var tabItems: [TabItem] = [.feed, .goals, .calendar, .knowledge, .profile]
     
     var customTabBar: TabNavigationMenu!
     

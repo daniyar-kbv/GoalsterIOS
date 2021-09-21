@@ -251,4 +251,16 @@ struct APIManager {
             completion(error, response as? [FeedUserFull])
         }
     }
+    
+    func getKnowledgeSections(completion: @escaping(_ error: String?,_ module: [KnowledgeSection]?)->()) {
+        router.request(.knowledgeSections, returning: [KnowledgeSection]?.self) { error, response in
+            completion(error, response as? [KnowledgeSection])
+        }
+    }
+    
+    func getStories(of sectionId: Int, completion: @escaping(_ error: String?,_ module: [KnowledgeStory]?)->()) {
+        router.request(.stories(sectionId: sectionId), returning: [KnowledgeStory]?.self) { error, response in
+            completion(error, response as? [KnowledgeStory])
+        }
+    }
 }

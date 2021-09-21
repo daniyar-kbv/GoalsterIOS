@@ -50,6 +50,8 @@ enum APIPoint {
     case feedDetail(userId: Int)
     case follow(userId: Int)
     case following
+    case knowledgeSections
+    case stories(sectionId: Int)
 }
 
 extension APIPoint: EndPointType {
@@ -129,6 +131,10 @@ extension APIPoint: EndPointType {
             return "/users/feed_v2/\(userId)/follow/"
         case .following:
             return "/users/users/following/"
+        case .knowledgeSections:
+            return "/knowledge/sections/"
+        case let .stories(sectionId):
+            return "/knowledge/sections/\(sectionId)/stories/"
         }
     }
     

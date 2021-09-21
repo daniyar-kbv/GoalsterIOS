@@ -13,6 +13,7 @@ enum TabItem: String, CaseIterable {
     case feed = "feed"
     case goals = "goals"
     case calendar = "calendar"
+    case knowledge = "knowledge"
     case profile = "profile"
     
     var viewController: UIViewController {
@@ -23,6 +24,8 @@ enum TabItem: String, CaseIterable {
             return GoalsMainViewController()
         case .calendar:
             return DayViewController()
+        case .knowledge:
+            return KnowledgeViewController()
         case .profile:
             return ProfileMainViewController()
         }
