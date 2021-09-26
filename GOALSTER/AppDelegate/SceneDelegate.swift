@@ -109,11 +109,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 AppShared.sharedInstance.tabBarController.toTab(tab: 4)
                 if !ModuleUserDefaults.getIsPremium() {
                     DispatchQueue.main.async {
-                        let vc = ProfilePremiumViewController()
-                        vc.setOnSuccess(onSuccess: {
-                            AppShared.sharedInstance.navigationController.popViewController(animated: true)
+                        let vc = PayBallController()
+                        vc.hideTopBrush()
+                        vc.onSuccess = {
+                            AppShared.sharedInstance.navigationController.dismiss(animated: true)
                             AppShared.sharedInstance.navigationController.pushViewController(ObservedViewController(), animated: true)
-                        })
+                        }
+                        vc.onBack = {
+                            AppShared.sharedInstance.navigationController.popViewController(animated: true)
+                        }
                         UIApplication.topViewController()?.navigationController?.pushViewController(vc, animated: true)
                     }
                 } else {

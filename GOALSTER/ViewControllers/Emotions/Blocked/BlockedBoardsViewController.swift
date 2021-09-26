@@ -50,9 +50,12 @@ class BlockedBoardsViewController: ProfileFirstViewController {
 
 extension BlockedBoardsViewController: BlockedBoardsViewDelegate {
     func buttonTapped() {
-        let premiumVC = PresentablePremiumViewController()
-        premiumVC.setOnSuccess { [weak self] in
-            premiumVC.dismiss(animated: true) {
+        let premiumVC = PayBallController()
+        premiumVC.onBack = { [weak premiumVC] in
+            premiumVC?.dismiss(animated: true)
+        }
+        premiumVC.onSuccess = { [weak self, weak premiumVC] in
+            premiumVC?.dismiss(animated: true) {
                 self?.onSuccess?()
             }
         }

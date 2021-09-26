@@ -102,24 +102,18 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
         case .observe:
             if !ModuleUserDefaults.getIsPremium() {
                 DispatchQueue.main.async {
-                    let vc = ProfilePremiumViewController()
-                    vc.setOnSuccess(onSuccess: {
-                        self.navigationController?.popViewController(animated: true)
+                    self.showPayBall() {
                         AppShared.sharedInstance.navigationController?.pushViewController(ObservedViewController(), animated: true)
-                    })
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
             } else {
                 navigationController?.pushViewController(ObservedViewController(), animated: true)
             }
         case .observers:
             if !ModuleUserDefaults.getIsPremium() {
-                let vc = ProfilePremiumViewController()
-                vc.setOnSuccess(onSuccess: {
-                    self.navigationController?.popViewController(animated: true)
+                showPayBall() {
                     AppShared.sharedInstance.navigationController?.pushViewController(ObserversViewController(), animated: true)
-                })
-                self.navigationController?.pushViewController(vc, animated: true)
+                }
             } else {
                 navigationController?.pushViewController(ObserversViewController(), animated: true)
             }
@@ -140,11 +134,9 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
             if ModuleUserDefaults.getIsPremium() {
                 break
             } else {
-                let vc = ProfilePremiumViewController()
-                vc.setOnSuccess(onSuccess: {
+                showPayBall() {
                     self.reload()
-                })
-                navigationController?.pushViewController(ProfilePremiumViewController(), animated: true)
+                }
             }
         case .notifications:
             navigationController?.pushViewController(NotificatonsViewController(), animated: true)
@@ -176,5 +168,18 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
         case .visualizations:
             navigationController?.pushViewController(VisualizationsMainViewcontroller(), animated: true)
         }
+    }
+    
+    private func showPayBall(onSuccess: (() -> Void)? = nil) {
+        let vc = PayBallController()
+        vc.onBack = {
+            AppShared.sharedInstance.navigationController?.popViewController(animated: true)
+        }
+        vc.onSuccess = {
+            AppShared.sharedInstance.navigationController?.popViewController(animated: true)
+            onSuccess?()
+        }
+        vc.hideTopBrush()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

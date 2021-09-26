@@ -27,11 +27,9 @@ class BackButton: UIButton {
     @objc func tapped() {
         if let onBack = onBack {
             onBack()
-        } else if let vc = viewContainingController() as? ChildViewController {
-            vc.removeTop()
         } else if viewContainingController()?.parent is UINavigationController {
             viewContainingController()?.navigationController?.popViewController(animated: true)
-        } else {
+        } else if viewContainingController()?.presentingViewController != nil {
             viewContainingController()?.dismiss(animated: true)
         }
     }

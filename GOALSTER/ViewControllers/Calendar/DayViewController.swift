@@ -163,7 +163,16 @@ class DayViewController: UIViewController {
         } else if !ModuleUserDefaults.getHasSpheres() {
             AppShared.sharedInstance.tabBarController.toTab(tab: 1)
         } else if let morning = response?.morning?.count, let day = response?.day?.count, let evening = response?.evening?.count, (morning + day + evening >= 6 && !ModuleUserDefaults.getIsPremium())  {
-            navigationController?.pushViewController(ProfilePremiumViewController(), animated: true)
+            let premiumVC = PayBallController()
+            premiumVC.onBack = { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            premiumVC.onSuccess = { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+                self?.addTapped()
+            }
+            premiumVC.hideTopBrush()
+            navigationController?.pushViewController(premiumVC, animated: true)
         } else {
             let vc = AddGoalViewController()
             vc.superVc = self

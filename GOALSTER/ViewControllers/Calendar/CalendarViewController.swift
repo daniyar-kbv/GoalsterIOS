@@ -52,7 +52,16 @@ class CalendarViewController: UIViewController {
             navigationController?.popViewController(animated: true)
             AppShared.sharedInstance.tabBarController.toTab(tab: 1)
         } else if let morning = AppShared.sharedInstance.localCalendar?.first(where: { $0.calendarItem?.date == Date().format() })?.goalsResponse?.morning?.count, let day = AppShared.sharedInstance.localCalendar?.first(where: { $0.calendarItem?.date == Date().format() })?.goalsResponse?.day?.count, let evening = AppShared.sharedInstance.localCalendar?.first(where: { $0.calendarItem?.date == Date().format() })?.goalsResponse?.evening?.count, (morning + day + evening >= 6 && !ModuleUserDefaults.getIsPremium())  {
-            navigationController?.pushViewController(ProfilePremiumViewController(), animated: true)
+            let premiumVC = PayBallController()
+            premiumVC.onBack = { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            premiumVC.onSuccess = { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+                self?.addTapped()
+            }
+            premiumVC.hideTopBrush()
+            navigationController?.pushViewController(premiumVC, animated: true)
         } else {
             let vc = AddGoalViewController()
             vc.superVc = self

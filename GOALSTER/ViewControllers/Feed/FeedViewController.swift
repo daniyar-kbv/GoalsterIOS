@@ -139,7 +139,17 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
                   let isCelebrity = user.isCelebrity else { return }
             if ModuleUserDefaults.getIsLoggedIn() {
                 if isCelebrity && !ModuleUserDefaults.getIsPremium() {
-                    present(PresentablePremiumViewController(), animated: true)
+                    let payBallVC = PayBallController()
+                    payBallVC.onSuccess = { [weak self, weak payBallVC] in
+                        guard let self = self else { return }
+                        payBallVC?.dismiss(animated: true) {
+                            self.navigationController?.pushViewController(FeedDetailViewController(userId: userId, superVc: self), animated: true)
+                        }
+                    }
+                    payBallVC.onBack = { [weak payBallVC] in
+                        payBallVC?.dismiss(animated: true)
+                    }
+                    present(payBallVC, animated: true)
                     return
                 }
                 navigationController?.pushViewController(FeedDetailViewController(userId: userId, superVc: self), animated: true)
@@ -167,7 +177,16 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
 
 extension FeedViewController: FeedPremiumCellDelegate {
     func buttonTapped() {
-        present(PresentablePremiumViewController(), animated: true)
+        let payBallVC = PayBallController()
+        payBallVC.onBack = { [weak payBallVC] in
+            payBallVC?.dismiss(animated: true)
+        }
+        payBallVC.onSuccess = { [weak self, weak payBallVC] in
+            guard let users = self?.users else { return }
+            payBallVC?.dismiss(animated: true)
+            self?.users = users
+        }
+        present(payBallVC, animated: true)
     }
 }
 

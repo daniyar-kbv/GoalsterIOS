@@ -11,7 +11,7 @@ import UIKit
 
 class OnBoardingViewController: UIViewController {
     lazy var boardingView = OnBoardingView()
-    lazy var premiumVc = PremiumViewController()
+    lazy var premiumVc = PayBallController()
     var currentIndex = 0
     var cells: [UICollectionViewCell]? {
         didSet {
@@ -24,6 +24,8 @@ class OnBoardingViewController: UIViewController {
         
         view = boardingView
         
+        premiumVc.hideTopBrush()
+        premiumVc.hideBackButton()
         addChild(premiumVc)
         premiumVc.didMove(toParent: self)
     }

@@ -298,29 +298,21 @@ enum NotificationType: Int {
     case completeGoals = 7
 }
 
-enum ProductType: String {
-    case oneMonth = "com.goalsterapp.onemonth"
-    case threeMonth = "com.goalsterapp.threemonth"
-    case sixMonth = "com.goalsterapp.sixmonth"
-    case oneYear = "com.goalsterapp.oneyear"
+enum ProductType: String, CaseIterable {
+    case oneMonth = "com.goalsterapp.onemonth.3"
+    case forever = "com.goalsterapp.forever.3"
     
     var timeAmount: Int {
         switch self {
-        case .oneMonth, .oneYear:
-            return 1
-        case .threeMonth:
-            return 3
-        case .sixMonth:
-            return 6
+        case .oneMonth: return 1
+        case .forever: return 100
         }
     }
     
     var timeUnit: TimeUnit {
         switch self {
-        case .oneMonth, .threeMonth, .sixMonth:
-            return .month
-        case .oneYear:
-            return .year
+        case .oneMonth: return .month
+        case .forever: return .year
         }
     }
 }
