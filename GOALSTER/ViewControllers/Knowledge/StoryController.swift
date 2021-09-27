@@ -18,6 +18,7 @@ class StoryController: ProfileFirstViewController {
     
     private let id: Int
     private let name: String
+    private var cells = [StoryCell]()
     
     init(id: Int, name: String) {
         self.id = id
@@ -60,12 +61,22 @@ class StoryController: ProfileFirstViewController {
     }
     
     private func bind() {
-        viewModel.reload
-            .subscribe(onNext: { [weak self] in
+        viewModel.didGetStories
+            .subscribe(onNext: { [weak self] storiesInfo in
                 self?.reloadIndicators()
-                self?.contentView.mainCollection.reloadData()
+                self?.reloadCells(storiesInfo: storiesInfo)
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func reloadCells(storiesInfo: [(id: Int, imageURL: URL?, text: String)]) {
+        cells = storiesInfo.enumerated().map { index, info in
+            let cell = contentView.mainCollection.dequeueReusableCell(withReuseIdentifier: String(describing: StoryCell.self), for: IndexPath(item: index, section: 0)) as! StoryCell
+            cell.delegate = self
+            cell.set(id: info.id, imageURL: info.imageURL, text: info.text)
+            return cell
+        }
+        contentView.mainCollection.reloadData()
     }
     
     private func reloadIndicators() {
@@ -87,15 +98,11 @@ class StoryController: ProfileFirstViewController {
 
 extension StoryController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItems()
+        return cells.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: StoryCell.self), for: indexPath) as! StoryCell
-        let storyInfo = viewModel.getStoryInfo(for: indexPath.item)
-        cell.set(id: storyInfo.id, imageURL: storyInfo.imageURL, text: storyInfo.text)
-        cell.delegate = self
-        return cell
+        return cells[indexPath.item]
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -275,22 +275,7 @@ class AddGoalViewController: UIViewController {
     }
     
     @objc func observationSwitchTapped(_ sender: UISwitch) {
-        if sender.isOn && !ModuleUserDefaults.getIsPremium(){
-            let vc = PayBallController()
-            vc.hideTopBrush()
-            vc.onBack = { [weak vc, weak self] in
-                vc?.removeTop()
-                sender.isOn = false
-                self?.configureObservers(isOn: sender.isOn)
-            }
-            vc.onSuccess = { [weak vc, weak self] in
-                vc?.removeTop()
-                self?.configureObservers(isOn: sender.isOn)
-            }
-            openTop(vc: vc)
-        } else {
-            configureObservers(isOn: sender.isOn)
-        }
+        configureObservers(isOn: sender.isOn)
     }
     
     func configureObservers(isOn: Bool) {

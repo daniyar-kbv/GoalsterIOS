@@ -13,12 +13,14 @@ import RxCocoa
 class StoryViewModel {
     private var stories = [KnowledgeStory]() {
         didSet {
-            reload.accept(())
+            didGetStories.accept(stories.map({ story in
+                (story.id, story.image, story.text)
+            }))
         }
     }
     private(set) var currentIndex = 0
     
-    let reload = PublishRelay<Void>()
+    let didGetStories = PublishRelay<[(id: Int, imageURL: URL?, text: String)]>()
     
     func getStories(by sectionId: Int) {
         SpinnerView.showSpinnerView()
@@ -33,11 +35,6 @@ class StoryViewModel {
         return stories.count
     }
     
-    func getStoryInfo(for index: Int) -> (id: Int, imageURL: URL?, text: String) {
-        let story = stories[index]
-        return (story.id, story.image, story.text)
-    }
-    
     func changeIndex(isIncrement: Bool) {
         if isIncrement && currentIndex < stories.count - 1 {
             currentIndex += 1
@@ -47,10 +44,8 @@ class StoryViewModel {
     }
     
     func tapped(on storyId: Int) {
-        print(storyId)
         guard let url = stories.first(where: { $0.id == storyId })?.link,
               UIApplication.shared.canOpenURL(url) else { return }
-        print(url)
         UIApplication.shared.open(url, options: [:])
     }
 }

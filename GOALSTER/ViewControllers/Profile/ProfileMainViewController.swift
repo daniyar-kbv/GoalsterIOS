@@ -100,23 +100,9 @@ extension ProfileMainViewController: UITableViewDelegate, UITableViewDataSource 
         case .personalInfo:
             navigationController?.pushViewController(UpdateProfileViewController(), animated: true)
         case .observe:
-            if !ModuleUserDefaults.getIsPremium() {
-                DispatchQueue.main.async {
-                    self.showPayBall() {
-                        AppShared.sharedInstance.navigationController?.pushViewController(ObservedViewController(), animated: true)
-                    }
-                }
-            } else {
-                navigationController?.pushViewController(ObservedViewController(), animated: true)
-            }
+            navigationController?.pushViewController(ObservedViewController(), animated: true)
         case .observers:
-            if !ModuleUserDefaults.getIsPremium() {
-                showPayBall() {
-                    AppShared.sharedInstance.navigationController?.pushViewController(ObserversViewController(), animated: true)
-                }
-            } else {
-                navigationController?.pushViewController(ObserversViewController(), animated: true)
-            }
+            navigationController?.pushViewController(ObserversViewController(), animated: true)
         case .following:
             navigationController?.pushViewController(FollowingViewController(), animated: true)
         case .emotions:

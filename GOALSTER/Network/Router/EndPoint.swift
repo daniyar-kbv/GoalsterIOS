@@ -297,7 +297,7 @@ extension APIPoint: EndPointType {
                 "Timezone": TimeZone.current.identifier,
                 "FCM": ModuleUserDefaults.getFCMToken() ?? ""
             ]
-        case .feed:
+        case .feed, .knowledgeSections, .stories:
             var headers: HTTPHeaders = [
                 "Accept-Language": ModuleUserDefaults.getLanguage() == .en ? "en-us" : "ru-ru",
                 "Timezone": TimeZone.current.identifier,
