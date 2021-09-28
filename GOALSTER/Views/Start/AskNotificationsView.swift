@@ -10,9 +10,16 @@ import Foundation
 import UIKit
 
 class AskNotificationsView: UIView {
+    lazy var imageBackView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = StaticSize.size(10)
+        view.backgroundColor = .arcticWhite
+        return view
+    }()
+    
     lazy var mainImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "notification")
+        view.image = UIImage(named: "Notification")
         return view
     }()
     
@@ -46,7 +53,7 @@ class AskNotificationsView: UIView {
     }()
     
     lazy var mainStack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [mainImage, textStack])
+        let view = UIStackView(arrangedSubviews: [imageBackView, textStack])
         view.axis = .vertical
         view.distribution = .equalSpacing
         view.alignment = .center
@@ -115,6 +122,18 @@ class AskNotificationsView: UIView {
             $0.left.right.equalToSuperview().inset(StaticSize.size(15))
             $0.bottom.equalToSuperview().offset(-(Global.safeAreaBottom() + StaticSize.size(15)))
             $0.height.equalTo(StaticSize.buttonHeight)
+        })
+        
+        imageBackView.snp.makeConstraints({
+            $0.width.equalTo(StaticSize.size(283))
+            $0.height.equalTo(StaticSize.size(235))
+        })
+        
+        imageBackView.addSubview(mainImage)
+        
+        mainImage.snp.makeConstraints({
+            $0.top.bottom.equalToSuperview().inset(StaticSize.size(34))
+            $0.left.right.equalToSuperview().inset(StaticSize.size(25))
         })
     }
     

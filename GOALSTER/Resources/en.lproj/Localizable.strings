@@ -23,14 +23,7 @@
 "Premium buttons title" = "Choose a tariff plan";
 "Premium functionality" = "Premium features";
 "Premium bottom text" = "Increased number of added tasks - up to 30 per day\n• Personal mentor who can help you seize your biggest goals\n• Share your goals with friends or follow others with the help\n• Use messenger function and communicate within the app\n• PDF guide with tips for making a visualization board\n• PDF guide for effective thinking";
-"On boarding top text 1" = "Become a master of achieving goals";
-"On boarding top text 2" = "Show your daily schedules for other users ";
-"On boarding top text 3" = "Drive motivation to the speed of light";
-"On boarding top text 4" = "Get the maximum benefit";
-"On boarding bottom text 1" = "By choosing only 3 areas for 30 days, you can achieve, without loss of energy, what others achieve in a YEAR";
-"On boarding bottom text 2" = "Inspire and draw inspiration from others, set reactions, subscribe, follow like-minded people and develop networking";
-"On boarding bottom text 3" = "Create your own effective visualization board and capture your goals with pictures";
-"On boarding bottom text 4" = "If you need constant support or control, then you can share goals with friends or be an observer";
+
 "Ok_" = "Ok";
 "On boarding shared goals text" = "On boarding shared goals text";
 "No signal\nCheck internet connection" = "No connection, check your internet";
@@ -347,4 +340,14 @@
 "PayBall.boldText.5" = "PDF-книга";
 "PayBall.boldText.6" = "эффективного мышления";
 "PayBall.boldText.7" = "В подарок";
+
+"On boarding top text 1" = "Become a master of achieving goals";
+"On boarding top text 2" = "Show your daily schedules for other users ";
+"On boarding top text 3" = "Drive motivation to the speed of light";
+"On boarding top text 4" = "Get the maximum benefit";
+"On boarding bottom text 1" = "By choosing only 3 areas for 30 days, you can achieve, without loss of energy, what others achieve in a YEAR";
+"On boarding bottom text 2" = "Inspire and draw inspiration from others, set reactions, subscribe, follow like-minded people and develop networking";
+"On boarding bottom text 3" = "Create your own effective visualization board and capture your goals with pictures";
+"On boarding bottom text 4" = "If you need constant support or control, then you can share goals with friends or be an observer";
+"On boarding bottom text 5" = "Помимо бесплатного, доступно еще два тарифных плана";
 

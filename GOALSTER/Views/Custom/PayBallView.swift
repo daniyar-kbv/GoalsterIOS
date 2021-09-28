@@ -208,7 +208,7 @@ class PayBallView: UIView {
         })
         
         plans.forEach {
-            let planView = PlanView(type: $0.type, price: $0.price)
+            let planView = PlanView(viewType: .filled, planType: $0.type, price: $0.price)
             planView.buttonTapped = buttonTapped
             buttonsStack.addArrangedSubview(planView)
         }
@@ -222,71 +222,5 @@ class PayBallView: UIView {
             $0.top.equalTo(bottomTitle.snp.bottom).offset(StaticSize.size(10))
             $0.left.right.bottom.equalToSuperview()
         })
-    }
-}
-
-extension PayBallView {
-    class PlanView: UIStackView {
-        let type: PlanType
-        let price: String
-        var buttonTapped: ((PlanView.PlanType) -> Void)?
-        
-        private lazy var titleLabel: UILabel = {
-            let view = UILabel()
-            view.font = .primary(ofSize: StaticSize.size(20), weight: .regular)
-            view.textColor = .deepBlue
-            view.text = type.title
-            view.textAlignment = .center
-            return view
-        }()
-        
-        private lazy var button: CustomButton = {
-            let view = CustomButton()
-            view.titleLabel?.font = .primary(ofSize: StaticSize.size(14), weight: .medium)
-            view.setTitle(price, for: .normal)
-            view.layer.cornerRadius = StaticSize.size(22)
-            view.layer.borderWidth = StaticSize.size(1.1)
-            view.layer.borderColor = UIColor.middlePink.cgColor
-            view.addTarget(self, action: #selector(onTap), for: .touchUpInside)
-            return view
-        }()
-        
-        init(type: PlanType, price: String) {
-            self.type = type
-            self.price = price
-            
-            super.init(frame: .zero)
-            
-            axis = .vertical
-            distribution = .equalSpacing
-            alignment = .fill
-            spacing = StaticSize.size(2)
-            
-            addArrangedSubViews([titleLabel, button])
-            
-            button.snp.makeConstraints({
-                $0.height.equalTo(StaticSize.size(44))
-            })
-        }
-        
-        required init(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
-        @objc private func onTap() {
-            buttonTapped?(type)
-        }
-        
-        enum PlanType: String {
-            case forever = "com.goalsterapp.forever.3"
-            case oneMonth = "com.goalsterapp.onemonth.3"
-            
-            var title: String {
-                switch self {
-                case .forever: return "PayBall.plan.forever".localized
-                case .oneMonth: return "PayBall.plan.oneMonth".localized
-                }
-            }
-        }
     }
 }

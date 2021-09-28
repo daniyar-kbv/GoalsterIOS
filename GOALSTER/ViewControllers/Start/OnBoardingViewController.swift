@@ -8,11 +8,16 @@
 
 import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
 
 class OnBoardingViewController: UIViewController {
+    private let disposeBag = DisposeBag()
+    private var products = [(identifier: String, price: String)]()
+    
     lazy var boardingView = OnBoardingView()
-    lazy var premiumVc = PayBallController()
     var currentIndex = 0
+    
     var cells: [UICollectionViewCell]? {
         didSet {
             boardingView.collectionView.reloadData()
@@ -23,11 +28,6 @@ class OnBoardingViewController: UIViewController {
         super.loadView()
         
         view = boardingView
-        
-        premiumVc.hideTopBrush()
-        premiumVc.hideBackButton()
-        addChild(premiumVc)
-        premiumVc.didMove(toParent: self)
     }
     
     override func viewDidLoad() {
@@ -37,14 +37,31 @@ class OnBoardingViewController: UIViewController {
         boardingView.collectionView.dataSource = self
         
         configActions()
+        bind()
         
-        loadCells()
+        SpinnerView.showSpinnerView()
+        InAppPurchaseManager.shared.getProducts()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         view.addGradientBackground()
+    }
+    
+    private func bind() {
+        InAppPurchaseManager.shared
+            .didGetProducts
+            .subscribe(onNext: { [weak self] products in
+                self?.process(products: products)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func process(products: [(identifier: String, price: String)]) {
+        SpinnerView.removeSpinnerView()
+        self.products = products
+        loadCells()
     }
     
     func configActions() {
@@ -74,10 +91,13 @@ class OnBoardingViewController: UIViewController {
                 cells_.append(cell)
             } else if i == 4 {
                 let cell = boardingView.collectionView.dequeueReusableCell(withReuseIdentifier: OnBoardingPremiumCell.reuseIdentifier, for: IndexPath(item: i, section: 0)) as! OnBoardingPremiumCell
-                cell.premiumView.addSubview(premiumVc.view)
-                premiumVc.view.snp.makeConstraints({
-                    $0.edges.equalToSuperview()
-                })
+                
+                let plans = products.compactMap { product -> (type: PlanView.PlanType, price: String)? in
+                    guard let type = PlanView.PlanType(rawValue: product.identifier) else { return nil }
+                    return (type, product.price)
+                }
+                
+                cell.setUp(plans: plans)
                 cells_.append(cell)
             }
         }

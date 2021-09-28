@@ -34,13 +34,13 @@ class OnBoardingCell: UICollectionViewCell {
         var imageSize: CGSize {
             switch self {
             case .first:
-                return CGSize(width: StaticSize.size(284), height: StaticSize.size(189))
+                return CGSize(width: StaticSize.size(257), height: StaticSize.size(172))
             case .second:
-                return CGSize(width: StaticSize.size(252), height: StaticSize.size(191))
+                return CGSize(width: StaticSize.size(216), height: StaticSize.size(196))
             case .third:
-                return CGSize(width: StaticSize.size(210), height: StaticSize.size(182))
+                return CGSize(width: StaticSize.size(203), height: StaticSize.size(172))
             case .fourth:
-                return CGSize(width: StaticSize.size(233), height: StaticSize.size(167))
+                return CGSize(width: StaticSize.size(265), height: StaticSize.size(172))
             }
         }
     }
@@ -116,7 +116,7 @@ class OnBoardingCell: UICollectionViewCell {
     }
     
     func setUp() {
-        addSubViews([backView])
+        contentView.addSubViews([backView])
         
         backView.snp.makeConstraints({
             $0.edges.equalToSuperview().inset(StaticSize.size(10))

@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import StoreKit
 import RxSwift
 import RxCocoa
 
@@ -17,7 +16,7 @@ class PayBallController: UIViewController {
     private let contentView = PayBallView()
     private let viewModel = PremiumViewModel()
     
-    var products = [SKProduct]()
+    private var plans = [(identifier: String, price: String)]()
     var onSuccess: (() -> Void)?
     var onBack: (() -> Void)? {
         didSet {
@@ -37,14 +36,30 @@ class PayBallController: UIViewController {
         contentView.backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
         contentView.buttonTapped = makePayment(type:)
         enablePanGesture()
-        fetchProducts()
         bind()
+        
+        contentView.showSpinnerViewCenter()
+        InAppPurchaseManager.shared.getProducts()
     }
     
     private func bind() {
         viewModel.success.subscribe(onNext: { [weak self] _ in
             self?.finishPayment()
         }).disposed(by: disposeBag)
+        
+        InAppPurchaseManager.shared
+            .didGetProducts
+            .subscribe(onNext: { [weak self] products in
+                self?.process(products: products)
+            })
+            .disposed(by: disposeBag)
+        
+        InAppPurchaseManager.shared
+            .didMakePayment
+            .subscribe(onNext: { [weak self] transaction in
+                self?.process(transaction: transaction)
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc private func backTapped() {
@@ -57,6 +72,40 @@ class PayBallController: UIViewController {
     
     func hideBackButton() {
         contentView.backButton.isHidden = true
+    }
+    
+    private func process(products: [(identifier: String, price: String)]) {
+        SpinnerView.removeSpinnerView()
+        
+        let plans = products
+            .compactMap({ product -> (type: PlanView.PlanType, price: String)? in
+                guard let planType = PlanView.PlanType(rawValue: product.identifier)
+                else { return nil }
+                return (
+                    type: planType,
+                    price: product.price
+                )
+            })
+        
+        self.contentView.setUp(plans: plans)
+    }
+    
+    private func process(transaction: (identifier: String, date: Date, productType: ProductType)) {
+        guard let productType = ProductType(rawValue: transaction.identifier) else { return }
+        viewModel.premium(identifier: transaction.identifier,
+                          date: transaction.date,
+                          productType: productType)
+    }
+    
+    private func finishPayment() {
+        showAlertOk(title: "Premium successfully purchased".localized, messsage: nil, okCompletion: { _ in
+            self.onSuccess?()
+        })
+    }
+    
+    private func makePayment(type: PlanView.PlanType) {
+        SpinnerView.showSpinnerView()
+        InAppPurchaseManager.shared.makePayment(identifier: type.rawValue)
     }
 }
 
@@ -71,79 +120,6 @@ extension PayBallController: UIGestureRecognizerDelegate, UINavigationController
         if viewController is NavigationMenuBaseController {
             AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = false
             AppShared.sharedInstance.navigationController.delegate = nil
-        }
-    }
-}
-
-extension PayBallController: SKProductsRequestDelegate, SKPaymentTransactionObserver {
-    private func finishPayment() {
-        showAlertOk(title: "Premium successfully purchased".localized, messsage: nil, okCompletion: { _ in
-            self.onSuccess?()
-        })
-    }
-    
-    private func makePayment(type: PayBallView.PlanView.PlanType) {
-        guard let product = products.first(where: { $0.productIdentifier == type.rawValue }) else { return }
-        DispatchQueue.main.async {
-            if SKPaymentQueue.canMakePayments() {
-                let payment = SKPayment(product: product)
-                SKPaymentQueue.default().add(self)
-                SKPaymentQueue.default().add(payment)
-                SpinnerView.showSpinnerView()
-            }
-        }
-    }
-    
-    private func fetchProducts() {
-        contentView.showSpinnerViewFull()
-        let request = SKProductsRequest(productIdentifiers: Set(ProductType.allCases.map({ $0.rawValue })))
-        request.delegate = self
-        request.start()
-    }
-    
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        DispatchQueue.main.async {
-            self.products = response.products
-            
-            SpinnerView.removeSpinnerView()
-            
-            let plans = response.products
-                .compactMap({ product -> (type: PayBallView.PlanView.PlanType, price: String)? in
-                    guard let planType = PayBallView.PlanView.PlanType(rawValue: product.productIdentifier)
-                    else { return nil }
-                    return (
-                        type: planType,
-                        price: product.localizedPrice
-                    )
-                })
-            
-            print(plans)
-            
-            self.contentView.setUp(plans: plans)
-        }
-    }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
-            if [SKPaymentTransactionState.purchased, SKPaymentTransactionState.restored, SKPaymentTransactionState.failed, SKPaymentTransactionState.deferred].contains(transaction.transactionState) {
-                SpinnerView.removeSpinnerView()
-            }
-            switch transaction.transactionState {
-            case .purchasing:
-                break
-            case .purchased, .restored:
-                SKPaymentQueue.default().finishTransaction(transaction)
-                SKPaymentQueue.default().remove(self)
-                if let productType = ProductType(rawValue: transaction.payment.productIdentifier), let identifier = transaction.transactionIdentifier, let date = transaction.transactionDate {
-                    self.viewModel.premium(identifier: identifier, date: date, productType: productType)
-                }
-            case .failed, .deferred:
-                SKPaymentQueue.default().finishTransaction(transaction)
-                SKPaymentQueue.default().remove(self)
-            default:
-                SKPaymentQueue.default().finishTransaction(transaction)
-                SKPaymentQueue.default().remove(self)
-            }
         }
     }
 }

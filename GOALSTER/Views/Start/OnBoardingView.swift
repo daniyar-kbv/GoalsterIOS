@@ -19,7 +19,6 @@ class OnBoardingView: UIView {
         view.backgroundColor = .clear
         view.isPagingEnabled = true
         view.register(OnBoardingCell.self, forCellWithReuseIdentifier: OnBoardingCell.reuseIdentifier)
-        view.register(OnBoardingTextCell.self, forCellWithReuseIdentifier: OnBoardingTextCell.reuseIdentifier)
         view.register(OnBoardingPremiumCell.self, forCellWithReuseIdentifier: OnBoardingPremiumCell.reuseIdentifier)
         return view
     }()
