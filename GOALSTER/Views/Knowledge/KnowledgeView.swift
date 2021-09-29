@@ -20,7 +20,7 @@ class KnowledgeView: UIView {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.register(KnowledgeCell.self, forCellWithReuseIdentifier: String(describing: KnowledgeCell.self))
-        view.contentInset = .init(top: Global.safeAreaTop(),
+        view.contentInset = .init(top: Global.safeAreaTop() + StaticSize.size(16),
                                   left: StaticSize.size(16),
                                   bottom: StaticSize.tabBarHeight,
                                   right: StaticSize.size(16))

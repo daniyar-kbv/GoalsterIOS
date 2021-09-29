@@ -2093,7 +2093,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.19;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.goalster.app;
 				PRODUCT_NAME = Goalsters;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2118,7 +2118,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.19;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.goalster.app;
 				PRODUCT_NAME = Goalsters;
 				PROVISIONING_PROFILE_SPECIFIER = "";
