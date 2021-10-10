@@ -91,10 +91,9 @@ class PayBallController: UIViewController {
     }
     
     private func process(transaction: (identifier: String, date: Date, productType: ProductType)) {
-        guard let productType = ProductType(rawValue: transaction.identifier) else { return }
         viewModel.premium(identifier: transaction.identifier,
                           date: transaction.date,
-                          productType: productType)
+                          productType: transaction.productType)
     }
     
     private func finishPayment() {

@@ -109,7 +109,10 @@ class DayViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if didAppear && ModuleUserDefaults.getIsLoggedIn() {
+        if didAppear {
+            guard ModuleUserDefaults.getIsLoggedIn() &&
+                    ModuleUserDefaults.getHasSpheres()
+            else { return }
             viewModel.getGoals(date: selectedDate, withSpinner: false)
         } else {
             didAppear = true
@@ -192,7 +195,8 @@ class DayViewController: UIViewController {
         selectedDate = date
         dayView.calendarCollection.reloadData()
         dayView.calendarCollection.scrollToItem(at: IndexPath(item: calendarItems.firstIndex(where: { $0.date == selectedDate.format() }) ?? 0, section: 0), at: .centeredHorizontally, animated: true)
-        if ModuleUserDefaults.getIsLoggedIn() {
+        if ModuleUserDefaults.getIsLoggedIn(),
+           ModuleUserDefaults.getHasSpheres() {
             if let response = AppShared.sharedInstance.localCalendar?.first(where: { $0.calendarItem?.date == selectedDate.format() })?.goalsResponse {
                 self.response = response
                 viewModel.getGoalsOnly(date: selectedDate, withSpinner: false)

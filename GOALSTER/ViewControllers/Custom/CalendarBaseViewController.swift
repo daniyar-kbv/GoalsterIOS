@@ -43,18 +43,16 @@ class CalendarBaseViewController: UIViewController {
 }
 
 extension CalendarBaseViewController: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
-    
     func calendar(_ calendar: JTAppleCalendarView, willDisplay cell: JTAppleCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
     }
     
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: CalendarCell.reuseIdentifier, for: indexPath) as! CalendarCell
         cell.number.text = date.format(format: "dd")
-        if items?.contains(where: { $0.date?.toDate() == date }) ?? false{
-            let item = items?.first(where: { $0.date?.toDate() == date })
+        if let item = items?.first(where: { $0.date?.toDate() == date }) {
             cell.isIn = true
-            cell.isToday = item?.date == Date().format()
-            cell.setDots(item?.goals?.first ?? false, item?.goals?.second ?? false, item?.goals?.third ?? false)
+            cell.isToday = item.date == Date().format()
+            cell.setDots(item.goals?.first ?? false, item.goals?.second ?? false, item.goals?.third ?? false)
             cell.number.text = cellState.text
         }
         return cell

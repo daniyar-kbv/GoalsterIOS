@@ -50,7 +50,7 @@ class EmotionsMainViewController: ProfileFirstViewController {
         showGradient = true
         baseView.titleLabel.textColor = .deepBlue
         
-        viewModel.view = view
+        viewModel.view = emotionsView
         
         emotionsView.collection.dataSource = self
         emotionsView.collection.delegate = self
@@ -61,7 +61,7 @@ class EmotionsMainViewController: ProfileFirstViewController {
             if let emotions = AppShared.sharedInstance.emotions {
                 self.emotions = emotions
             }
-            viewModel.getEmotions(withSpinner: false)
+            viewModel.getEmotions(withSpinner: true)
         } else {
             state = .notAdded
         }

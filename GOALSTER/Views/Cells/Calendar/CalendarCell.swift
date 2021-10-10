@@ -15,10 +15,8 @@ class CalendarCell: JTAppleCell {
     
     var isIn = false {
         didSet {
-            if isIn {
-                circle.tintColor = .customCalendarPurple
-                number.textColor = .deepBlue
-            }
+            circle.tintColor = isIn ? .customCalendarPurple : .clear
+            number.textColor = isIn ? .deepBlue : .lightGray
         }
     }
     
@@ -120,5 +118,11 @@ class CalendarCell: JTAppleCell {
         secondDot.isHidden = !second
         thirdDot.isHidden = !third
         dotsStack.isHidden = false
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        isIn = false
     }
 }

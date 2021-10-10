@@ -69,14 +69,14 @@ class VisualizationsMainViewcontroller: ProfileFirstViewController {
         
         mainView.button.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         
-        viewModel.view = view
+        viewModel.view = mainView
         bind()
         
         if ModuleUserDefaults.getIsLoggedIn() {
             if let visualizations = AppShared.sharedInstance.visualizations {
                 spheres = visualizations
             }
-            viewModel.getVisualizations(withSpinner: false)
+            viewModel.getVisualizations(withSpinner: true)
         } else {
             state = .notAdded
         }
@@ -124,6 +124,7 @@ class VisualizationsMainViewcontroller: ProfileFirstViewController {
         if !ModuleUserDefaults.getIsLoggedIn() {
             present(FirstAuthViewController(), animated: true, completion: nil)
         } else if !ModuleUserDefaults.getHasSpheres() {
+            navigationController?.popViewController(animated: true)
             AppShared.sharedInstance.tabBarController.toTab(tab: 1)
         } else {
             let vc = AddVisualizationViewController()

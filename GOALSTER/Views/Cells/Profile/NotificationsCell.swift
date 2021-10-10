@@ -53,9 +53,8 @@ class NotificationCell: UITableViewCell {
         contentView.addSubViews([switchButton, title])
         
         switchButton.snp.makeConstraints({
-            $0.right.centerY.equalToSuperview()
-            $0.width.equalTo(StaticSize.size(52))
-            $0.height.equalTo(StaticSize.size(32))
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-StaticSize.size(5))
         })
         
         title.snp.makeConstraints({
