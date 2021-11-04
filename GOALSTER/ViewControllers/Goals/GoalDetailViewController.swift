@@ -24,6 +24,7 @@ class GoalDetailViewController: ProfileBaseViewController {
     var cells: [ChatCell] = [] {
         didSet {
             mainView.chatTableView.reloadData()
+            mainView.chatTableView.scrollToRow(at: .init(row: cells.count - 1, section: 0), at: .bottom, animated: true)
         }
     }
     var goal: Goal {
@@ -121,10 +122,10 @@ class GoalDetailViewController: ProfileBaseViewController {
                 $0.bottom.equalToSuperview().offset(-diff)
             }
         })
-        if comments.count > 0 && set {
-            mainView.chatTableView.scrollToRow(at: IndexPath(row: comments.count - 1, section: 0), at: .bottom, animated: false)
-        }
         self.mainView.layoutIfNeeded()
+        if comments.count > 0 && set {
+            mainView.chatTableView.scrollToRow(at: IndexPath(row: comments.count - 1, section: 0), at: .bottom, animated: true)
+        }
     }
     
     @objc func infoTapped() {
@@ -170,6 +171,12 @@ class GoalDetailViewController: ProfileBaseViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func reload() {
+        if goal.observer != nil, let goalId = goal.id {
+            viewModel.getComments(goalId: goalId)
+        }
     }
 }
 

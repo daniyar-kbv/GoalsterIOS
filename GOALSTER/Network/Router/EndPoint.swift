@@ -82,9 +82,11 @@ extension APIPoint: EndPointType {
         case .getEmotions:
             return "/main/emotions/"
         case .addEmtions:
-            return "/main/emotions/add/"
-        case .getVisualizations, .addVisualization:
+            return "/main/emotions/add_v2/"
+        case .getVisualizations:
             return "/main/visualizations/"
+        case .addVisualization:
+            return "/main/visualizations/create_v2/"
         case .deleteVisualization(let id):
             return "/main/visualizations/\(id)/"
         case .getObserved:

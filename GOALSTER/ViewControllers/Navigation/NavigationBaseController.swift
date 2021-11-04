@@ -121,6 +121,10 @@ class NavigationMenuBaseController: UITabBarController {
             })
         case .comment:
             guard let date = (notification.userInfo["date"] as? String)?.toDate(), let idStr = notification.userInfo["id"] as? String, let goalId = Int(idStr) else { return }
+            if let goalDetailsController = UIApplication.topViewController() as? GoalDetailViewController {
+                goalDetailsController.reload()
+                return
+            }
             toTab(tab: 2, completion: { _ in
                 guard let vc = UIApplication.topViewController() as? DayViewController else { return }
                 vc.tableVc.openGoal = goalId
