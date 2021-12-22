@@ -33,7 +33,6 @@ class PayBallController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentView.backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
         contentView.buttonTapped = makePayment(type:)
         enablePanGesture()
         bind()

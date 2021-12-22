@@ -27,7 +27,7 @@ extension SKProduct {
             case "KZT":
                 return "\(self.price.doubleValue.formattedWithSeparator)₸"
             default:
-                return "\(self.price.doubleValue.formattedWithSeparator) \(String(describing: formatter.currencyCode) ?? "")"
+                return "\(self.price.doubleValue.formattedWithSeparator) \(formatter.currencyCode ?? "")"
             }
         }
     }

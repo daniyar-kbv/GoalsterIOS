@@ -106,7 +106,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         case .premium:
             if email == ModuleUserDefaults.getEmail() {
-                AppShared.sharedInstance.tabBarController.toTab(tab: 4)
+                AppShared.sharedInstance.tabBarController.toTab(tab: 3)
                 if !ModuleUserDefaults.getIsPremium() {
                     DispatchQueue.main.async {
                         let vc = PayBallController()

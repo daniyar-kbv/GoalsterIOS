@@ -57,7 +57,7 @@ class TabNavigationMenu: UIView {
     }
     
     func switchTab(from: Int, to: Int, completion: ((Bool) -> Void)? = nil) {
-        if !ModuleUserDefaults.getIsLoggedIn() && to == 4 {
+        if !ModuleUserDefaults.getIsLoggedIn() && to == 3 {
             let vc = UIApplication.topViewController()
             vc?.present(FirstAuthViewController(), animated: true, completion: nil)
         } else {

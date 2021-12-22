@@ -44,25 +44,25 @@ class OnBoardingPremiumCell: UICollectionViewCell {
             ])
         
         (1 ..< 7).forEach {
-            let substring = "PayBall.boldText.\($0)"
+            let substring = "PayBall.boldText.\($0)".localized
             guard let range = attributedText.string.range(of: substring) else { return }
             let nsRange = NSRange(range, in: attributedText.string)
-            attributedText.replaceCharacters(
-                in: nsRange,
-                with: .init(
-                    string: substring,
-                    attributes: [
-                        NSAttributedString.Key.font: UIFont.primary(ofSize: StaticSize.size(13), weight: .bold),
-                        NSAttributedString.Key.foregroundColor: UIColor.ultraGray
-                    ]
-                )
+            attributedText.setAttributes(
+                [
+                    NSAttributedString.Key.font: UIFont.primary(ofSize: StaticSize.size(13), weight: .bold),
+                    NSAttributedString.Key.foregroundColor: UIColor.ultraGray
+                ],
+                range: nsRange
             )
         }
+        
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 11
+        attributedText.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributedText.string.count))
         
         view.attributedText = attributedText
         view.numberOfLines = 0
         
-        view.setLineHeight(lineHeight: StaticSize.size(11))
         return view
     }()
     
@@ -76,10 +76,30 @@ class OnBoardingPremiumCell: UICollectionViewCell {
     
     private lazy var buttonsTitle: UILabel = {
         let view = UILabel()
-        view.font = .primary(ofSize: StaticSize.size(27), weight: .regular)
-        view.textColor = .deepBlue
-        view.text = "On boarding bottom text 5".localized
         view.adjustsFontSizeToFitWidth = true
+        view.numberOfLines = 2
+        view.textAlignment = .center
+        
+        let attributedText = NSMutableAttributedString(string: "On boarding bottom text 5".localized,
+                                                         attributes: [
+                                                            .font: UIFont.primary(ofSize: StaticSize.size(15), weight: .regular),
+                                                            .foregroundColor: UIColor.deepBlue
+                                                         ])
+        
+        let substring = "On boarding bottom text 5 bold".localized
+        if let range = attributedText.string.range(of: substring) {
+            let nsRange = NSRange(range, in: attributedText.string)
+            attributedText.setAttributes(
+                [
+                    NSAttributedString.Key.font: UIFont.primary(ofSize: StaticSize.size(15), weight: .bold),
+                    NSAttributedString.Key.foregroundColor: UIColor.deepBlue
+                ],
+                range: nsRange
+            )
+        }
+        
+        view.attributedText = attributedText
+        
         return view
     }()
     
@@ -145,7 +165,6 @@ class OnBoardingPremiumCell: UICollectionViewCell {
         buttonsStack.snp.makeConstraints({
             $0.top.equalTo(buttonsTitle.snp.bottom).offset(StaticSize.size(16))
             $0.left.right.equalToSuperview().inset(StaticSize.size(5))
-            $0.bottom.equalToSuperview()
         })
         
         plans.forEach {

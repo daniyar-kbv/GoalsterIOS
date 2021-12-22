@@ -18,6 +18,7 @@ class InAppPurchaseManager: NSObject {
         super.init()
     }
     
+    private let productTypes: [ProductType] = [.oneMonth, .oneYear]
     private var products: [SKProduct]?
     
     let didGetProducts = PublishRelay<[(identifier: String, price: String)]>()
@@ -37,7 +38,7 @@ class InAppPurchaseManager: NSObject {
 
 extension InAppPurchaseManager: SKProductsRequestDelegate {
     private func fetchProducts() {
-        let request = SKProductsRequest(productIdentifiers: Set(ProductType.allCases.map({ $0.rawValue })))
+        let request = SKProductsRequest(productIdentifiers: Set(productTypes.map({ $0.rawValue })))
         request.delegate = self
         request.start()
     }

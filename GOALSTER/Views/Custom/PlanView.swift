@@ -85,13 +85,15 @@ class PlanView: UIStackView {
     }
     
     enum PlanType: String {
-        case forever = "com.goalsterapp.forever.3"
-        case oneMonth = "com.goalsterapp.onemonth.3"
+        case forever = "com.goalsterapp.forever.4"
+        case oneMonth = "com.goalsterapp.onemonth.4"
+        case oneYear = "com.goalsterapp.oneyear.4"
         
         var title: String {
             switch self {
             case .forever: return "PayBall.plan.forever".localized
             case .oneMonth: return "PayBall.plan.oneMonth".localized
+            case .oneYear: return "PayBall.plan.oneYear".localized
             }
         }
     }

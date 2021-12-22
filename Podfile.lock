@@ -1,13 +1,13 @@
 PODS:
-  - Alamofire (5.2.1)
-  - AlamofireEasyLogger (1.4.0):
+  - Alamofire (5.4.4)
+  - AlamofireEasyLogger (1.6.0):
     - Alamofire (>= 5.0)
-  - FBSDKCoreKit (9.1.0):
-    - FBSDKCoreKit/Basics (= 9.1.0)
-    - FBSDKCoreKit/Core (= 9.1.0)
-  - FBSDKCoreKit/Basics (9.1.0)
-  - FBSDKCoreKit/Core (9.1.0):
-    - FBSDKCoreKit/Basics
+  - FBAEMKit (12.2.0):
+    - FBSDKCoreKit_Basics (= 12.2.0)
+  - FBSDKCoreKit (12.2.0):
+    - FBAEMKit (= 12.2.0)
+    - FBSDKCoreKit_Basics (= 12.2.0)
+  - FBSDKCoreKit_Basics (12.2.0)
   - Firebase/Analytics (6.34.0):
     - Firebase/Core
   - Firebase/Core (6.34.0):
@@ -96,34 +96,32 @@ PODS:
   - GoogleUtilities/UserDefaults (6.7.2):
     - GoogleUtilities/Logger
   - JTAppleCalendar (7.1.8)
-  - Kingfisher (5.14.1):
-    - Kingfisher/Core (= 5.14.1)
-  - Kingfisher/Core (5.14.1)
-  - lottie-ios (3.1.8)
+  - Kingfisher (7.1.1)
+  - lottie-ios (3.2.3)
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
-  - PromisesObjC (1.2.11)
-  - Protobuf (3.13.0)
+  - PromisesObjC (1.2.12)
+  - Protobuf (3.19.1)
   - ReachabilitySwift (5.0.0)
-  - RxCocoa (5.1.1):
+  - RxCocoa (5.1.3):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
-  - RxRelay (5.1.1):
+  - RxRelay (5.1.3):
     - RxSwift (~> 5)
-  - RxSwift (5.1.1)
+  - RxSwift (5.1.3)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - Alamofire
   - AlamofireEasyLogger
   - FBSDKCoreKit
-  - Firebase/Analytics
-  - Firebase/Crashlytics
-  - Firebase/DynamicLinks
-  - Firebase/Messaging
+  - Firebase/Analytics (= 6.34.0)
+  - Firebase/Crashlytics (= 6.34.0)
+  - Firebase/DynamicLinks (= 6.34.0)
+  - Firebase/Messaging (= 6.34.0)
   - JTAppleCalendar (~> 7.1)
   - Kingfisher
   - lottie-ios
@@ -136,7 +134,9 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - AlamofireEasyLogger
+    - FBAEMKit
     - FBSDKCoreKit
+    - FBSDKCoreKit_Basics
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -162,9 +162,11 @@ SPEC REPOS:
     - SnapKit
 
 SPEC CHECKSUMS:
-  Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
-  AlamofireEasyLogger: fa67d9063e16b1f20993f4d802226ca6e3d54f6b
-  FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  AlamofireEasyLogger: f2fd10b57d973593a79a4b61f274c6a5cb3e1333
+  FBAEMKit: 5fbd0e8bd86fbb2f977fcf39f8a62569b52d1df3
+  FBSDKCoreKit: 183e00947076af95435ac7ff622ea68c50860f80
+  FBSDKCoreKit_Basics: 63539ccd3288849598d4936abe866f9b85320f51
   Firebase: c23a36d9e4cdf7877dfcba8dd0c58add66358999
   FirebaseAnalytics: 3bb096873ee0d7fa4b6c70f5e9166b6da413cc7f
   FirebaseCore: d3a978a3cfa3240bf7e4ba7d137fdf5b22b628ec
@@ -178,17 +180,17 @@ SPEC CHECKSUMS:
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   JTAppleCalendar: b7fb40852f5f319fe55c8ec3861f1de0edc99cc8
-  Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
-  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
+  Kingfisher: f738f9c4a3415823b8e2985d10aa2d6a9f37bc4d
+  lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
-  PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
-  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
+  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  Protobuf: 3724efa50cb2846d7ccebc8691c574e85fd74471
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
-  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
-  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
+  RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
+  RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
+  RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: fda536282ade5c2fc130000c77630b0db9826978
+PODFILE CHECKSUM: bc5bd7c5abda756f663576ac4bd10c578052bd90
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.11.2

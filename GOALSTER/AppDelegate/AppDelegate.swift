@@ -17,6 +17,7 @@ import FBSDKCoreKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let reachibilityHandler = ReachabilityHandler()
     let alamofireLogger = FancyAppAlamofireLogger(
+        prettyPrint: true,
         logFunction: {
             print($0)
         }

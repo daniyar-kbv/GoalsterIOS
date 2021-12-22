@@ -109,7 +109,7 @@ class PayBallView: UIView {
             ])
         
         (1 ..< 7).forEach {
-            let substring = "PayBall.boldText.\($0)"
+            let substring = "PayBall.boldText.\($0)".localized
             guard let range = attributedText.string.range(of: substring) else { return }
             let nsRange = NSRange(range, in: attributedText.string)
             attributedText.replaceCharacters(
@@ -124,10 +124,13 @@ class PayBallView: UIView {
             )
         }
         
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 11
+        attributedText.addAttribute(.paragraphStyle, value: style, range: NSMakeRange(0, attributedText.string.count))
+        
         view.attributedText = attributedText
         view.numberOfLines = 0
         
-        view.setLineHeight(lineHeight: StaticSize.size(11))
         return view
     }()
     

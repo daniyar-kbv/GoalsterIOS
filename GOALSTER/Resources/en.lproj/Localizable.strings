@@ -311,35 +311,38 @@
 "To settings" = "To settings";
 "Cancel" = "Cencel";
 
-"Premium.Button.unlock" = "Разблокировать все функции";
+"Premium.Button.unlock" = "Unlock all features";
 
-"Blocked.Emotions.topText" = "“Эмоции” помогает ежедневно фиксировать состояние и записывать идеи. Это поможет эмоционально обновляться перед каждым новым днем и помнить все самые важные моменты.";
-"Blocked.Emotions.bottomText" = "Подключите премиум-аккаунт\nи следите за эмоциями";
-"Blocked.Emotions.buttonText" = "Разблокировать Эмоции";
+"Blocked.Emotions.topText" = "”Emotions” Daily take notes on your condition and write down ideas. This will help you emotionally renew yourself before each new day and remember all the important moments.";
+"Blocked.Emotions.bottomText" = "Connect a premium account and follow the emotions.";
+"Blocked.Emotions.buttonText" = "Unblock Emotions";
 
-"Blocked.Visualizations.topText" = "Фиксируй цель картинками, так наш мозг в 110 раз успешнее представляет
-результат и действия.";
-"Blocked.Visualizations.bottomText" = "Подключите премиум-аккаунт\nи добавляйте визуализации";
-"Blocked.Visualizations.buttonText" = "Разблокировать Визуализации";
+"Blocked.Visualizations.topText" = "By capturing your goals with images, our brain is 110 times more successful in picturing the result and actions.";
+"Blocked.Visualizations.bottomText" = "Connect a premium account\nand follow the visualization.";
+"Blocked.Visualizations.buttonText" = "Unlock Visualization";
 
+// TODO: translate
 "Knowledge.title" = "Знания";
-"Story.Button.title" = "Подробнее";
+"Story.Button.title" = "More details";
 
-"PayBall.title" = "Фаундер:";
-"PayBall.subtitle" = "Еркежан Жолдасова";
-"PayBall.topText" = "Инновационная система 24Goals помогла мне достичь более 90 глобальных целей меньше чем за 1 год, основать компанию в Европе в 20 лет и выйти на новый уровень во всех жизненных сферах без выгорания и в балансе. ";
-"PayBall.plan.oneMonth" = "1 месяц";
-"PayBall.plan.forever" = "навсегда";
-"Premium version" = "Премиум версия";
-"PayBall.bottomTitle" = "Преимущества премиум версии";
-"PayBall.bottomText" = "• Доступ к базе знаний с уникальным образовательным контентом;\n• Полная разблокировка расписании успешных личностей;\n• Добавление до 30 задач в день;\n• Доступ к умным функциям: Эмоции Дня и Доска Визуализации;\n• PDF-книга с советами для визуализаций;\n• Чек-лист для эффективного мышления;\n• В подарок: наставник для достижения твоих целей и внутренний мессенджер.";
+"PayBall.title" = "Founder:";
+"PayBall.subtitle" = "Zholdassova Yerkezhan";
+"PayBall.topText" = "Innovative system 24Goals less than 1 year helped me achieve more than 90 global goals, found a company in Europe at my 20 years old and reach a new level in all spheres of life without burnout and in total balance.";
+"PayBall.plan.oneMonth" = "1 month";
+"PayBall.plan.oneYear" = "1 year";
+"PayBall.plan.forever" = "Forever";
+"Premium version" = "Premium version";
+"PayBall.bottomTitle" = "Advantages of premium version";
+"PayBall.bottomText" = "• Full unlocking of the schedules of successful personalities;\n• Adding up to 30 tasks per day;\n• Access to the smart functions: Emotions of the day and Visualisation board;\n• PDF-book with tips for visualisation;\n• Checklist for effective thinking;\n• Bonus: Mentor for achieve your goals and access for internal messenger.";
+
+// TODO: translate
 "PayBall.boldText.1" = "базе знаний";
-"PayBall.boldText.2" = "успешных личностей";
-"PayBall.boldText.3" = "30 задач";
-"PayBall.boldText.4" = "Эмоции Дня и Доска Визуализации";
-"PayBall.boldText.5" = "PDF-книга";
-"PayBall.boldText.6" = "эффективного мышления";
-"PayBall.boldText.7" = "В подарок";
+"PayBall.boldText.2" = "successful personalities";
+"PayBall.boldText.3" = "30 tasks";
+"PayBall.boldText.4" = "Emotions of the day and Visualisation board";
+"PayBall.boldText.5" = "PDF-book";
+"PayBall.boldText.6" = "effective thinking";
+"PayBall.boldText.7" = "Bonus";
 
 "On boarding top text 1" = "Social network for your goals";
 "On boarding top text 2" = "Master the skill of achieving goals";
@@ -349,4 +352,5 @@
 "On boarding bottom text 2" = "24Goals has an innovative system for setting tasks and developing motivation with people from 166 countries.";
 "On boarding bottom text 3" = "Not enough motivation? Need to strengthen self-discipline? It's not scary! Here you can set common goals and communicate with friends/team/second half/mentor.";
 "On boarding bottom text 4" = "If you need constant support or control, then you can share goals with friends or be an observer";
-
+"On boarding bottom text 5" = "In addition to the free one,\ntwo more plans are available";
+"On boarding bottom text 5 bold" = "free";
