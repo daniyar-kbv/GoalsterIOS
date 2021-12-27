@@ -148,9 +148,5 @@ class PushNotificationsManager {
                 }
             }
         }
-        
-        notificationCenter.getPendingNotificationRequests(completionHandler: { requests in
-            print(requests.map({ $0.content.title }))
-        })
     }
 }

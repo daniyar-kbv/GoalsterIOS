@@ -35,7 +35,7 @@ struct PeriodicNotification: InternalNotificationType, Codable {
         case weekdays, time
         case titleEN = "title_en"
         case titleRU = "title_ru"
-        case bodyEN = "body _en"
+        case bodyEN = "body_en"
         case bodyRU = "body_ru"
     }
 }
@@ -59,7 +59,7 @@ struct NonCustomizableNotification: InternalNotificationType, Codable {
         case type
         case titleEN = "title_en"
         case titleRU = "title_ru"
-        case bodyEN = "body _en"
+        case bodyEN = "body_en"
         case bodyRU = "body_ru"
     }
     
