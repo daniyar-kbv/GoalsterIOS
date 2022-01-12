@@ -143,7 +143,7 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
                     payBallVC.onSuccess = { [weak self, weak payBallVC] in
                         guard let self = self else { return }
                         payBallVC?.dismiss(animated: true) {
-                            self.navigationController?.pushViewController(FeedDetailViewController(userId: userId, superVc: self), animated: true)
+                            self.navigationController?.pushViewController(FeedDetailViewController(userId: userId, isCelebrity: isCelebrity, superVc: self), animated: true)
                         }
                     }
                     payBallVC.onBack = { [weak payBallVC] in
@@ -152,7 +152,7 @@ class FeedViewController: SegmentVc, UITableViewDelegate, UITableViewDataSource 
                     present(payBallVC, animated: true)
                     return
                 }
-                navigationController?.pushViewController(FeedDetailViewController(userId: userId, superVc: self), animated: true)
+                navigationController?.pushViewController(FeedDetailViewController(userId: userId, isCelebrity: isCelebrity, superVc: self), animated: true)
             } else {
                 present(FirstAuthViewController(), animated: true)
             }

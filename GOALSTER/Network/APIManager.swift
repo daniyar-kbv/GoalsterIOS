@@ -234,8 +234,8 @@ struct APIManager {
         }
     }
     
-    func feedDetail(userId: Int, completion: @escaping(_ error: String?,_ module: FeedUserFull?)->()) {
-        router.request(.feedDetail(userId: userId), returning: FeedUserFull?.self) { error, response in
+    func feedDetail(userId: Int, isCelebrity: Bool, completion: @escaping(_ error: String?,_ module: FeedUserFull?)->()) {
+        router.request(.feedDetail(userId: userId, isCelebrity: isCelebrity), returning: FeedUserFull?.self) { error, response in
             completion(error, response as? FeedUserFull)
         }
     }

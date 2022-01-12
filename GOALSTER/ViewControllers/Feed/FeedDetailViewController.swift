@@ -26,6 +26,7 @@ class FeedDetailViewController: UIViewController {
     
     var superVc: FeedViewController
     var userId: Int
+    var isCelebrity: Bool
     var user: FeedUserFull? {
         didSet {
             mainView.user = user
@@ -33,8 +34,9 @@ class FeedDetailViewController: UIViewController {
         }
     }
     
-    required init(userId: Int, superVc: FeedViewController) {
+    required init(userId: Int, isCelebrity: Bool, superVc: FeedViewController) {
         self.userId = userId
+        self.isCelebrity = isCelebrity
         self.superVc = superVc
         
         super.init(nibName: .none, bundle: .none)
@@ -58,7 +60,7 @@ class FeedDetailViewController: UIViewController {
         
         bind()
         
-        viewModel.getUser(userId: userId)
+        viewModel.getUser(userId: userId, isCelebrity: isCelebrity)
     }
     
     override func viewDidLayoutSubviews() {

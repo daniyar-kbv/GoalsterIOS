@@ -47,7 +47,7 @@ enum APIPoint {
     case updateGoal(goalId: Int, name: String, date: String, time: TimeOfTheDay, isShared: Bool, observer: Int? = nil, sphere: Int, isPublic: Bool)
     case feed(type: String, page: Int)
     case react(userId: Int, reactionId: Int)
-    case feedDetail(userId: Int)
+    case feedDetail(userId: Int, isCelebrity: Bool)
     case follow(userId: Int)
     case following
     case knowledgeSections
@@ -127,7 +127,7 @@ extension APIPoint: EndPointType {
             return "users/feed_v2/"
         case .react(let userId, _):
             return "/users/feed_v2/\(userId)/react/"
-        case .feedDetail(let userId):
+        case .feedDetail(let userId, _):
             return "users/feed_v2/\(userId)/"
         case .follow(let userId):
             return "/users/feed_v2/\(userId)/follow/"
@@ -262,6 +262,10 @@ extension APIPoint: EndPointType {
                 "type": type,
                 "page": page
             ]
+        case .feedDetail(_, let isCelebrity):
+            return [
+                "is_celebrity": isCelebrity
+            ]
         case .react( _, let reactionId):
             return [
                 "reaction": reactionId
@@ -273,7 +277,7 @@ extension APIPoint: EndPointType {
     
     var encoding: Encoder.Encoding {
         switch self {
-        case .goals, .calendar, .searchObserver, .comments, .feed:
+        case .goals, .calendar, .searchObserver, .comments, .feed, .feedDetail:
             return .urlEncoding
         default:
             return .jsonEncoding
@@ -319,7 +323,6 @@ extension APIPoint: EndPointType {
         }
     }
     
-//    static var startURL = "http://161.35.198.233:8000"
-//    static var startURL = "http://192.168.0.119:8990"
-    static var startURL = "https://api.24goalsapp.com"
+//    static var startURL = "http://161.35.198.233:8000" // TEST
+    static var startURL = "https://api.24goalsapp.com" // Prod
 }

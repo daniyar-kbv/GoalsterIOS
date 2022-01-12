@@ -14,9 +14,9 @@ class FeedDetailViewModel {
     
     var view: UIView?
     
-    func getUser(userId: Int) {
+    func getUser(userId: Int, isCelebrity: Bool) {
         SpinnerView.showSpinnerView(view: view)
-        APIManager.shared.feedDetail(userId: userId) { error, response in
+        APIManager.shared.feedDetail(userId: userId, isCelebrity: isCelebrity) { error, response in
             SpinnerView.completion = {
                 guard let response = response else {
                     print(error)
